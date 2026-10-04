@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worldcoin Live Feed Mini-App</title>
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            width: 340px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+        }
+
+        h1 {
+            font-size: 1.1rem;
+            color: #58a6ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .precio {
+            font-size: 3.2rem;
+            font-weight: bold;
+            color: #56d364;
+            margin: 20px 0;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timestamp {
+            font-size: 0.8rem;
+            color: #8b949e;
+        }
+
+        /* 💰 SECCIÓN DEL BANNER PUBLICITARIO MONETIZADO */
+        .ad-box {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px dashed #30363d;
+            min-height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Oráculo World Chain</h1>
+        <!-- JavaScript inyectará el precio extraído de tu backend aquí -->
+        <div id="precio-live" class="precio">--.--</div>
+        <div id="clock-live" class="timestamp">📡 Sincronizando con el servidor local...</div>
+
+        <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (Ad Network Banner) -->
+        <div class="ad-box">
+            <!-- BEGIN AADS AD UNIT 2457498 -->
+            <div id="frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
+                <!-- ✅ CORREGIDO: Apuntamos al endpoint técnico '://a-ads.com' con tu ID 2457498 y el tamaño correcto -->
+                <iframe data-aa='2457498' src='https://://a-ads.com/2457498/?size=320x50'
+                    style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
+            </div>
+            <!-- END AADS AD UNIT 2457498 -->
+        </div>
+    </div>
+
+    <script>
+        const precioElemento = document.getElementById('precio-live');
+        const relojElemento = document.getElementById('clock-live');
+
+        const refrescarPrecioDesdeBackend = async () => {
+            try {
+                // Consumimos tu servidor Express asíncronamente
+                const respuesta = await fetch('http://localhost:3000/api/precio');
+                const datos = await respuesta.json();
+
+                if (datos.success) {
+                    // Pintamos el decimal formateado a 6 dígitos
+                    precioElemento.innerText = `$${datos.price.toFixed(6)} USD`;
+                    precioElemento.style.color = '#56d364';
+
+                    // Extraemos la hora local del dispositivo para marcar la sincronización exitosa
+                    const horaLocal = new Date(datos.timestamp).toLocaleTimeString();
+                    relojElemento.innerText = `✅ Bloque verificado a las ${horaLocal}`;
+                    relojElemento.style.color = '#8b949e';
+                } else {
+                    throw new Error("El backend devolvió un estado fallido.");
+                }
+            } catch (error) {
+                precioElemento.innerText = "❌ ERR";
+                precioElemento.style.color = '#f85149';
+                relojElemento.innerText = "Falla de enlace con la API REST.";
+                relojElemento.style.color = '#f85149';
+            }
+        };
+
+        // Ejecución inmediata inicial al cargar el frontend
+        refrescarPrecioDesdeBackend();
+
+        // Ciclo automático de refresco frontend cada 5 segundos
+        setInterval(refrescarPrecioDesdeBackend, 5000);
+    </script>
+</body>
+
+</html>

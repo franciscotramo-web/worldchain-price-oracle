@@ -1,49 +1,38 @@
-# 🤖 World Chain On-Chain Price Feed Oracle
+# 🤖 World Chain API REST & Live Price Feed Oracle
 
-Un oráculo financiero descentralizado en tiempo real desarrollado en Node.js que consume el estado global de la blockchain de **World Chain**. El sistema interactúa directamente con el contrato inteligente del **Price Feed de Chainlink (WLD/USD)** utilizando un nodo RPC dedicado y privado de alta disponibilidad, procesando la matemática primitiva del bloque sin intermediarios centralizados ni dependencias web Web2.
+Un ecosistema Fullstack descentralizado y de alta disponibilidad que consume el estado global de la blockchain de **World Chain**. El proyecto expone una arquitectura Cliente-Servidor robusta mediante una API REST que interroga al contrato inteligente del **Price Feed de Chainlink (WLD/USD)** a través de un nodo dedicado privado, procesando fluctuaciones numéricas milimétricas e integrando un modelo de monetización publicitaria on-chain.
 
-## 🚀 Arquitectura y Características Técnicas
+## 🚀 Arquitectura del Sistema (Fullstack Design)
 
-- **Conexión RPC Empresarial:** Integración nativa con la infraestructura de **Alchemy** para el procesamiento seguro de datos en la mainnet de World Chain.
-- **Bypass de Cortafuegos Transparente:** Al consultar directamente el estado global del bloque mediante llamadas de lectura RPC (`eth_call`), el software elude de raíz las restricciones geográficas e IPs residenciales bloqueadas por CDNs tradicionales (Cloudflare/CloudFront).
-- **Procesamiento de Precisión Blockchain:** Gestión y desestructuración algorítmica de arreglos asíncronos complejos devueltos por el método `latestRoundData` de Chainlink.
-- **Calibración Matemática de Escala:** Conversión exacta de datos primitivos de tipo de dato entero largo a números flotantes legibles mediante el ajuste estricto de la precisión nativa de la red.
-- **Panel Dinámico de Alta Disponibilidad:** Motor de refresco continuo automatizado (`setInterval`) con limpieza de memoria en consola para el monitoreo interactivo del libro de órdenes descentralizado.
+El proyecto está diseñado bajo un modelo desacoplado para eludir los cortafuegos y restricciones de red residenciales (como los errores HTTP 403/429 generados por CDNs comerciales):
 
-## 🛠️ Tecnologías Utilizadas
+1. **Backend (Servidor de Producción API REST):** Desarrollado en Node.js con **Express.js**, actúa como un puente de confianza (*Proxy*). Utiliza la librería **Viem Core** y un túnel HTTPS privado de **Alchemy** para conectarse directo al bloque, desestructurar el arreglo asíncrono del método `latestRoundData` de Chainlink y calibrar la precisión matemática nativa a 18 decimales.
+2. **Frontend (Interfaz Gráfica de Usuario):** Una aplicación Web interactiva que realiza peticiones asíncronas (`fetch`) al endpoint local en intervalos regulares de 5 segundos, garantizando un flujo interactivo y tabular de datos numéricos crudos.
+3. **Monetización Publicitaria Real:** Integración nativa de bloques publicitarios Web3 (A-Ads) mediante estructuras asíncronas (`iframe`), monetizando el tráfico de usuarios verified bajo métricas CPM/CPC sin impactar el rendimiento de la pila asíncrona.
 
-- **Runtime:** Node.js v24+
-- **Web3 Client Toolkit:** [Viem Core Library](https://viem.sh) (Soporte nativo para el stack de Optimism Superchain)
-- **Environment Management:** Dotenv
-- **Data Source:** Chainlink Oracles & Alchemy Node Infrastructure
+## 🛠️ Stack Tecnológico
 
-## 📦 Instalación y Configuración
+- **Backend:** Node.js v24+, Express.js, Viem Library, Dotenv.
+- **Frontend:** HTML5 nativo, CSS3 Grid/Flexbox, JavaScript Asíncrono (Async/Await).
+- **Data & Infraestructura:** Chainlink Smart Contracts, Alchemy Node Gateway.
+- **Monetización:** A-Ads Network API.
 
-1. **Clonar el repositorio:**
-   ```bash
-   git clone https://github.com
-   cd worldchain-price-oracle
-   ```
+## 📦 Despliegue y Ejecución Local
 
-2. **Instalar dependencias de producción:**
-   ```bash
-   npm install
-   ```
-
-3. **Configurar las variables de entorno:**
-   Crea un archivo `.env` en la raíz del proyecto:
+1. **Configurar Variables de Entorno (`.env`):**
    ```env
    WORLD_CHAIN_RPC="https://alchemy.com"
    WALLET_ADDRESS="0xTuDireccionSafeDeWorldApp"
    ```
 
-## 🖥️ Ejecución
+2. **Iniciar el Servidor API REST:**
+   ```bash
+   node server.js
+   ```
 
-Para iniciar el procesador de datos de mercado en tiempo real en tu terminal local, ejecuta:
-
-```bash
-node botprice.js
-```
+3. **Lanzar la Interfaz Frontend:**
+   Abre el archivo `index.html` directamente en tu navegador web para visualizar el panel de monitoreo dinámico a 6 decimales de precisión en tiempo real.
 
 ---
-*Desarrollado como parte de un portafolio profesional de soluciones híbridas Fullstack JavaScript & Web3.*
+*Desarrollado como un caso de estudio real de optimización de infraestructura de redes, consumo de contratos inteligentes y monetización publicitaria Web3.*
+
