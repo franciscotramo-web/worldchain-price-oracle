@@ -4,8 +4,8 @@ import { worldchain } from 'viem/chains';
 import 'dotenv/config';
 
 const app = express();
-// Definimos el puerto estándar de desarrollo (puedes usar el 3000)
-const PUERTO = 3000;
+// ✅ CORREGIDO PARA PRODUCCIÓN: Toma el puerto automático de Vercel o el 3000 de respaldo local
+const PUERTO = process.env.PORT || 3000;
 
 const rpcUrl = process.env.WORLD_CHAIN_RPC;
 const CHAINLINK_WLD_FEED = getAddress('0x8Bb2943AB030E3eE05a58d9832525B4f60A97FA0');
