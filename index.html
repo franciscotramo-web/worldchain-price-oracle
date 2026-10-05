@@ -88,7 +88,7 @@
             try {
                 // ✅ DIRECCIÓN CORREGIDA Y BLINDADA CONTRA CACHÉ VIEJO:
                 // Añadimos '?v=1' al final para obligar al navegador a descargar la versión nueva desde internet
-                const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/');
+                const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
 
                 if (!respuesta.ok) {
                     throw new Error(`HTTP Error ${respuesta.status}`);
