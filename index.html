@@ -26,7 +26,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
+            /* Cambio Senior: Permite un flujo continuo y natural hacia abajo */
             min-height: 100vh;
             margin: 0;
             padding: 20px;
@@ -69,7 +70,7 @@
             transform: translateY(-1px);
         }
 
-        /* 🏢 CONTENEDOR PRINCIPAL CON EFECTO DE CRISTAL Y ANIMACIÓN DE BRILLO */
+        /* 🏢 CONTENEDOR 1: TARJETA DEL ORÁCULO (MANTIENE SU DISEÑO DE CRISTAL) */
         .container {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -84,6 +85,49 @@
             box-sizing: border-box;
             animation: cardGlowPulse 4s infinite ease-in-out;
             transition: all 0.5s ease;
+            margin-bottom: 20px;
+            /* Separación simétrica para la tarjeta de abajo */
+        }
+
+        /* 🏢 CONTENEDOR 2: NUEVO PANEL INDEPENDIENTE PARA EL BOTÓN DE MONETIZACIÓN */
+        .bottom-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            width: 92%;
+            max-width: 340px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        /* 🛠️ DISEÑO DEL BOTÓN PREMIUM DENTRO DEL CONTENEDOR SEPARADO */
+        .btn-premium-ads {
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.12), rgba(88, 166, 255, 0.04));
+            border: 1px solid rgba(88, 166, 255, 0.35);
+            color: #79b8ff;
+            border-radius: 12px;
+            padding: 14px 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-premium-ads:hover {
+            border-color: var(--brand-blue);
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.22), rgba(88, 166, 255, 0.08));
+            box-shadow: 0 0 14px rgba(88, 166, 255, 0.25);
+            transform: translateY(-1px);
         }
 
         h1 {
@@ -95,7 +139,6 @@
             font-weight: 500;
         }
 
-        /* 🏹 ENVOLTORIO FLEX DEL PRECIO Y LA FLECHA DE TENDENCIA */
         .price-wrapper {
             display: flex;
             align-items: center;
@@ -127,39 +170,8 @@
             color: var(--text-secondary);
             font-weight: 400;
             letter-spacing: 0.2px;
-            transition: color 0.3s ease;
         }
 
-        /* 🛠️ CONTENEDOR NUEVO BOTÓN INFERIOR DE MONETIZACIÓN */
-        .nav-box {
-            margin-top: 25px;
-            width: 100%;
-        }
-
-        .btn-premium-ads {
-            background: linear-gradient(135deg, rgba(88, 166, 255, 0.1), rgba(88, 166, 255, 0.03));
-            border: 1px solid rgba(88, 166, 255, 0.3);
-            color: var(--brand-blue);
-            border-radius: 14px;
-            padding: 14px 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            width: 100%;
-            cursor: pointer;
-            box-sizing: border-box;
-            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .btn-premium-ads:hover {
-            background: linear-gradient(135deg, rgba(88, 166, 255, 0.2), rgba(88, 166, 255, 0.08));
-            border-color: var(--brand-blue);
-            box-shadow: 0 0 15px rgba(88, 166, 255, 0.2);
-            transform: translateY(-1px);
-        }
-
-        /* 💰 SECCIÓN DEL BANNER PUBLICITARIO MONETIZADO */
         .ad-box {
             margin-top: 30px;
             padding-top: 25px;
@@ -170,7 +182,6 @@
             align-items: center;
         }
 
-        /* ANIMACIÓN CSS DEL GLOW PARA EL CONTENEDOR */
         @keyframes cardGlowPulse {
             0% {
                 box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color);
@@ -201,7 +212,7 @@
         </a>
     </div>
 
-    <!-- Contenedor Principal Estilo Cristal con Animación de Pulso -->
+    <!-- 🏢 CONTENEDOR 1: TARJETA EXCLUSIVA DEL ORÁCULO FINANCIERO -->
     <div class="container" id="app-card">
         <h1 id="app-title">Oráculo Wld On-Chain by Organic Labs</h1>
 
@@ -213,13 +224,6 @@
 
         <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
 
-        <!-- 🏢 PARTE 2 INYECTADA: Botón de Navegación Táctico para la Futura Pestaña de Anuncios -->
-        <div class="nav-box">
-            <button class="btn-premium-ads" onclick="navegarAAnunciosPagados()">
-                🎁 Ver Oportunidades y Premios 🚀
-            </button>
-        </div>
-
         <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (ORIGEN TÉCNICO A-ADS INTEGRADO) -->
         <div class="ad-box">
             <div id="frame"
@@ -228,6 +232,13 @@
                     style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
             </div>
         </div>
+    </div>
+
+    <!-- 🏢 CONTENEDOR 2: PANEL INDEPENDIENTE INFERIOR DE MONETIZACIÓN SECUNDARIA -->
+    <div class="bottom-card">
+        <button class="btn-premium-ads" onclick="navegarAAnunciosPagados()">
+            🎁 Ver Oportunidades y Premios 🚀
+        </button>
     </div>
 
     <script>
@@ -317,7 +328,7 @@
             }
         };
 
-        // 🛠️ LÓGICA FRONTEND DEL BOTÓN INTERACTIVO
+        // 🛠️ MANEJADOR DE EVENTOS PARA EL BOTÓN INDEPENDIENTE
         const navegarAAnunciosPagados = () => {
             console.log("🎯 Disparador de eventos activado correctamente.");
             alert(lang.alertaBoton);
