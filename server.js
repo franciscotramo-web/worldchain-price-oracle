@@ -1,15 +1,15 @@
 import express from 'express';
-import cors from 'cors'; // 🛠️ NUEVA LIBRERÍA: Gestión nativa de CORS para Vercel
+import cors from 'cors';
 import { createPublicClient, http, getAddress } from 'viem';
 import { worldchain } from 'viem/chains';
 import 'dotenv/config';
 
 const app = express();
 
-// Activamos CORS de manera global con configuración abierta de producción
+// Activamos el control de accesos CORS global abierto
 app.use(cors({ origin: '*' }));
 
-// Dirección oficial del oráculo de Chainlink en World Chain
+// Dirección institucional del oráculo de Chainlink en World Chain
 const CHAINLINK_WLD_FEED = getAddress('0x8Bb2943AB030E3eE05a58d9832525B4f60A97FA0');
 
 const chainlinkFeedAbi = [
@@ -20,7 +20,7 @@ const chainlinkFeedAbi = [
         inputs: [],
         outputs: [
             { name: 'roundId', type: 'uint80' },
-            { name: 'answer', type: 'int256' },
+            { name: 'answer', type: 'int256' }, // El parámetro que contiene el precio spot
             { name: 'startedAt', type: 'uint256' },
             { name: 'updatedAt', type: 'uint256' },
             { name: 'answeredInRound', type: 'uint80' }
@@ -28,14 +28,12 @@ const chainlinkFeedAbi = [
     }
 ];
 
-// Ruta raíz de control para verificar estado del servidor en el navegador
 app.get('/', (req, res) => {
     res.send("🤖 Backend de Organic Labs operativo en tu dominio de Vercel.");
 });
 
-// Endpoint técnico de consulta que llama tu archivo index.html
 app.get('/api/precio', async (req, res) => {
-    // Si la variable de Vercel falla, usamos el nodo público oficial de World Chain de respaldo directo
+    // Si la variable del panel de Vercel se retrasa, el nodo oficial de respaldo directo mantendrá el flujo
     const rpcUrl = process.env.WORLD_CHAIN_RPC || "https://worldchain.org";
 
     try {
@@ -50,11 +48,29 @@ app.get('/api/precio', async (req, res) => {
             functionName: 'latestRoundData'
         });
 
-        const [roundId, answer] = resultadoData;
+        // 🛠️ ARQUITECTURA DEFENSIVA DE SELECCIÓN (Cierre del Bug):
+        // Si resultadoData es un arreglo convencional, extraemos el índice 1.
+        // Si resultadoData es un objeto JSON Serverless, extraemos la propiedad .answer directamente.
+        let precioCrudoBigInt;
+        
+        if (Array.isArray(resultadoData)) {
+            precioCrudoBigInt = resultadoData[1];
+        } else if (resultadoData && resultadoData.answer !== undefined) {
+            precioCrudoBigInt = resultadoData.answer;
+        } else {
+            // Si la estructura del bloque cambia por completo, leemos el Objeto completo
+            precioCrudoBigInt = resultadoData;
+        }
 
-        // Escalamos los 18 decimales nativos del bloque
-        const precioRealUSD = Number(answer) / Math.pow(10, 18);
+        // Verificación estricta de tipos de datos antes de proceder al cálculo aritmético
+        if (precioCrudoBigInt === undefined || precioCrudoBigInt === null) {
+            throw new Error("La estructura devuelta por el oráculo Chainlink no es válida.");
+        }
 
+        // Escalamos matemáticamente los 18 decimales nativos del formato de precisión Ether/Wei
+        const precioRealUSD = Number(precioCrudoBigInt) / Math.pow(10, 18);
+
+        // Devolvemos el estado JSON limpio y autorizado con código HTTP 200 de éxito
         return res.status(200).json({
             success: true,
             symbol: "WLD",
@@ -63,20 +79,19 @@ app.get('/api/precio', async (req, res) => {
         });
 
     } catch (error) {
-        console.error("❌ Falla en la lectura on-chain:", error.message);
+        console.error("❌ Error interno del oráculo en la nube:", error.message);
         return res.status(500).json({
             success: false,
-            error: "Error interno al conectar con la infraestructura on-chain.",
+            error: "Falla interna de procesamiento al interrogar la blockchain.",
             details: error.message
         });
     }
 });
 
-// Soporte local para desarrollo continuo en tu PC
 if (process.env.NODE_ENV !== 'production') {
     const PUERTO = process.env.PORT || 3000;
     app.listen(PUERTO, () => {
-        console.log(`🚀 Servidor local corriendo en el puerto ${PUERTO}`);
+        console.log(`🚀 Servidor local activo en puerto ${PUERTO}`);
     });
 }
 
