@@ -65,15 +65,16 @@
 <body>
 
     <div class="container">
-        <h1>Oráculo WLD on-chain by Organic Labs</h1>
+        <!-- 🌎 ETIQUETAS DINÁMICAS IDIOMA: JavaScript inyectará las traducciones aquí mediante IDs -->
+        <h1 id="app-title">Oráculo Wld On-Chain by Organic Labs</h1>
         <div id="precio-live" class="precio">--.--</div>
-        <div id="clock-live" class="timestamp">📡 Sincronizando con el servidor local...</div>
+        <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
 
+        <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (Ad Network Banner) -->
         <div class="ad-box">
             <!-- BEGIN AADS AD UNIT 2457498 -->
-            <div id="frame"
-                style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
-                <iframe data-aa='2457498' src='https://acceptable.a-ads.com/2457498/?size=320x50'
+            <div id="frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
+                <iframe data-aa='2457498' src='https://a-ads.com'
                     style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
             </div>
             <!-- END AADS AD UNIT 2457498 -->
@@ -83,17 +84,42 @@
     <script>
         const precioElemento = document.getElementById('precio-live');
         const relojElemento = document.getElementById('clock-live');
+        const tituloElemento = document.getElementById('app-title');
+
+        // 🛠️ DICCIONARIO INTERNACIONAL DE TRADUCCIONES (Estándar de Producción)
+        const traducciones = {
+            es: {
+                titulo: "Oráculo Wld On-Chain by Organic Labs",
+                sincronizando: "📡 Sincronizando con el servidor en la nube...",
+                verificado: "✅ Bloque verificado a las ",
+                error: "Falla de enlace con la API REST."
+            },
+            en: {
+                titulo: "Wld On-Chain Oracle by Organic Labs",
+                sincronizando: "📡 Syncing with cloud server...",
+                verificado: "✅ Block verified at ",
+                error: "API REST connection failed."
+            }
+        };
+
+        // DETECCIÓN AUTOMÁTICA DE IDIOMA NATIVA: 
+        // Captura si el teléfono está en inglés ('en') o español ('es'). Por defecto usa inglés si es otra región.
+        const sistemaIdioma = navigator.language || navigator.userLanguage;
+        const idiomaActivo = sistemaIdioma.startsWith('es') ? 'es' : 'en';
+        const lang = traducciones[idiomaActivo];
+
+        // Inyectamos el título traducido inmediatamente al abrir la Mini-App
+        tituloElemento.innerText = lang.titulo;
+        relojElemento.innerText = lang.sincronizando;
 
         const refrescarPrecioDesdeBackend = async () => {
             try {
-                // ✅ DIRECCIÓN CORREGIDA Y BLINDADA CONTRA CACHÉ VIEJO:
-                // Añadimos '?v=1' al final para obligar al navegador a descargar la versión nueva desde internet
-                const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
-
+                const respuesta = await fetch('https://franciscotramo-web.github.io/worldchain-price-oracle/');
+                
                 if (!respuesta.ok) {
                     throw new Error(`HTTP Error ${respuesta.status}`);
                 }
-
+                
                 const datos = await respuesta.json();
 
                 if (datos.success) {
@@ -101,19 +127,18 @@
                     precioElemento.style.color = '#56d364';
 
                     const horaLocal = new Date(datos.timestamp).toLocaleTimeString();
-                    relojElemento.innerText = `✅ Bloque verificado a las ${horaLocal}`;
+                    relojElemento.innerText = `${lang.verificado}${horaLocal}`;
                     relojElemento.style.color = '#8b949e';
                 } else {
-                    throw new Error("El backend devolvió un estado fallido.");
+                    throw new Error("Estado fallido.");
                 }
             } catch (error) {
                 precioElemento.innerText = "❌ ERR";
                 precioElemento.style.color = '#f85149';
-                relojElemento.innerText = "Falla de enlace con la API REST.";
+                relojElemento.innerText = lang.error;
                 relojElemento.style.color = '#f85149';
             }
         };
-
 
         refrescarPrecioDesdeBackend();
         setInterval(refrescarPrecioDesdeBackend, 5000);
