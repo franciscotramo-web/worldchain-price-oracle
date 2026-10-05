@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worldcoin Live Feed Mini-App</title>
     <style>
-        /* 🎨 ESTILO PREMIUM TECH - SOBRIO, INTERACTIVO Y ULTRA MODERNO */
+        /* 🎨 ESTILO PREMIUM TECH - ENFOQUE COMERCIAL Y PRIORIDAD DE ESPACIO PUBLICITARIO */
         :root {
             --bg-main: #06090e;
             --bg-card: rgba(22, 27, 34, 0.7);
@@ -26,19 +26,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* ✅ CAMBIO SENIOR: Alineamos al inicio del eje vertical para permitir un margen superior elástico y scroll natural */
             justify-content: flex-start;
-            /* Cambio Senior: Permite un flujo continuo y natural hacia abajo */
             min-height: 100vh;
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
         }
 
-        /* 📢 CARTEL DE SPONSOR SUPERIOR MODERNO */
+        /* 📢 CARTEL DE SPONSOR SUPERIOR MODERNO - ESPACIO MAXIMIZADO */
         .sponsor-box {
             width: 100%;
             max-width: 340px;
-            margin-bottom: 20px;
+            /* ✅ CAMBIO SENIOR: Agregamos un gran margen elástico arriba y abajo para darle el mayor espacio en pantalla y alejar el oráculo */
+            margin-top: clamp(40px, 8vh, 80px);
+            margin-bottom: clamp(40px, 6vh, 60px);
             text-align: center;
         }
 
@@ -48,29 +50,32 @@
         }
 
         .sponsor-btn {
-            background: linear-gradient(135deg, rgba(31, 41, 61, 0.6), rgba(35, 57, 91, 0.4));
+            background: linear-gradient(135deg, rgba(31, 41, 61, 0.7), rgba(35, 57, 91, 0.5));
             border: 1px dashed var(--brand-blue);
             color: var(--brand-blue);
             border-radius: 12px;
-            padding: 14px;
-            font-weight: 600;
-            font-size: 0.78rem;
-            letter-spacing: 0.8px;
+            /* ✅ CAMBIO SENIOR: Mayor padding interno para que el cartel se vea más imponente y grande en la parte alta */
+            padding: 18px 14px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
             box-sizing: border-box;
             cursor: pointer;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 8px 24px rgba(88, 166, 255, 0.1);
             transition: all 0.3s ease;
         }
 
         .sponsor-btn:hover {
-            background: linear-gradient(135deg, rgba(31, 41, 61, 0.8), rgba(35, 57, 91, 0.6));
+            background: linear-gradient(135deg, rgba(31, 41, 61, 0.9), rgba(35, 57, 91, 0.7));
             border-style: solid;
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.25);
             transform: translateY(-1px);
         }
 
-        /* 🏢 CONTENEDOR 1: TARJETA DEL ORÁCULO (MANTIENE SU DISEÑO DE CRISTAL) */
+        /* 🏢 CONTENEDOR 1: TARJETA EXCLUSIVA DEL ORÁCULO (MANTIENE SU DISEÑO DE CRISTAL) */
         .container {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -85,11 +90,11 @@
             box-sizing: border-box;
             animation: cardGlowPulse 4s infinite ease-in-out;
             transition: all 0.5s ease;
-            margin-bottom: 20px;
-            /* Separación simétrica para la tarjeta de abajo */
+            margin-bottom: 16px;
+            /* Ajustada la separación estrecha para que queden en conjunto */
         }
 
-        /* 🏢 CONTENEDOR 2: NUEVO PANEL INDEPENDIENTE PARA EL BOTÓN DE MONETIZACIÓN */
+        /* 🏢 CONTENEDOR 2: PANEL INDEPENDIENTE INFERIOR DE MONETIZACIÓN SECUNDARIA */
         .bottom-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -103,6 +108,8 @@
             -webkit-backdrop-filter: blur(12px);
             box-sizing: border-box;
             transition: all 0.3s ease;
+            margin-bottom: 40px;
+            /* Margen inferior de seguridad para el scroll móvil */
         }
 
         /* 🛠️ DISEÑO DEL BOTÓN PREMIUM DENTRO DEL CONTENEDOR SEPARADO */
@@ -203,7 +210,7 @@
 
 <body>
 
-    <!-- 📢 CARTEL DE AUSPICIO PREMIUM (CANAL OFICIAL SOPORTE INTEGRADO) -->
+    <!-- 📢 CARTEL DE AUSPICIO PREMIUM (MAYOR ESPACIO SUPERIOR Y TAMAÑO IMPONENTE) -->
     <div class="sponsor-box">
         <a href="https://t.me/+K3X3kajhpa04YTAx" target="_blank">
             <div class="sponsor-btn">
@@ -256,14 +263,14 @@
                 sincronizando: "📡 Sincronizando con el servidor en la nube...",
                 verificado: "✅ Bloque verificado a las ",
                 error: "Falla de enlace con la API REST.",
-                alertaBoton: "🤖 Lógica de navegación detectada. Próximamente se integrarán mas actividades."
+                alertaBoton: "🤖 Lógica de navegación detectada. Próximamente se integrará el segundo tablero."
             },
             en: {
                 titulo: "Wld On-Chain Oracle by Organic Labs",
                 sincronizando: "📡 Syncing with cloud server...",
                 verificado: "✅ Block verified at ",
                 error: "API REST connection failed.",
-                alertaBoton: "🤖 Navigation logic triggered. More activities coming soon."
+                alertaBoton: "🤖 Navigation logic triggered. Second board coming soon."
             }
         };
 
@@ -328,7 +335,7 @@
             }
         };
 
-        // 🛠️ MANEJADOR DE EVENTOS PARA EL BOTÓN INDEPENDIENTE
+        // 🛠 * MANEJADOR DE EVENTOS PARA EL BOTÓN INDEPENDIENTE *
         const navegarAAnunciosPagados = () => {
             console.log("🎯 Disparador de eventos activado correctamente.");
             alert(lang.alertaBoton);
