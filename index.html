@@ -74,7 +74,7 @@
         <div class="ad-box">
             <!-- BEGIN AADS AD UNIT 2457498 -->
             <div id="frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
-                <iframe data-aa='2457498' src='https://a-ads.com'
+                <iframe data-aa='2457498' src='https://acceptable.a-ads.com/2457498/?'
                     style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
             </div>
             <!-- END AADS AD UNIT 2457498 -->
@@ -114,7 +114,7 @@
 
         const refrescarPrecioDesdeBackend = async () => {
             try {
-                const respuesta = await fetch('https://franciscotramo-web.github.io/worldchain-price-oracle/');
+                const respuesta = await fetch('https://franciscotramo-web.github.io/worldchain-price-oracle/api/precio');
                 
                 if (!respuesta.ok) {
                     throw new Error(`HTTP Error ${respuesta.status}`);
