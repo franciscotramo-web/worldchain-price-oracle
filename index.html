@@ -66,15 +66,12 @@
 
     <div class="container">
         <h1>Oráculo World Chain by Organic Labs</h1>
-        <!-- JavaScript inyectará el precio extraído de tu backend aquí -->
         <div id="precio-live" class="precio">--.--</div>
         <div id="clock-live" class="timestamp">📡 Sincronizando con el servidor local...</div>
 
-        <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (Ad Network Banner) -->
         <div class="ad-box">
             <!-- BEGIN AADS AD UNIT 2457498 -->
             <div id="frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
-                <!-- ✅ CORREGIDO: Apuntamos al endpoint técnico '://a-ads.com' con tu ID 2457498 y el tamaño correcto -->
                 <iframe data-aa='2457498' src='https://acceptable.a-ads.com/2457498/?size=320x50'
                     style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
             </div>
@@ -88,16 +85,19 @@
 
         const refrescarPrecioDesdeBackend = async () => {
             try {
-                // Consumimos tu servidor Express asíncronamente
-                const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/');
+                // ✅ ENLACE CORREGIDO: Apunta de forma estricta al endpoint JSON técnico /api/precio
+                const respuesta = await fetch('https://vercel.app');
+                
+                if (!respuesta.ok) {
+                    throw new Error(`HTTP Error ${respuesta.status}`);
+                }
+                
                 const datos = await respuesta.json();
 
                 if (datos.success) {
-                    // Pintamos el decimal formateado a 6 dígitos
                     precioElemento.innerText = `$${datos.price.toFixed(6)} USD`;
                     precioElemento.style.color = '#56d364';
 
-                    // Extraemos la hora local del dispositivo para marcar la sincronización exitosa
                     const horaLocal = new Date(datos.timestamp).toLocaleTimeString();
                     relojElemento.innerText = `✅ Bloque verificado a las ${horaLocal}`;
                     relojElemento.style.color = '#8b949e';
@@ -112,10 +112,7 @@
             }
         };
 
-        // Ejecución inmediata inicial al cargar el frontend
         refrescarPrecioDesdeBackend();
-
-        // Ciclo automático de refresco frontend cada 5 segundos
         setInterval(refrescarPrecioDesdeBackend, 5000);
     </script>
 </body>
