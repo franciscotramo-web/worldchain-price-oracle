@@ -227,7 +227,7 @@
 
         const refrescarPrecioDesdeBackend = async () => {
             try {
-                // ✅ ENDPOINT REAL DE backend EN VERCEL INTEGRADO
+                // ✅ ENDPOINT REAL DE BACKEND EN VERCEL INTEGRADO
                 const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
 
                 if (!respuesta.ok) {
@@ -262,9 +262,11 @@
                             precioElemento.style.textShadow = '0 0 10px rgba(240, 246, 252, 0.1)';
                         }
                     }
+
                     precioAnteriorBlockchain = precioActual;
+
                     const horaLocal = new Date(datos.timestamp).toLocaleTimeString();
-                    relojElemento.innerText = ${ lang.verificado }${ horaLocal };
+                    relojElemento.innerText = `${lang.verificado}${horaLocal}`;
                     relojElemento.style.color = 'var(--text-secondary)';
                 } else {
                     throw new Error("Estado fallido.");
@@ -276,5 +278,10 @@
                 relojElemento.style.color = 'var(--brand-red)';
             }
         };
+
         refrescarPrecioDesdeBackend();
         setInterval(refrescarPrecioDesdeBackend, 5000);
+    </script>
+</body>
+
+</html>
