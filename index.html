@@ -22,11 +22,18 @@
             background-color: #161b22;
             border: 1px solid #30363d;
             border-radius: 16px;
-            padding: 30px;
+            padding: 30px 20px;
+            /* ✅ MODIFICADO: 30px arriba/abajo y 20px de espacio interno a los lados */
             text-align: center;
-            width: 340px;
+            width: 90%;
+            /* ✅ NUEVO: Ocupa el 90% de la pantalla del celular de forma elástica */
+            max-width: 340px;
+            /* ✅ NUEVO: Evita que la tarjeta se estire demasiado en pantallas gigantes */
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+            box-sizing: border-box;
+            /* ✅ NUEVO: Asegura que el padding no rompa las dimensiones del cuadro */
         }
+
 
         h1 {
             font-size: 1.1rem;
