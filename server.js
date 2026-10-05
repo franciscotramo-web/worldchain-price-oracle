@@ -6,8 +6,10 @@ import 'dotenv/config';
 
 const app = express();
 
+// Convención Senior: Habilitar CORS global de forma explícita para solicitudes cruzadas externas
 app.use(cors({ origin: '*' }));
 
+// Dirección institucional del oráculo de Chainlink (WLD/USD) en World Chain
 const CHAINLINK_WLD_FEED = getAddress('0x8Bb2943AB030E3eE05a58d9832525B4f60A97FA0');
 
 const chainlinkFeedAbi = [
@@ -26,21 +28,21 @@ const chainlinkFeedAbi = [
     }
 ];
 
-// 🛠️ BLINDAJE DE SEGURIDAD INTERNACIONAL (Middleware)
+// 🛠️ BLINDAJE DE SEGURIDAD INTERNACIONAL (Middleware de Cabeceras OWASP)
 app.use((req, res, next) => {
-    res.header("X-Frame-Options", "SAMEORIGIN"); // Evita que clonen tu app en sitios maliciosos
-    res.header("X-Content-Type-Options", "nosniff"); // Protege contra inyecciones de scripts disfrazados de texto
-    res.header("X-XSS-Protection", "1; mode=block"); // Activa el filtro contra ataques Cross-Site Scripting
+    res.header("X-Frame-Options", "SAMEORIGIN"); 
+    res.header("X-Content-Type-Options", "nosniff"); 
+    res.header("X-XSS-Protection", "1; mode=block"); 
     next();
 });
 
-
+// Ruta de control estática para verificar estado en el navegador
 app.get('/', (req, res) => {
     res.send("🤖 Backend de Organic Labs operativo en tu dominio de Vercel.");
 });
 
+// Endpoint técnico API REST
 app.get('/api/precio', async (req, res) => {
-    // ✅ CORREGIDO: Reemplazamos worldchain.org por el nodo RPC público legítimo de World Chain como fallback de producción
     const rpcUrl = process.env.WORLD_CHAIN_RPC || "https://mainnet.worldchain.org";
 
     try {
@@ -69,6 +71,7 @@ app.get('/api/precio', async (req, res) => {
             throw new Error("La estructura devuelta por el oráculo Chainlink no es válida.");
         }
 
+        // Escalamos los 18 decimales nativos del formato de precisión Ether/Wei
         const precioRealUSD = Number(precioCrudoBigInt) / Math.pow(10, 18);
 
         return res.status(200).json({
@@ -80,6 +83,7 @@ app.get('/api/precio', async (req, res) => {
 
     } catch (error) {
         console.error("❌ Error interno del oráculo en la nube:", error.message);
+        // Convención Senior: Siempre devolver respuesta estructurada en los errores internos de red
         return res.status(500).json({
             success: false,
             error: "Falla interna de procesamiento al interrogar la blockchain.",
@@ -88,6 +92,7 @@ app.get('/api/precio', async (req, res) => {
     }
 });
 
+// Soporte nativo para entorno de desarrollo local
 if (process.env.NODE_ENV !== 'production') {
     const PUERTO = process.env.PORT || 3000;
     app.listen(PUERTO, () => {

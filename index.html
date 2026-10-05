@@ -65,12 +65,12 @@
 <body>
 
     <div class="container">
-        <!-- 🌎 ETIQUETAS DINÁMICAS IDIOMA: JavaScript inyectará las traducciones aquí mediante IDs -->
+        <!-- 🌎 ETIQUETAS DINÁMICAS IDIOMA -->
         <h1 id="app-title">Oráculo Wld On-Chain by Organic Labs</h1>
         <div id="precio-live" class="precio">--.--</div>
         <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
 
-        <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (Ad Network Banner) -->
+        <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (Ad Network Banner Real) -->
         <div class="ad-box">
             <!-- BEGIN AADS AD UNIT 2457498 -->
             <div id="frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
@@ -102,18 +102,17 @@
             }
         };
 
-        // DETECCIÓN AUTOMÁTICA DE IDIOMA NATIVA: 
-        // Captura si el teléfono está en inglés ('en') o español ('es'). Por defecto usa inglés si es otra región.
+        // DETECCIÓN AUTOMÁTICA DE IDIOMA NATIVA
         const sistemaIdioma = navigator.language || navigator.userLanguage;
         const idiomaActivo = sistemaIdioma.startsWith('es') ? 'es' : 'en';
         const lang = traducciones[idiomaActivo];
 
-        // Inyectamos el título traducido inmediatamente al abrir la Mini-App
         tituloElemento.innerText = lang.titulo;
         relojElemento.innerText = lang.sincronizando;
 
         const refrescarPrecioDesdeBackend = async () => {
             try {
+                // Endpoint absoluto conectado directo a tu backend de producción de Vercel
                 const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
                 
                 if (!respuesta.ok) {
