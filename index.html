@@ -89,7 +89,7 @@
         const refrescarPrecioDesdeBackend = async () => {
             try {
                 // Consumimos tu servidor Express asíncronamente
-                const respuesta = await fetch('http://localhost:3000/api/precio');
+                const respuesta = await fetch('https://vercel.com/organic-labs/worldchain-price-oracle/5mdKpy4TqeivrkSWZov5sR9F7Crd');
                 const datos = await respuesta.json();
 
                 if (datos.success) {
