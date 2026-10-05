@@ -1,9 +1,13 @@
 import express from 'express';
+import cors from 'cors'; // 🛠️ NUEVA LIBRERÍA: Gestión nativa de CORS para Vercel
 import { createPublicClient, http, getAddress } from 'viem';
 import { worldchain } from 'viem/chains';
 import 'dotenv/config';
 
 const app = express();
+
+// Activamos CORS de manera global con configuración abierta de producción
+app.use(cors({ origin: '*' }));
 
 // Dirección oficial del oráculo de Chainlink en World Chain
 const CHAINLINK_WLD_FEED = getAddress('0x8Bb2943AB030E3eE05a58d9832525B4f60A97FA0');
@@ -24,37 +28,17 @@ const chainlinkFeedAbi = [
     }
 ];
 
-// 🛠️ CONFIGURACIÓN DE CABECERAS CORS DE PRODUCCIÓN
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*"); // Permite que tu GitHub Pages lea los datos sin bloqueos
-    res.header("Access-Control-Allow-Methods", "GET, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(200);
-    }
-    next();
-});
-
-// Ruta raíz confirmativa para evitar el 'Cannot GET /'
+// Ruta raíz de control para verificar estado del servidor en el navegador
 app.get('/', (req, res) => {
-    res.send("🤖 Backend de Organic Labs operativo en Vercel.");
+    res.send("🤖 Backend de Organic Labs operativo en tu dominio de Vercel.");
 });
 
-// Endpoint técnico que consumirá tu frontend
+// Endpoint técnico de consulta que llama tu archivo index.html
 app.get('/api/precio', async (req, res) => {
-    // Captura el RPC configurado en el panel de variables de Vercel
-    const rpcUrl = process.env.WORLD_CHAIN_RPC;
-
-    if (!rpcUrl) {
-        return res.status(500).json({
-            success: false,
-            error: "Falta configurar la variable de entorno WORLD_CHAIN_RPC en el panel de Vercel."
-        });
-    }
+    // Si la variable de Vercel falla, usamos el nodo público oficial de World Chain de respaldo directo
+    const rpcUrl = process.env.WORLD_CHAIN_RPC || "https://worldchain.org";
 
     try {
-        // Inicializamos el cliente Web3 ADENTRO de la petición para entornos Serverless
         const clienteWeb3 = createPublicClient({
             chain: worldchain,
             transport: http(rpcUrl)
@@ -68,7 +52,7 @@ app.get('/api/precio', async (req, res) => {
 
         const [roundId, answer] = resultadoData;
 
-        // Ajustamos la escala matemática a los 18 decimales nativos del nodo
+        // Escalamos los 18 decimales nativos del bloque
         const precioRealUSD = Number(answer) / Math.pow(10, 18);
 
         return res.status(200).json({
@@ -79,21 +63,20 @@ app.get('/api/precio', async (req, res) => {
         });
 
     } catch (error) {
+        console.error("❌ Falla en la lectura on-chain:", error.message);
         return res.status(500).json({
             success: false,
-            error: "Error al conectar con la infraestructura de World Chain.",
+            error: "Error interno al conectar con la infraestructura on-chain.",
             details: error.message
         });
     }
 });
 
-// 🛠️ CAMBIO CRÍTICO DE PRODUCCIÓN PARA VERCEL SERVERLESS:
-// En la nube, Vercel no necesita el método 'app.listen()'. 
-// Exportamos el módulo para que la plataforma gestione los puertos de forma automática.
+// Soporte local para desarrollo continuo en tu PC
 if (process.env.NODE_ENV !== 'production') {
     const PUERTO = process.env.PORT || 3000;
     app.listen(PUERTO, () => {
-        console.log(`🚀 Servidor de desarrollo corriendo localmente en el puerto ${PUERTO}`);
+        console.log(`🚀 Servidor local corriendo en el puerto ${PUERTO}`);
     });
 }
 
