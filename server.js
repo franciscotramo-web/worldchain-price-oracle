@@ -60,6 +60,11 @@ const consultarPrecioRealBlockchain = async () => {
     }
 };
 
+// ✅ RUTA RAÍZ CONFIRMATIVA: Evita el error 'Cannot GET /' en la URL principal de Vercel
+app.get('/', (req, res) => {
+    res.send("🤖 Backend de Organic Labs operativo y sirviendo datos on-chain.");
+});
+
 
 // 🎯 ENDPOINT DE TU API REST: Tu HTML frontend consumirá esta ruta
 app.get('/api/precio', async (req, res) => {
