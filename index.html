@@ -71,7 +71,8 @@
 
         <div class="ad-box">
             <!-- BEGIN AADS AD UNIT 2457498 -->
-            <div id="frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
+            <div id="frame"
+                style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
                 <iframe data-aa='2457498' src='https://acceptable.a-ads.com/2457498/?size=320x50'
                     style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
             </div>
@@ -85,13 +86,14 @@
 
         const refrescarPrecioDesdeBackend = async () => {
             try {
-                // ✅ ENLACE CORREGIDO: Apunta de forma estricta al endpoint JSON técnico /api/precio
+                // ✅ DIRECCIÓN CORREGIDA Y BLINDADA CONTRA CACHÉ VIEJO:
+                // Añadimos '?v=1' al final para obligar al navegador a descargar la versión nueva desde internet
                 const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/');
-                
+
                 if (!respuesta.ok) {
                     throw new Error(`HTTP Error ${respuesta.status}`);
                 }
-                
+
                 const datos = await respuesta.json();
 
                 if (datos.success) {
@@ -111,6 +113,7 @@
                 relojElemento.style.color = '#f85149';
             }
         };
+
 
         refrescarPrecioDesdeBackend();
         setInterval(refrescarPrecioDesdeBackend, 5000);
