@@ -1,4 +1,7 @@
 # 🤖 World Chain API REST & Live Price Feed Oracle
+<p align="center">
+  <img src="logo.png" width="150" height="150" alt="Organic Labs Logo">
+</p>
 
 Un ecosistema Fullstack descentralizado y de alta disponibilidad que consume el estado global de la blockchain de **World Chain**. El proyecto expone una arquitectura Cliente-Servidor robusta mediante una API REST que interroga al contrato inteligente del **Price Feed de Chainlink (WLD/USD)** a través de un nodo dedicado privado, procesando fluctuaciones numéricas milimétricas e integrando un modelo de monetización publicitaria on-chain.
 
