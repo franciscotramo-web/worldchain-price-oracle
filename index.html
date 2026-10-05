@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worldcoin Live Feed Mini-App</title>
     <style>
-        /* 🎨 ESTILO PREMIUM TECH - SOBRIO, MINIMALISTA Y DE ALTA VELOCIDAD DE CARGA */
+        /* 🎨 ESTILO PREMIUM TECH - SOBRIO, INTERACTIVO Y ULTRA MODERNO */
         :root {
             --bg-main: #06090e;
             --bg-card: rgba(22, 27, 34, 0.7);
@@ -16,6 +16,7 @@
             --brand-blue: #58a6ff;
             --brand-green: #39d353;
             --brand-red: #f85149;
+            --glow-color: rgba(88, 166, 255, 0.15);
         }
 
         body {
@@ -68,7 +69,7 @@
             transform: translateY(-1px);
         }
 
-        /* 🏢 CONTENEDOR PRINCIPAL ESTILO CRISTAL (GLASSMORPHISM RESPONSIVO) */
+        /* 🏢 CONTENEDOR PRINCIPAL CON EFECTO DE CRISTAL Y ANIMACIÓN DE BRILLO */
         .container {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -81,6 +82,8 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             box-sizing: border-box;
+            animation: cardGlowPulse 4s infinite ease-in-out;
+            transition: all 0.5s ease;
         }
 
         h1 {
@@ -107,14 +110,15 @@
             color: var(--text-primary);
             font-variant-numeric: tabular-nums;
             letter-spacing: -1px;
-            transition: color 0.3s ease;
+            text-shadow: 0 0 10px rgba(240, 246, 252, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .tendencia-flecha {
             font-size: 2.2rem;
             font-weight: bold;
             color: var(--text-secondary);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             display: inline-block;
         }
 
@@ -123,6 +127,7 @@
             color: var(--text-secondary);
             font-weight: 400;
             letter-spacing: 0.2px;
+            transition: color 0.3s ease;
         }
 
         /* 💰 SECCIÓN DEL BANNER PUBLICITARIO MONETIZADO */
@@ -135,24 +140,42 @@
             justify-content: center;
             align-items: center;
         }
+
+        /* ANIMACIÓN CSS DEL GLOW PARA EL CONTENEDOR */
+        @keyframes cardGlowPulse {
+            0% {
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color);
+                border-color: var(--border-color);
+            }
+
+            50% {
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(88, 166, 255, 0.3);
+                border-color: rgba(88, 166, 255, 0.4);
+            }
+
+            100% {
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color);
+                border-color: var(--border-color);
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- 📢 CARTEL DE AUSPICIO PREMIUM (DIRECCIÓN OFICIAL INTEGRADA) -->
+    <!-- 📢 CARTEL DE AUSPICIO PREMIUM (CANAL OFICIAL SOPORTE INTEGRADO) -->
     <div class="sponsor-box">
         <a href="https://t.me/+K3X3kajhpa04YTAx" target="_blank">
             <div class="sponsor-btn">
-                📢 Publicita tu memecoin aquí (Cobro diario) 🚀
+                📢 Publicita tu Proyecto aquí (Cobro diario) 🚀
             </div>
         </a>
     </div>
 
-    <!-- Contenedor Principal Estilo Cristal -->
-    <div class="container">
+    <!-- Contenedor Principal Estilo Cristal con Animación de Pulso -->
+    <div class="container" id="app-card">
         <h1 id="app-title">Oráculo Wld On-Chain by Organic Labs</h1>
-        
+
         <!-- Bloque Simétrico: Precio e Indicador Visual de Tendencia -->
         <div class="price-wrapper">
             <div id="precio-live" class="precio">--.--</div>
@@ -161,9 +184,10 @@
 
         <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
 
-        <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (DIRECCIÓN TÉCNICA A-ADS INTEGRADA) -->
+        <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (ORIGEN TÉCNICO A-ADS INTEGRADO) -->
         <div class="ad-box">
-            <div id="frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
+            <div id="frame"
+                style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
                 <iframe data-aa='2457498' src='https://acceptable.a-ads.com/2457498/?'
                     style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
             </div>
@@ -174,6 +198,7 @@
         const precioElemento = document.getElementById('precio-live');
         const relojElemento = document.getElementById('clock-live');
         const tituloElemento = document.getElementById('app-title');
+        const tarjetaElemento = document.getElementById('app-card');
 
         let precioAnteriorBlockchain = null;
 
@@ -202,41 +227,44 @@
 
         const refrescarPrecioDesdeBackend = async () => {
             try {
-                // ✅ ENDPOINT REAL DE PRODUCCIÓN INTEGRADO
+                // ✅ ENDPOINT REAL DE backend EN VERCEL INTEGRADO
                 const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
-                
+
                 if (!respuesta.ok) {
                     throw new Error(`HTTP Error ${respuesta.status}`);
                 }
-                
+
                 const datos = await respuesta.json();
 
                 if (datos.success) {
                     const precioActual = datos.price;
-                    
-                    // Inyección de precio limpia y sobria
+
                     precioElemento.innerText = `$${precioActual.toFixed(6)}`;
-                    precioElemento.style.color = 'var(--text-primary)';
 
                     const flechaElemento = document.getElementById('tendencia-flecha');
-                    
-                    // Cálculo dinámico de tendencia visual
+
+                    // CAMBIO DINÁMICO DE BRILLO Y COLORES DE ACUERDO A LA TENDENCIA ON-CHAIN
                     if (precioAnteriorBlockchain !== null) {
                         if (precioActual > precioAnteriorBlockchain) {
                             flechaElemento.innerText = "▲";
                             flechaElemento.style.color = 'var(--brand-green)';
-                            flechaElemento.style.transform = 'scale(1.1)';
+                            precioElemento.style.color = 'var(--brand-green)';
+                            precioElemento.style.textShadow = '0 0 15px rgba(57, 211, 83, 0.6)';
+                            tarjetaElemento.style.setProperty('--glow-color', 'rgba(57, 211, 83, 0.25)');
                         } else if (precioActual < precioAnteriorBlockchain) {
                             flechaElemento.innerText = "▼";
                             flechaElemento.style.color = 'var(--brand-red)';
-                            flechaElemento.style.transform = 'scale(1.1)';
+                            precioElemento.style.color = 'var(--brand-red)';
+                            precioElemento.style.textShadow = '0 0 15px rgba(248, 81, 73, 0.6)';
+                            tarjetaElemento.style.setProperty('--glow-color', 'rgba(248, 81, 73, 0.25)');
+                        } else {
+                            precioElemento.style.color = 'var(--text-primary)';
+                            precioElemento.style.textShadow = '0 0 10px rgba(240, 246, 252, 0.1)';
                         }
                     }
-
                     precioAnteriorBlockchain = precioActual;
-
                     const horaLocal = new Date(datos.timestamp).toLocaleTimeString();
-                    relojElemento.innerText = `${lang.verificado}${horaLocal}`;
+                    relojElemento.innerText = ${ lang.verificado }${ horaLocal };
                     relojElemento.style.color = 'var(--text-secondary)';
                 } else {
                     throw new Error("Estado fallido.");
@@ -248,10 +276,5 @@
                 relojElemento.style.color = 'var(--brand-red)';
             }
         };
-
         refrescarPrecioDesdeBackend();
         setInterval(refrescarPrecioDesdeBackend, 5000);
-    </script>
-</body>
-
-</html>
