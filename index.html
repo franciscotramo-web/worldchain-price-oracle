@@ -75,11 +75,21 @@
         </a>
     </div>
 
+    <!-- Contenedor Principal de la Tarjeta Financiera -->
     <div class="container" style="margin-top: 15px;">
-        <!-- 🌎 ETIQUETAS DINÁMICAS IDIOMA -->
         <h1 id="app-title">Oráculo Wld On-Chain by Organic Labs</h1>
-        <div id="precio-live" class="precio">--.--</div>
+
+        <!-- ================================================================= -->
+        <!-- 🛠️ PASO A INYECTADO: Contenedor flex que agrupa el precio y la flecha -->
+        <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <div id="precio-live" class="precio">--.--</div>
+            <span id="tendencia-flecha"
+                style="font-size: 2.5rem; font-weight: bold; color: #8b949e; transition: 0.3s;">➔</span>
+        </div>
+        <!-- ================================================================= -->
+
         <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
+
 
         <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (Ad Network Banner Real) -->
         <div class="ad-box">
@@ -98,7 +108,10 @@
         const relojElemento = document.getElementById('clock-live');
         const tituloElemento = document.getElementById('app-title');
 
-        // 🛠️ DICCIONARIO INTERNACIONAL DE TRADUCCIONES (Estándar de Producción)
+        // 🛠️ PASO B.1 INYECTADO: Variable global para guardar la traza del mercado en memoria
+        let precioAnteriorBlockchain = null;
+
+        // DICCIONARIO INTERNACIONAL DE TRADUCCIONES
         const traducciones = {
             es: {
                 titulo: "Oráculo Wld On-Chain by Organic Labs",
@@ -124,7 +137,6 @@
 
         const refrescarPrecioDesdeBackend = async () => {
             try {
-                // Endpoint absoluto conectado directo a tu backend de producción de Vercel
                 const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
 
                 if (!respuesta.ok) {
@@ -134,8 +146,32 @@
                 const datos = await respuesta.json();
 
                 if (datos.success) {
-                    precioElemento.innerText = `$${datos.price.toFixed(6)} USD`;
+                    const precioActual = datos.price;
+
+                    // Pintamos el precio formateado a 6 dígitos nativos
+                    precioElemento.innerText = `$${precioActual.toFixed(6)} USD`;
                     precioElemento.style.color = '#56d364';
+
+                    // 🛠️ PASO B.2 INYECTADO: Capturamos la etiqueta de la flecha
+                    const flechaElemento = document.getElementById('tendencia-flecha');
+
+                    // Si ya tenemos un precio previo en memoria, ejecutamos el control de auditoría de mercado
+                    if (precioAnteriorBlockchain !== null) {
+                        if (precioActual > precioAnteriorBlockchain) {
+                            // El mercado sube: Flecha verde neón hacia arriba
+                            flechaElemento.innerText = "▲";
+                            flechaElemento.style.color = "#56d364";
+                        } else if (precioActual < precioAnteriorBlockchain) {
+                            // El mercado baja: Flecha roja corporativa hacia abajo
+                            flechaElemento.innerText = "▼";
+                            flechaElemento.style.color = "#f85149";
+                        }
+                        // Nota Senior: Si el precio es exactamente igual al bloque anterior, 
+                        // se mantiene la última tendencia registrada sin mutar el color.
+                    }
+
+                    // Guardamos el precio actual en la variable de traza para la comparación del próximo ciclo
+                    precioAnteriorBlockchain = precioActual;
 
                     const horaLocal = new Date(datos.timestamp).toLocaleTimeString();
                     relojElemento.innerText = `${lang.verificado}${horaLocal}`;
@@ -154,6 +190,7 @@
         refrescarPrecioDesdeBackend();
         setInterval(refrescarPrecioDesdeBackend, 5000);
     </script>
+
 </body>
 
 </html>
