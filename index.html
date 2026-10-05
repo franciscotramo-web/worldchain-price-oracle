@@ -64,7 +64,18 @@
 
 <body>
 
-    <div class="container">
+    <!-- 📢 CARTEL DE AUSPICIO PREMIUM (Organic Labs Space Open) -->
+    <!-- Este banner invita directamente a los creadores de memecoins o proyectos a contactarte -->
+    <div style="width: 340px; margin: 15px auto 0 auto; text-align: center;">
+        <a href="https://t.me/+K3X3kajhpa04YTAx" target="_blank" style="text-decoration: none;">
+            <div
+                style="background-color: #1f293d; border: 1px dashed #388bfd; color: #58a6ff; border-radius: 12px; padding: 12px; font-weight: bold; font-size: 0.8rem; letter-spacing: 0.5px; box-sizing: border-box; cursor: pointer; transition: 0.2s;">
+                📢 PUBLICITA TU PROYECTO AQUÍ (COBRO DIARIO) 🚀
+            </div>
+        </a>
+    </div>
+
+    <div class="container" style="margin-top: 15px;">
         <!-- 🌎 ETIQUETAS DINÁMICAS IDIOMA -->
         <h1 id="app-title">Oráculo Wld On-Chain by Organic Labs</h1>
         <div id="precio-live" class="precio">--.--</div>
@@ -73,7 +84,8 @@
         <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (Ad Network Banner Real) -->
         <div class="ad-box">
             <!-- BEGIN AADS AD UNIT 2457498 -->
-            <div id="frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
+            <div id="frame"
+                style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
                 <iframe data-aa='2457498' src='https://acceptable.a-ads.com/2457498/?'
                     style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
             </div>
@@ -114,11 +126,11 @@
             try {
                 // Endpoint absoluto conectado directo a tu backend de producción de Vercel
                 const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
-                
+
                 if (!respuesta.ok) {
                     throw new Error(`HTTP Error ${respuesta.status}`);
                 }
-                
+
                 const datos = await respuesta.json();
 
                 if (datos.success) {
