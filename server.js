@@ -26,6 +26,15 @@ const chainlinkFeedAbi = [
     }
 ];
 
+// 🛠️ BLINDAJE DE SEGURIDAD INTERNACIONAL (Middleware)
+app.use((req, res, next) => {
+    res.header("X-Frame-Options", "SAMEORIGIN"); // Evita que clonen tu app en sitios maliciosos
+    res.header("X-Content-Type-Options", "nosniff"); // Protege contra inyecciones de scripts disfrazados de texto
+    res.header("X-XSS-Protection", "1; mode=block"); // Activa el filtro contra ataques Cross-Site Scripting
+    next();
+});
+
+
 app.get('/', (req, res) => {
     res.send("🤖 Backend de Organic Labs operativo en tu dominio de Vercel.");
 });
@@ -47,7 +56,7 @@ app.get('/api/precio', async (req, res) => {
         });
 
         let precioCrudoBigInt;
-        
+
         if (Array.isArray(resultadoData)) {
             precioCrudoBigInt = resultadoData[1];
         } else if (resultadoData && resultadoData.answer !== undefined) {
