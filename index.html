@@ -86,7 +86,7 @@
         const refrescarPrecioDesdeBackend = async () => {
             try {
                 // ✅ ENLACE CORREGIDO: Apunta de forma estricta al endpoint JSON técnico /api/precio
-                const respuesta = await fetch('https://vercel.app');
+                const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/');
                 
                 if (!respuesta.ok) {
                     throw new Error(`HTTP Error ${respuesta.status}`);
