@@ -130,6 +130,35 @@
             transition: color 0.3s ease;
         }
 
+        /* 🛠️ CONTENEDOR NUEVO BOTÓN INFERIOR DE MONETIZACIÓN */
+        .nav-box {
+            margin-top: 25px;
+            width: 100%;
+        }
+
+        .btn-premium-ads {
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.1), rgba(88, 166, 255, 0.03));
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            color: var(--brand-blue);
+            border-radius: 14px;
+            padding: 14px 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .btn-premium-ads:hover {
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.2), rgba(88, 166, 255, 0.08));
+            border-color: var(--brand-blue);
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
         /* 💰 SECCIÓN DEL BANNER PUBLICITARIO MONETIZADO */
         .ad-box {
             margin-top: 30px;
@@ -184,6 +213,13 @@
 
         <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
 
+        <!-- 🏢 PARTE 2 INYECTADA: Botón de Navegación Táctico para la Futura Pestaña de Anuncios -->
+        <div class="nav-box">
+            <button class="btn-premium-ads" onclick="navegarAAnunciosPagados()">
+                🎁 Ver Oportunidades y Premios 🚀
+            </button>
+        </div>
+
         <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (ORIGEN TÉCNICO A-ADS INTEGRADO) -->
         <div class="ad-box">
             <div id="frame"
@@ -202,19 +238,21 @@
 
         let precioAnteriorBlockchain = null;
 
-        // DICCIONARIO INTERNACIONAL DE TRADUCCIONES
+        // DICCIONARIO INTERNACIONAL DE TRADUCCIONES (Estándar de Producción)
         const traducciones = {
             es: {
                 titulo: "Oráculo Wld On-Chain by Organic Labs",
                 sincronizando: "📡 Sincronizando con el servidor en la nube...",
                 verificado: "✅ Bloque verificado a las ",
-                error: "Falla de enlace con la API REST."
+                error: "Falla de enlace con la API REST.",
+                alertaBoton: "🤖 Lógica de navegación detectada. Próximamente se integrará el segundo tablero de monetización premium."
             },
             en: {
                 titulo: "Wld On-Chain Oracle by Organic Labs",
                 sincronizando: "📡 Syncing with cloud server...",
                 verificado: "✅ Block verified at ",
-                error: "API REST connection failed."
+                error: "API REST connection failed.",
+                alertaBoton: "🤖 Navigation logic triggered. Second premium monetization board coming soon."
             }
         };
 
@@ -277,6 +315,12 @@
                 relojElemento.innerText = lang.error;
                 relojElemento.style.color = 'var(--brand-red)';
             }
+        };
+
+        // 🛠️ LÓGICA FRONTEND DEL BOTÓN INTERACTIVO
+        const navegarAAnunciosPagados = () => {
+            console.log("🎯 Disparador de eventos activado correctamente.");
+            alert(lang.alertaBoton);
         };
 
         refrescarPrecioDesdeBackend();
