@@ -26,8 +26,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* ✅ CAMBIO SENIOR: Alineamos al inicio del eje vertical para permitir un margen superior elástico y scroll natural */
-            justify-content: flex-start;
+            justify-content: flex-start; 
             min-height: 100vh;
             margin: 0;
             padding: 20px;
@@ -38,8 +37,7 @@
         .sponsor-box {
             width: 100%;
             max-width: 340px;
-            /* ✅ CAMBIO SENIOR: Agregamos un gran margen elástico arriba y abajo para darle el mayor espacio en pantalla y alejar el oráculo */
-            margin-top: clamp(40px, 8vh, 80px);
+            margin-top: clamp(40px, 8vh, 80px); 
             margin-bottom: clamp(40px, 6vh, 60px);
             text-align: center;
         }
@@ -54,8 +52,7 @@
             border: 1px dashed var(--brand-blue);
             color: var(--brand-blue);
             border-radius: 12px;
-            /* ✅ CAMBIO SENIOR: Mayor padding interno para que el cartel se vea más imponente y grande en la parte alta */
-            padding: 18px 14px;
+            padding: 18px 14px; 
             font-weight: 700;
             font-size: 0.82rem;
             letter-spacing: 1px;
@@ -75,7 +72,7 @@
             transform: translateY(-1px);
         }
 
-        /* 🏢 CONTENEDOR 1: TARJETA EXCLUSIVA DEL ORÁCULO (MANTIENE SU DISEÑO DE CRISTAL) */
+        /* 🏢 CONTENEDOR 1: TARJETA EXCLUSIVA DEL ORÁCULO (DIRECCIÓN MÓVIL ESTABLE) */
         .container {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -90,11 +87,10 @@
             box-sizing: border-box;
             animation: cardGlowPulse 4s infinite ease-in-out;
             transition: all 0.5s ease;
-            margin-bottom: 16px;
-            /* Ajustada la separación estrecha para que queden en conjunto */
+            margin-bottom: 16px; 
         }
 
-        /* 🏢 CONTENEDOR 2: PANEL INDEPENDIENTE INFERIOR DE MONETIZACIÓN SECUNDARIA */
+        /* 🏢 CONTENEDOR 2: PANEL INDEPENDIENTE INFERIOR */
         .bottom-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -108,11 +104,9 @@
             -webkit-backdrop-filter: blur(12px);
             box-sizing: border-box;
             transition: all 0.3s ease;
-            margin-bottom: 40px;
-            /* Margen inferior de seguridad para el scroll móvil */
+            margin-bottom: 40px; 
         }
 
-        /* 🛠️ DISEÑO DEL BOTÓN PREMIUM DENTRO DEL CONTENEDOR SEPARADO */
         .btn-premium-ads {
             background: linear-gradient(135deg, rgba(88, 166, 255, 0.12), rgba(88, 166, 255, 0.04));
             border: 1px solid rgba(88, 166, 255, 0.35);
@@ -179,8 +173,51 @@
             letter-spacing: 0.2px;
         }
 
+        /* 📊 ESTILOS DEL NUEVO OBJETO MIN/MAX DIARIO (ESTÁNDAR SENIOR) */
+        .range-wrapper {
+            margin-top: 18px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .range-label {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .range-values {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .range-min {
+            color: var(--brand-red);
+        }
+
+        .range-max {
+            color: var(--brand-green);
+        }
+
+        .range-divider {
+            color: rgba(255, 255, 255, 0.15);
+            font-weight: 400;
+        }
+
         .ad-box {
-            margin-top: 30px;
+            margin-top: 25px; /* Reducido levemente para balancear el nuevo objeto */
             padding-top: 25px;
             border-top: 1px solid rgba(48, 54, 61, 0.4);
             min-height: 50px;
@@ -190,27 +227,15 @@
         }
 
         @keyframes cardGlowPulse {
-            0% {
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color);
-                border-color: var(--border-color);
-            }
-
-            50% {
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(88, 166, 255, 0.3);
-                border-color: rgba(88, 166, 255, 0.4);
-            }
-
-            100% {
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color);
-                border-color: var(--border-color);
-            }
+            0% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color); border-color: var(--border-color); }
+            50% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(88, 166, 255, 0.3); border-color: rgba(88, 166, 255, 0.4); }
+            100% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color); border-color: var(--border-color); }
         }
     </style>
 </head>
-
 <body>
 
-    <!-- 📢 CARTEL DE AUSPICIO PREMIUM (MAYOR ESPACIO SUPERIOR Y TAMAÑO IMPONENTE) -->
+    <!-- 📢 CARTEL DE AUSPICIO PREMIUM -->
     <div class="sponsor-box">
         <a href="https://t.me/+K3X3kajhpa04YTAx" target="_blank">
             <div class="sponsor-btn">
@@ -231,17 +256,26 @@
 
         <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
 
+        <!-- 📊 INYECCIÓN DE CAPA TRADING: Objeto Min/Max diario dinámico -->
+        <div class="range-wrapper">
+            <div class="range-label">Min / Max Diario</div>
+            <div class="range-values">
+                <span id="precio-minimo" class="range-min">--.--</span>
+                <span class="range-divider">|</span>
+                <span id="precio-maximo" class="range-max">--.--</span>
+            </div>
+        </div>
+
         <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (ORIGEN TÉCNICO A-ADS INTEGRADO) -->
         <div class="ad-box">
-            <div id="frame"
-                style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
+            <div id="frame" style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
                 <iframe data-aa='2457498' src='https://acceptable.a-ads.com/2457498/?'
                     style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
             </div>
         </div>
     </div>
 
-    <!-- 🏢 CONTENEDOR 2: PANEL INDEPENDIENTE INFERIOR DE MONETIZACIÓN SECUNDARIA -->
+    <!-- 🏢 CONTENEDOR 2: PANEL INDEPENDIENTE INFERIOR -->
     <div class="bottom-card">
         <button class="btn-premium-ads" onclick="navegarAAnunciosPagados()">
             🚀 Proximamente novedades 🚀
@@ -253,24 +287,31 @@
         const relojElemento = document.getElementById('clock-live');
         const tituloElemento = document.getElementById('app-title');
         const tarjetaElemento = document.getElementById('app-card');
+        
+        // Atributos de control para los límites del mercado
+        const minimoElemento = document.getElementById('precio-minimo');
+        const maximoElemento = document.getElementById('precio-maximo');
 
+        // Variables globales en memoria para rastrear picos del mercado (Estándar Senior)
         let precioAnteriorBlockchain = null;
+        let registroMinimoDiario = null;
+        let registroMaximoDiario = null;
 
-        // DICCIONARIO INTERNACIONAL DE TRADUCCIONES (Estándar de Producción)
+        // DICCIONARIO INTERNACIONAL DE TRADUCCIONES
         const traducciones = {
             es: {
                 titulo: "Oráculo Wld On-Chain by Organic Labs",
                 sincronizando: "📡 Sincronizando con el servidor en la nube...",
                 verificado: "✅ Bloque verificado a las ",
                 error: "Falla de enlace con la API REST.",
-                alertaBoton: "🤖 Lógica de navegación detectada. Próximamente se integrará el segundo tablero."
+                alertaBoton: "🤖 Lógica de navegación detectada. Próximamente se integrará el segundo tablero de monetización premium."
             },
             en: {
                 titulo: "Wld On-Chain Oracle by Organic Labs",
                 sincronizando: "📡 Syncing with cloud server...",
                 verificado: "✅ Block verified at ",
                 error: "API REST connection failed.",
-                alertaBoton: "🤖 Navigation logic triggered. Second board coming soon."
+                alertaBoton: "🤖 Navigation logic triggered. Second premium monetization board coming soon."
             }
         };
 
@@ -283,7 +324,7 @@
 
         const refrescarPrecioDesdeBackend = async () => {
             try {
-                // ✅ ENDPOINT REAL DE BACKEND EN VERCEL INTEGRADO
+                // Endpoint real de producción conectado directo a tu backend de Vercel
                 const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
 
                 if (!respuesta.ok) {
@@ -294,12 +335,24 @@
 
                 if (datos.success) {
                     const precioActual = datos.price;
-
+                    
+                    // Pintamos el precio en la tarjeta principal
                     precioElemento.innerText = `$${precioActual.toFixed(6)}`;
 
-                    const flechaElemento = document.getElementById('tendencia-flecha');
+                    // 🛠️ LÓGICA DE CONTROL MATEMÁTICO DIARIO (Mínimos y Máximos Locales)
+                    if (registroMinimoDiario === null || precioActual < registroMinimoDiario) {
+                        registroMinimoDiario = precioActual;
+                        minimoElemento.innerText = `$${registroMinimoDiario.toFixed(4)}`;
+                    }
+                    
+                    if (registroMaximoDiario === null || precioActual > registroMaximoDiario) {
+                        registroMaximoDiario = precioActual;
+                        maximoElemento.innerText = `$${registroMaximoDiario.toFixed(4)}`;
+                    }
 
-                    // CAMBIO DINÁMICO DE BRILLO Y COLORES DE ACUERDO A LA TENDENCIA ON-CHAIN
+                    const flechaElemento = document.getElementById('tendencia-flecha');
+                    
+                    // Cálculo analítico de tendencia visual
                     if (precioAnteriorBlockchain !== null) {
                         if (precioActual > precioAnteriorBlockchain) {
                             flechaElemento.innerText = "▲";
@@ -335,7 +388,7 @@
             }
         };
 
-        // 🛠 * MANEJADOR DE EVENTOS PARA EL BOTÓN INDEPENDIENTE *
+        // Manejador del botón secundario
         const navegarAAnunciosPagados = () => {
             console.log("🎯 Disparador de eventos activado correctamente.");
             alert(lang.alertaBoton);
