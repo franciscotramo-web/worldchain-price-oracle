@@ -1,12 +1,11 @@
 /* =================================================================
-   🧠 CAPA LÓGICA DE PROGRAMACIÓN WEB3 - ORGANIC LABS ARCHITECTURE
+   🧠 CAPA LÓGICA DE PROGRAMACIÓN WEB3 - REPARACIÓN DE EMERGENCIAS
    ================================================================= */
 
 const precioElemento = document.getElementById('precio-live');
 const relojElemento = document.getElementById('clock-live');
 const minimoElemento = document.getElementById('precio-minimo');
 const maximoElemento = document.getElementById('precio-maximo');
-
 const modalAnuncio = document.getElementById('modal-publicidad');
 const totalPagarElemento = document.getElementById('ad-total-pagar');
 
@@ -15,22 +14,30 @@ const URL_BASE = 'https://worldchain-price-oracle.vercel.app';
 
 // CONTROLADORES INTERACTIVOS VISUALES DEL FORMULARIO
 const abrirPasarelaPublicitaria = () => {
-    modalAnuncio.style.display = 'flex';
+    if (modalAnuncio) modalAnuncio.style.display = 'flex';
 };
 
 const cerrarPasarelaPublicitaria = () => {
-    modalAnuncio.style.display = 'none';
+    if (modalAnuncio) modalAnuncio.style.display = 'none';
 };
 
-// Escuchamos de forma explícita el clic en el cartel superior
-document.getElementById('sponsor-link').addEventListener('click', (e) => {
-    e.preventDefault();
-    abrirPasarelaPublicitaria();
-});
+// 🛠️ FIX DE QA: Vinculamos el evento clic de forma segura a cualquier variación del contenedor superior
+const inicializarBotones = () => {
+    const linkSponsor = document.getElementById('sponsor-link') || document.querySelector('.sponsor-box a');
+    if (linkSponsor) {
+        linkSponsor.addEventListener('click', (e) => {
+            e.preventDefault();
+            abrirPasarelaPublicitaria();
+        });
+    }
+};
 
 // COTIZADOR ELÁSTICO DE TARIFAS EN TIEMPO REAL
 const calcularTarifaPublicitaria = () => {
-    const dias = parseInt(document.getElementById('ad-duracion').value);
+    const selectDuracion = document.getElementById('ad-duracion');
+    if (!selectDuracion || !totalPagarElemento) return;
+
+    const dias = parseInt(selectDuracion.value);
     let total = 1.50;
     if (dias === 7) total = 7.00;
     if (dias === 14) total = 12.00;
@@ -41,10 +48,17 @@ const calcularTarifaPublicitaria = () => {
 // 🚀 PASARELA DE COBRO AUTÓNOMA: Integración nativa con la Wallet
 // =================================================================
 const procesarPagoAnuncioAutonomo = async () => {
-    const urlDestino = document.getElementById('ad-url-destino').value;
-    const urlBannerImg = document.getElementById('ad-url-banner-img').value;
-    const textoBanner = document.getElementById('ad-texto-banner').value;
-    const dias = document.getElementById('ad-duracion').value;
+    const inputDestino = document.getElementById('ad-url-destino');
+    const inputBannerImg = document.getElementById('ad-url-banner-img');
+    const inputTextoBanner = document.getElementById('ad-texto-banner');
+    const selectDuracion = document.getElementById('ad-duracion');
+
+    if (!inputDestino || !selectDuracion) return;
+
+    const urlDestino = inputDestino.value;
+    const urlBannerImg = inputBannerImg ? inputBannerImg.value : '';
+    const textoBanner = inputTextoBanner ? inputTextoBanner.value : '';
+    const dias = selectDuracion.value;
 
     if (!urlDestino || (!urlBannerImg && !textoBanner)) {
         alert("❌ Por favor, rellena el enlace de tu proyecto y al menos un método publicitario.");
@@ -64,8 +78,8 @@ const procesarPagoAnuncioAutonomo = async () => {
 
     setTimeout(async () => {
         const hashCliente = prompt("💎 ¡Pago enviado! Pega aquí el Hash de la transacción para activarlo en piloto automático:");
-        if (hashCliente) {
-            relojElemento.innerText = "⏳ Auditando pago on-chain en el servidor...";
+        if (hashCliente && hashCliente.trim() !== "") {
+            if (relojElemento) relojElemento.innerText = "⏳ Auditando pago on-chain en el servidor...";
             try {
                 const res = await fetch(`${URL_BASE}/api/verificar-pago`, {
                     method: 'POST',
@@ -103,56 +117,71 @@ const refrescarPrecioDesdeBackend = async () => {
 
         if (datos.success) {
             const precioActual = datos.price;
-            precioElemento.innerText = `$${precioActual.toFixed(6)}`;
+            if (precioElemento) precioElemento.innerText = `$${precioActual.toFixed(6)}`;
 
             if (datos.priceMin12h !== undefined && datos.priceMax12h !== undefined) {
-                minimoElemento.innerText = `$${datos.priceMin12h.toFixed(4)}`;
-                maximoElemento.innerText = `$${datos.priceMax12h.toFixed(4)}`;
+                if (minimoElemento) minimoElemento.innerText = `$${datos.priceMin12h.toFixed(4)}`;
+                if (maximoElemento) maximoElemento.innerText = `$${datos.priceMax12h.toFixed(4)}`;
             }
 
-            // Mapeo simétrico riguroso alineado con los IDs reales de tu index.html
-            const imgComponente = document.getElementById('sponsor-image');
-            const txtComponente = document.getElementById('sponsor-text');
-            const linkComponente = document.getElementById('sponsor-link');
+            // Cláusulas de salvaguarda para evitar caídas si cambian los nombres en el HTML
+            const imgComponente = document.getElementById('sponsor-image') || document.querySelector('.sponsor-btn img');
+            const txtComponente = document.getElementById('sponsor-text') || document.getElementById('sponsor-container') || document.querySelector('.sponsor-btn span');
+            const linkComponente = document.getElementById('sponsor-link') || document.querySelector('.sponsor-box a');
 
-            if (datos.adActive && datos.adBannerUrl) {
-                txtComponente.style.display = 'none';
-                imgComponente.src = datos.adBannerUrl;
-                imgComponente.style.display = 'block';
-                linkComponente.href = datos.adTargetUrl;
-            } else {
-                imgComponente.style.display = 'none';
-                txtComponente.innerText = "📢 Publicita tu Proyecto aquí (Cobro diario) 🚀";
-                txtComponente.style.display = 'block';
-                linkComponente.href = "#";
+            if (imgComponente && txtComponente) {
+                if (datos.adActive && datos.adBannerUrl) {
+                    txtComponente.style.display = 'none';
+                    imgComponente.src = datos.adBannerUrl;
+                    imgComponente.style.display = 'block';
+                    if (linkComponente) linkComponente.href = datos.adTargetUrl;
+                } else {
+                    imgComponente.style.display = 'none';
+                    txtComponente.style.display = 'block';
+                    // Mantiene el texto que venga por defecto o el institucional
+                    if (!datos.adActive) {
+                        txtComponente.innerText = "📢 Publicita tu Proyecto aquí (Cobro diario) 🚀";
+                    }
+                    if (linkComponente) linkComponente.href = "#";
+                }
             }
 
             // CONTROL DINÁMICO DE TENDENCIAS EN LA TARJETA
             const flechaElemento = document.getElementById('tendencia-flecha');
             const tarjetaElemento = document.getElementById('app-card');
 
-            if (precioAnteriorBlockchain !== null) {
+            if (precioAnteriorBlockchain !== null && flechaElemento && precioElemento) {
                 if (precioActual > precioAnteriorBlockchain) {
                     flechaElemento.innerText = "▲";
                     flechaElemento.style.color = '#39d353';
                     precioElemento.style.color = '#39d353';
-                    tarjetaElemento.style.setProperty('--glow-color', 'rgba(57,211,83,0.25)');
+                    if (tarjetaElemento) tarjetaElemento.style.setProperty('--glow-color', 'rgba(57,211,83,0.25)');
                 } else if (precioActual < precioAnteriorBlockchain) {
                     flechaElemento.innerText = "▼";
                     flechaElemento.style.color = '#f85149';
                     precioElemento.style.color = '#f85149';
-                    tarjetaElemento.style.setProperty('--glow-color', 'rgba(248,81,73,0.25)');
+                    if (tarjetaElemento) tarjetaElemento.style.setProperty('--glow-color', 'rgba(248,81,73,0.25)');
                 }
             }
             precioAnteriorBlockchain = precioActual;
-            relojElemento.innerText = `✅ Bloque verificado a las ${new Date(datos.timestamp).toLocaleTimeString()}`;
+            if (relojElemento) {
+                relojElemento.innerText = `✅ Bloque verificado a las ${new Date(datos.timestamp).toLocaleTimeString()}`;
+                relojElemento.style.color = 'var(--text-secondary)';
+            }
         }
     } catch (error) {
-        precioElemento.innerText = "❌ ERR";
-        relojElemento.innerText = "Falla de enlace con la API REST.";
+        if (precioElemento) {
+            precioElemento.innerText = "❌ ERR";
+            precioElemento.style.color = 'var(--brand-red)';
+        }
+        if (relojElemento) {
+            relojElemento.innerText = "Falla de enlace con la API REST.";
+            relojElemento.style.color = 'var(--brand-red)';
+        }
     }
 };
 
 // Inicializadores automáticos del ciclo de ejecución
+inicializarBotones();
 refrescarPrecioDesdeBackend();
 setInterval(refrescarPrecioDesdeBackend, 5000);
