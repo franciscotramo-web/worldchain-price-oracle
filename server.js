@@ -63,18 +63,23 @@ app.get('/api/precio', async (req, res) => {
             functionName: 'latestRoundData'
         });
 
+        // 🛠️ FIX DE QA: Extraemos estrictamente la respuesta del índice [1] (El parámetro 'answer' de Chainlink)
         let precioCrudoBigInt;
         if (Array.isArray(resultadoData)) {
-            precioCrudoBigInt = resultadoData;
+            precioCrudoBigInt = resultadoData[1];
         } else if (resultadoData && resultadoData.answer !== undefined) {
             precioCrudoBigInt = resultadoData.answer;
         } else {
             precioCrudoBigInt = resultadoData;
         }
 
+        if (precioCrudoBigInt === undefined || precioCrudoBigInt === null) {
+            throw new Error("No se pudo mapear el BigInt de Chainlink.");
+        }
+
         const precioRealUSD = Number(precioCrudoBigInt) / Math.pow(10, 18);
 
-        // 🔍 LEEMOS LA MEMORIA BASE: Extraemos el precio congelado del inicio del ciclo de 12 horas desde Supabase
+        // 🔍 LEEMOS LA MEMORIA BASE: Extraemos el precio congelado desde Supabase
         const { data: registroHistorico, error: errorSupabase } = await supabase
             .from('historico_oraculo')
             .select('precio')
@@ -82,25 +87,24 @@ app.get('/api/precio', async (req, res) => {
             .limit(1)
             .single();
 
-        // Usamos el precio actual como fallback de control en caso de que la tabla esté vacía
         const precioBase12hAtras = (!errorSupabase && registroHistorico) ? Number(registroHistorico.precio) : precioRealUSD;
 
-        // 🛠️ ALGORITMO DE BANDAS DEL MERCADO: Calculamos rangos dinámicos basados en la misma referencia universal
+        // 🛠️ ALGORITMO DE BANDAS DEL MERCADO: Consistencia universal para todas las consultas
         let min12h = precioBase12hAtras;
         let max12h = precioBase12hAtras;
 
         if (precioRealUSD < precioBase12hAtras) {
-            min12h = precioRealUSD; // Rompió el piso hacia abajo
+            min12h = precioRealUSD;
         } else if (precioRealUSD > precioBase12hAtras) {
-            max12h = precioRealUSD; // Rompió el techo hacia arriba
+            max12h = precioRealUSD;
         }
 
         return res.status(200).json({
             success: true,
             symbol: "WLD",
             price: precioRealUSD,
-            priceMin12h: min12h, // Mínimo universal idéntico para todos los usuarios
-            priceMax12h: max12h, // Máximo universal idéntico para todos los usuarios
+            priceMin12h: min12h,
+            priceMax12h: max12h,
             timestamp: new Date().toISOString()
         });
 
@@ -132,9 +136,10 @@ app.get('/api/actualizar-12h', async (req, res) => {
             functionName: 'latestRoundData'
         });
 
+        // 🛠️ FIX DE QA: Mapeo idéntico para la función autónoma
         let precioCrudoBigInt;
         if (Array.isArray(resultadoData)) {
-            precioCrudoBigInt = resultadoData;
+            precioCrudoBigInt = resultadoData[1];
         } else if (resultadoData && resultadoData.answer !== undefined) {
             precioCrudoBigInt = resultadoData.answer;
         } else {
@@ -168,7 +173,6 @@ app.get('/api/actualizar-12h', async (req, res) => {
     }
 });
 
-// Soporte nativo para entorno de desarrollo local
 if (process.env.NODE_ENV !== 'production') {
     const PUERTO = process.env.PORT || 3000;
     app.listen(PUERTO, () => {
