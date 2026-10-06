@@ -1,38 +1,43 @@
 /* =================================================================
-   🧠 CAPA LÓGICA DE PROGRAMACIÓN WEB3 - REPARACIÓN DE EMERGENCIAS
+   🧠 CAPA LÓGICA WEB3 - ORGANIC LABS ARCHITECTURE (PARTE 1)
    ================================================================= */
 
 const precioElemento = document.getElementById('precio-live');
 const relojElemento = document.getElementById('clock-live');
 const minimoElemento = document.getElementById('precio-minimo');
 const maximoElemento = document.getElementById('precio-maximo');
+
 const modalAnuncio = document.getElementById('modal-publicidad');
 const totalPagarElemento = document.getElementById('ad-total-pagar');
 
 let precioAnteriorBlockchain = null;
 const URL_BASE = 'https://worldchain-price-oracle.vercel.app';
 
-// CONTROLADORES INTERACTIVOS VISUALES DEL FORMULARIO
+// 🛠️ CONTROLADORES INTERACTIVOS VISUALES DEL FORMULARIO
 const abrirPasarelaPublicitaria = () => {
-    if (modalAnuncio) modalAnuncio.style.display = 'flex';
-};
-
-const cerrarPasarelaPublicitaria = () => {
-    if (modalAnuncio) modalAnuncio.style.display = 'none';
-};
-
-// 🛠️ FIX DE QA: Vinculamos el evento clic de forma segura a cualquier variación del contenedor superior
-const inicializarBotones = () => {
-    const linkSponsor = document.getElementById('sponsor-link') || document.querySelector('.sponsor-box a');
-    if (linkSponsor) {
-        linkSponsor.addEventListener('click', (e) => {
-            e.preventDefault();
-            abrirPasarelaPublicitaria();
-        });
+    if (modalAnuncio) {
+        modalAnuncio.style.display = 'flex';
+        modalAnuncio.style.opacity = '1';
     }
 };
 
-// COTIZADOR ELÁSTICO DE TARIFAS EN TIEMPO REAL
+const cerrarPasarelaPublicitaria = () => {
+    if (modalAnuncio) {
+        modalAnuncio.style.opacity = '0';
+        modalAnuncio.style.display = 'none';
+    }
+};
+
+// Vinculamos de forma segura el evento clic al banner superior
+const linkSponsor = document.getElementById('sponsor-link');
+if (linkSponsor) {
+    linkSponsor.addEventListener('click', (e) => {
+        e.preventDefault();
+        abrirPasarelaPublicitaria();
+    });
+}
+
+// COTIZADOR ELÁSTICO DE TARIFAS PUBLICITARIAS
 const calcularTarifaPublicitaria = () => {
     const selectDuracion = document.getElementById('ad-duracion');
     if (!selectDuracion || !totalPagarElemento) return;
@@ -43,9 +48,8 @@ const calcularTarifaPublicitaria = () => {
     if (dias === 14) total = 12.00;
     totalPagarElemento.innerText = `$${total.toFixed(2)} USDC`;
 };
-
 // =================================================================
-// 🚀 PASARELA DE COBRO AUTÓNOMA: Integración nativa con la Wallet
+// 🚀 PASARELA DE COBRO AUTÓNOMA: Integración con la Wallet y Servidor
 // =================================================================
 const procesarPagoAnuncioAutonomo = async () => {
     const inputDestino = document.getElementById('ad-url-destino');
@@ -72,7 +76,7 @@ const procesarPagoAnuncioAutonomo = async () => {
     const MI_BILLETERA_METAMASK_REAL = "0x526376e1e12a0e46ce021D8069d82DAc14413dB0";
     const CONTRACT_USDC_WORLD_CHAIN = "0x79A02482A880b0755F0a57d62059345205567346";
 
-    // Disparamos el Deep Link nativo hacia la billetera cripto
+    // Disparamos el Deep Link nativo hacia la billetera cripto del celular
     window.open(`ethereum:${CONTRACT_USDC_WORLD_CHAIN}/transfer?address=${MI_BILLETERA_METAMASK_REAL}&uint256=${costoUSDC * 1000000}`, '_blank');
     cerrarPasarelaPublicitaria();
 
@@ -124,10 +128,10 @@ const refrescarPrecioDesdeBackend = async () => {
                 if (maximoElemento) maximoElemento.innerText = `$${datos.priceMax12h.toFixed(4)}`;
             }
 
-            // Cláusulas de salvaguarda para evitar caídas si cambian los nombres en el HTML
-            const imgComponente = document.getElementById('sponsor-image') || document.querySelector('.sponsor-btn img');
-            const txtComponente = document.getElementById('sponsor-text') || document.getElementById('sponsor-container') || document.querySelector('.sponsor-btn span');
-            const linkComponente = document.getElementById('sponsor-link') || document.querySelector('.sponsor-box a');
+            // Sincronización estricta alineada al 100% con tu index.html
+            const imgComponente = document.getElementById('sponsor-image');
+            const txtComponente = document.getElementById('sponsor-text');
+            const linkComponente = document.getElementById('sponsor-link');
 
             if (imgComponente && txtComponente) {
                 if (datos.adActive && datos.adBannerUrl) {
@@ -137,11 +141,8 @@ const refrescarPrecioDesdeBackend = async () => {
                     if (linkComponente) linkComponente.href = datos.adTargetUrl;
                 } else {
                     imgComponente.style.display = 'none';
+                    txtComponente.innerText = "📢 Publicita tu Proyecto aquí (Cobro diario) 🚀";
                     txtComponente.style.display = 'block';
-                    // Mantiene el texto que venga por defecto o el institucional
-                    if (!datos.adActive) {
-                        txtComponente.innerText = "📢 Publicita tu Proyecto aquí (Cobro diario) 🚀";
-                    }
                     if (linkComponente) linkComponente.href = "#";
                 }
             }
@@ -164,8 +165,9 @@ const refrescarPrecioDesdeBackend = async () => {
                 }
             }
             precioAnteriorBlockchain = precioActual;
+
             if (relojElemento) {
-                relojElemento.innerText = `✅ Bloque verificado a las ${new Date(datos.timestamp).toLocaleTimeString()}`;
+                relojElemento.innerText = `✅ Bloque verificado: ${new Date(datos.timestamp).toLocaleTimeString()}`;
                 relojElemento.style.color = 'var(--text-secondary)';
             }
         }
@@ -181,7 +183,6 @@ const refrescarPrecioDesdeBackend = async () => {
     }
 };
 
-// Inicializadores automáticos del ciclo de ejecución
-inicializarBotones();
+// Inicializadores automáticos del ciclo perpetuo de ejecución
 refrescarPrecioDesdeBackend();
 setInterval(refrescarPrecioDesdeBackend, 5000);

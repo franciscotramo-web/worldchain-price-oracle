@@ -31,7 +31,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 📢 CONTENEDOR MULTIMEDIA SUPERIOR ADAPTATIVO - EDICIÓN COMERCIAL AMPLIADA */
+/* 📢 CONTENEDOR MULTIMEDIA SUPERIOR ADAPTATIVO */
 .sponsor-box {
   width: 100%;
   max-width: 340px;
@@ -46,7 +46,6 @@ body {
   outline: none;
 }
 
-/* ✅ MEJORA UI: Ampliamos la altura vertical (min-height: 85px) para dar sensación de lienzo publicitario masivo */
 .sponsor-btn {
   background: linear-gradient(
     135deg,
@@ -56,7 +55,7 @@ body {
   border: 1px dashed var(--brand-blue);
   color: var(--brand-blue);
   border-radius: 14px;
-  padding: 12px; /* Reducimos padding para dar el máximo espacio al gráfico interno */
+  padding: 12px;
   font-weight: 700;
   font-size: 0.85rem;
   letter-spacing: 0.8px;
@@ -71,18 +70,17 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  min-height: 85px; /* Canvas ampliado verticalmente */
+  min-height: 85px;
 }
 
-/* ✅ REQUERIMIENTO SENIOR: La imagen del cliente ahora se expande de forma balística al 100% de la zona disponible */
 .sponsor-btn img {
   width: 100%;
   height: 100%;
   min-height: 60px;
   max-height: 80px;
-  object-fit: cover; /* Recorte inteligente para que llene todo el ancho y alto sin deformarse */
+  object-fit: cover;
   border-radius: 8px;
-  display: none; /* Se activa dinámicamente mediante app.js */
+  display: none;
 }
 
 .sponsor-btn:hover {
@@ -96,7 +94,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* 🏢 TARJETA PRINCIPAL DEL ORÁCULO DE WORLDCOIN */
+/* 🏢 TARJETAS DEL ORÁCULO Y CONTENEDORES */
 .container {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);

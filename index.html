@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worldcoin Live Feed Mini-App</title>
-    <!-- Enlace al archivo de diseño centralizado -->
+    <!-- Enlace explícito a la capa de diseño centralizada -->
     <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
 
-    <!-- 📢 CARTEL DE AUSPICIO MULTIMEDIA PREMIUM (CONEXIÓN CENTRALIZADA) -->
+    <!-- 📢 CARTEL DE AUSPICIO MULTIMEDIA PREMIUM -->
     <div class="sponsor-box">
-        <a id="sponsor-link" href="https://t.me" target="_blank">
+        <a id="sponsor-link" href="#" style="text-decoration: none !important;">
             <div id="sponsor-container" class="sponsor-btn">
                 <span id="sponsor-text">📢 Publicita tu Proyecto aquí (Cobro diario) 🚀</span>
                 <img id="sponsor-image" src="" alt="Banner Publicitario">
@@ -23,7 +23,7 @@
 
     <!-- 🏢 CONTENEDOR 1: TARJETA EXCLUSIVA DEL ORÁCULO FINANCIERO -->
     <div class="container" id="app-card">
-        <h1>Oráculo Wld On-Chain by Organic Labs</h1>
+        <h1 id="app-title">Oráculo Wld On-Chain by Organic Labs</h1>
 
         <div class="price-wrapper">
             <div id="precio-live" class="precio">--.--</div>
@@ -32,7 +32,7 @@
 
         <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
 
-        <!-- 📊 OBJETO MIN/MAX DIARIO GLOBAL -->
+        <!-- 📊 OBJETO MIN/MAX CENTRALIZADO DESDE EL SERVIDOR -->
         <div class="range-wrapper">
             <div class="range-label">Min / Max 12H (Global)</div>
             <div class="range-values">
@@ -46,7 +46,7 @@
         <div class="ad-box">
             <div id="frame"
                 style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
-                <iframe data-aa='2457498' src='https://acceptable.a-ads.com/2457498/?'
+                <iframe data-aa='2457498' src='https://a-ads.com?'
                     style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
             </div>
         </div>
@@ -55,20 +55,20 @@
     <!-- 🏢 CONTENEDOR 2: PANEL INDEPENDIENTE INFERIOR -->
     <div class="bottom-card">
         <button class="btn-premium-ads" onclick="navegarAAnunciosPagados()">
-            🚀 Zona en desarrollo 🚀
+            🎁 Ver Oportunidades y Premios 🚀
         </button>
     </div>
 
     <!-- 🛠️ INTERFAZ DEL MODAL DE AUTOGESTIÓN DE ANUNCIOS MULTIMEDIA -->
     <div id="modal-publicidad" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-title">Promociona tu proyecto</div>
+            <div class="modal-title">Promociona tu Memecoin</div>
             <div class="modal-desc">Sube tu banner gráfico o texto de forma automática. Tráfico directo de más de 200
                 humanos verificados.</div>
 
             <div class="form-group">
-                <label class="form-label">Enlace de tu Proyecto (World/Telegram/X)</label>
-                <input type="url" id="ad-url-destino" class="form-input" placeholder="https://" required>
+                <label class="form-label">Enlace de tu Proyecto (Telegram/X)</label>
+                <input type="url" id="ad-url-destino" class="form-input" placeholder="https://t.me" required>
             </div>
 
             <div class="form-group">
@@ -103,7 +103,7 @@
         </div>
     </div>
 
-    <!-- Enlace a la lógica lógica de programación al final del renderizado -->
+    <!-- Enlace explícito a la lógica de programación al final de la carga -->
     <script src="assets/app.js"></script>
 </body>
 
