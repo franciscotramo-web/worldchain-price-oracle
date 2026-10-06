@@ -83,7 +83,7 @@ const procesarPagoAnuncioAutonomo = async () => {
 
             try {
                 // Despachamos el árbol de datos completo a tu endpoint de Vercel
-                const respuestaServidor = await fetch('https://vercel.app', {
+                const respuestaServidor = await fetch('https://worldchain-price-oracle.vercel.app/api/verificar-pago', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -117,7 +117,7 @@ const procesarPagoAnuncioAutonomo = async () => {
 // =================================================================
 const refrescarPrecioDesdeBackend = async () => {
     try {
-        const respuesta = await fetch('https://vercel.app');
+        const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
 
         if (!respuesta.ok) {
             throw new Error(`HTTP Error ${respuesta.status}`);
