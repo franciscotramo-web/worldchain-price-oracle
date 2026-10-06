@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="es">
 
@@ -39,11 +40,6 @@
             margin-top: clamp(40px, 8vh, 80px);
             margin-bottom: clamp(40px, 6vh, 60px);
             text-align: center;
-        }
-
-        .sponsor-box a {
-            text-decoration: none;
-            display: block;
         }
 
         .sponsor-btn {
@@ -115,17 +111,9 @@
             width: 100%;
             cursor: pointer;
             box-sizing: border-box;
-            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: all 0.2s ease;
             letter-spacing: 0.6px;
             text-transform: uppercase;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-premium-ads:hover {
-            border-color: var(--brand-blue);
-            background: linear-gradient(135deg, rgba(88, 166, 255, 0.22), rgba(88, 166, 255, 0.08));
-            box-shadow: 0 0 14px rgba(88, 166, 255, 0.25);
-            transform: translateY(-1px);
         }
 
         h1 {
@@ -152,14 +140,12 @@
             font-variant-numeric: tabular-nums;
             letter-spacing: -1px;
             text-shadow: 0 0 10px rgba(240, 246, 252, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .tendencia-flecha {
             font-size: 2.2rem;
             font-weight: bold;
             color: var(--text-secondary);
-            transition: all 0.4s ease;
             display: inline-block;
         }
 
@@ -209,7 +195,6 @@
 
         .range-divider {
             color: rgba(255, 255, 255, 0.15);
-            font-weight: 400;
         }
 
         .ad-box {
@@ -220,6 +205,139 @@
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        /* 🛠️ ESTILOS SENIOR DEL MODAL INTERACTIVO DE AUTOGESTIÓN */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: #161b22;
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            padding: 30px 24px;
+            width: 90%;
+            max-width: 350px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+            box-sizing: border-box;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: var(--text-primary);
+        }
+
+        .modal-desc {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            background-color: #0d1117;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--brand-blue);
+            outline: none;
+        }
+
+        .price-badge {
+            background-color: rgba(57, 211, 83, 0.1);
+            border: 1px solid rgba(57, 211, 83, 0.3);
+            color: var(--brand-green);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            flex: 1;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
+        }
+
+        .btn-pay {
+            background: linear-gradient(135deg, #2ea44f, #22863a);
+            border: none;
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            flex: 1;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(34, 134, 58, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .btn-pay:hover {
+            transform: translateY(-1px);
         }
 
         @keyframes cardGlowPulse {
@@ -243,10 +361,10 @@
 
 <body>
 
-    <!-- 📢 CARTEL DE AUSPICIO PREMIUM -->
+    <!-- 📢 CARTEL DE AUSPICIO PREMIUM (Se actualizará dinámicamente con la base de datos) -->
     <div class="sponsor-box">
-        <a href="https://t.me/+K3X3kajhpa04YTAx" target="_blank">
-            <div class="sponsor-btn">
+        <a id="sponsor-link" href="https://t.me/+K3X3kajhpa04YTAx" target="_blank">
+            <div id="sponsor-text" class="sponsor-btn">
                 📢 Publicita tu Proyecto aquí (Cobro diario) 🚀
             </div>
         </a>
@@ -256,7 +374,6 @@
     <div class="container" id="app-card">
         <h1 id="app-title">Oráculo Wld On-Chain by Organic Labs</h1>
 
-        <!-- Bloque Simétrico: Precio e Indicador Visual de Tendencia -->
         <div class="price-wrapper">
             <div id="precio-live" class="precio">--.--</div>
             <span id="tendencia-flecha" class="tendencia-flecha">➔</span>
@@ -264,7 +381,7 @@
 
         <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
 
-        <!-- 📊 OBJETO MIN/MAX CENTRALIZADO: Datos fidedignos y unificados desde el Servidor -->
+        <!-- 📊 OBJETO MIN/MAX CENTRALIZADO -->
         <div class="range-wrapper">
             <div class="range-label">Min / Max 12H (Global)</div>
             <div class="range-values">
@@ -290,7 +407,49 @@
             🚀 Proximamente novedades 🚀
         </button>
     </div>
+    <!-- 🛠️ PARTE 2: ESQUELETO HTML DE LA PASARELA DE ANUNCIOS (VENTANA EMERGENTE) -->
+    <div id="modal-publicidad" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title">Promociona tu Proyecto</div>
+            <div class="modal-desc">Sube tu banner de forma automática. Tráfico directo de más de 200 humanos
+                verificados.</div>
 
+            <!-- Formulario de Autogestión -->
+            <div class="form-group">
+                <label class="form-label">Enlace de tu Proyecto (Telegram/X)</label>
+                <input type="url" id="ad-url-destino" class="form-input" placeholder="https://t.me/+K3X3kajhpa04YTAx"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Texto del Cartel Superior (Máx 45 caract.)</label>
+                <input type="text" id="ad-texto-banner" class="form-input"
+                    placeholder="🚀 COMPRA $ORGANIC AHORA EN UNISWAP! 💎" maxlength="45" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Duración de la Campaña</label>
+                <select id="ad-duracion" class="form-select" onchange="calcularTarifaPublicitaria()">
+                    <option value="1">Plan Básico: 1 Día (24h) — $1.50 USDC</option>
+                    <option value="7">Plan Semanario: 7 Días — $7.00 USDC</option>
+                    <option value="14">Plan Quincenal: 14 Días — $12.00 USDC</option>
+                </select>
+            </div>
+
+            <!-- Visualizador de Precio Elástico -->
+            <div class="price-badge">
+                <span>Total a pagar:</span>
+                <span id="ad-total-pagar">$1.50 USDC</span>
+            </div>
+
+            <!-- Botonera de Control -->
+            <div class="btn-group">
+                <button class="btn-cancel" onclick="cerrarPasarelaPublicitaria()">Cancelar</button>
+                <button class="btn-pay" onclick="procesarPagoAnuncioAutonomo()">Pagar en Wallet</button>
+            </div>
+        </div>
+    </div>
+    <!-- 🛠️ PARTE 3: LÓGICA JAVASCRIPT Y CONTROLADORES DE EVENTOS DEL MODAL -->
     <script>
         const precioElemento = document.getElementById('precio-live');
         const relojElemento = document.getElementById('clock-live');
@@ -299,6 +458,10 @@
 
         const minimoElemento = document.getElementById('precio-minimo');
         const maximoElemento = document.getElementById('precio-maximo');
+
+        // Referencias exclusivas de la pasarela autónoma de anuncios
+        const modalAnuncio = document.getElementById('modal-publicidad');
+        const totalPagarElemento = document.getElementById('ad-total-pagar');
 
         let precioAnteriorBlockchain = null;
 
@@ -309,14 +472,14 @@
                 sincronizando: "📡 Sincronizando con el servidor en la nube...",
                 verificado: "✅ Bloque verificado a las ",
                 error: "Falla de enlace con la API REST.",
-                alertaBoton: "🤖 Lógica de navegación detectada. Próximamente se integrará el segundo tablero."
+                alertaBoton: "🤖 Lógica de navegación de premios detectada. Próximamente activo."
             },
             en: {
                 titulo: "Wld On-Chain Oracle by Organic Labs",
                 sincronizando: "📡 Syncing with cloud server...",
                 verificado: "✅ Block verified at ",
                 error: "API REST connection failed.",
-                alertaBoton: "🤖 Navigation logic triggered. Second board coming soon."
+                alertaBoton: "🤖 Rewards navigation logic triggered. Coming soon."
             }
         };
 
@@ -327,9 +490,79 @@
         tituloElemento.innerText = lang.titulo;
         relojElemento.innerText = lang.sincronizando;
 
+        // 🛠️ CONTROLADORES VISUALES DE LA PASARELA INTERACTIVA
+        const abrirPasarelaPublicitaria = () => {
+            modalAnuncio.style.display = 'flex';
+            setTimeout(() => { modalAnuncio.style.opacity = '1'; }, 10);
+            const contenido = modalAnuncio.querySelector('.modal-content');
+            contenido.style.transform = 'scale(1)';
+        };
+
+        const cerrarPasarelaPublicitaria = () => {
+            modalAnuncio.style.opacity = '0';
+            const contenido = modalAnuncio.querySelector('.modal-content');
+            contenido.style.transform = 'scale(0.9)';
+            setTimeout(() => { modalAnuncio.style.display = 'none'; }, 300);
+        };
+
+        // Escuchamos el clic en el cartel superior para abrir el formulario
+        document.getElementById('sponsor-text').removeAttribute('onclick');
+        document.querySelector('.sponsor-box a').addEventListener('click', (e) => {
+            e.preventDefault(); // Cancelamos la redirección antigua a Telegram
+            abrirPasarelaPublicitaria();
+        });
+
+        // 📈 CÁLCULO ELÁSTICO DE TARIFAS EN TIEMPO REAL
+        const calcularTarifaPublicitaria = () => {
+            const dias = parseInt(document.getElementById('ad-duracion').value);
+            let total = 1.50;
+            if (dias === 7) total = 7.00;
+            if (dias === 14) total = 12.00;
+            totalPagarElemento.innerText = `$${total.toFixed(2)} USDC`;
+        };
+        // =================================================================
+        // 🚀 PASARELA AUTÓNOMA: Integración nativa con la Wallet de World App
+        // =================================================================
+        const procesarPagoAnuncioAutonomo = async () => {
+            const urlDestino = document.getElementById('ad-url-destino').value;
+            const textoBanner = document.getElementById('ad-texto-banner').value;
+            const dias = document.getElementById('ad-duracion').value;
+
+            // Validación estricta de control de calidad frontend (QA)
+            if (!urlDestino || !textoBanner) {
+                alert("❌ Por favor, rellena todos los campos obligatorios antes de continuar.");
+                return;
+            }
+
+            // Calculamos la tarifa elástica para el Deep Link
+            let costoUSDC = 1.50;
+            if (dias === "7") costoUSDC = 7.00;
+            if (dias === "14") costoUSDC = 12.00;
+
+            // ⚠️ MODIFICACIÓN COMPULSORIA: Cambia esta wallet por tu dirección pública real de Ethereum / World Chain (0x...)
+            const MI_BILLETERA_RECEPTORA_REAL = "0x526376e1e12a0e46ce021D8069d82DAc14413dB0";
+
+            // Dirección del contrato inteligente oficial de la Stablecoin USDC en World Chain
+            const CONTRACT_USDC_WORLD_CHAIN = "0x79A02482A880b0755F0a57d62059345205567346";
+
+            // Construcción del Deep Link nativo estricto para transacciones ERC-20 dentro de la World App:
+            // Al procesarse, abrirá el flujo seguro de aprobación de fondos nativo en el celular del cliente.
+            const deepLinkPagoWorldApp = `ethereum:${CONTRACT_USDC_WORLD_CHAIN}/transfer?address=${MI_BILLETERA_RECEPTORA_REAL}&uint256=${costoUSDC * 1000000}`;
+
+            console.log("📡 Despachando orden de cobro autónoma hacia la World App...");
+
+            // Ordenamos al WebView ejecutar la transacción criptográfica de forma segura
+            window.open(deepLinkPagoWorldApp, '_blank');
+
+            // Cerramos el modal de forma elegante tras gatillar la billetera
+            cerrarPasarelaPublicitaria();
+        };
+
+        // =================================================================
+        // 📡 CONSUMO DE DATOS CENTRALIZADOS (Precio spot + Min/Max global)
+        // =================================================================
         const refrescarPrecioDesdeBackend = async () => {
             try {
-                // Solicitud al backend centralizado en Vercel
                 const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
 
                 if (!respuesta.ok) {
@@ -341,11 +574,9 @@
                 if (datos.success) {
                     const precioActual = datos.price;
 
-                    // Pintamos el precio spot en la pantalla principal
                     precioElemento.innerText = `$${precioActual.toFixed(6)}`;
 
-                    // ✅ SOLUCIÓN DE BUG QA: Pintamos el Min/Max centralizado que calculó el Servidor
-                    // Si el servidor envía los datos empaquetados, los fijamos a 4 decimales estables
+                    // Cargamos de forma idéntica las bandas calculadas en el servidor de Supabase
                     if (datos.priceMin12h !== undefined && datos.priceMax12h !== undefined) {
                         minimoElemento.innerText = `$${datos.priceMin12h.toFixed(4)}`;
                         maximoElemento.innerText = `$${datos.priceMax12h.toFixed(4)}`;
@@ -353,7 +584,6 @@
 
                     const flechaElemento = document.getElementById('tendencia-flecha');
 
-                    // Control interactivo de destellos visuales según tendencia
                     if (precioAnteriorBlockchain !== null) {
                         if (precioActual > precioAnteriorBlockchain) {
                             flechaElemento.innerText = "▲";
@@ -390,7 +620,7 @@
         };
 
         const navegarAAnunciosPagados = () => {
-            console.log("🎯 Disparador de eventos activado correctamente.");
+            console.log("🎯 Disparador de eventos de premios activado.");
             alert(lang.alertaBoton);
         };
 
