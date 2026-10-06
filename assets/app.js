@@ -95,23 +95,40 @@ const refrescarPrecioDesdeBackend = async () => {
                 if (maximoElemento) maximoElemento.innerText = `$${datos.priceMax12h.toFixed(4)}`;
             }
 
+            // =================================================================
+            // 📢 RENDERIZADOR MULTIMEDIA INTELIGENTE DE BANNERS (FIX CORREGIDO)
+            // =================================================================
             const imgComponente = document.getElementById('sponsor-image');
             const txtComponente = document.getElementById('sponsor-text');
             const linkComponente = document.getElementById('sponsor-link');
 
             if (imgComponente && txtComponente) {
-                if (datos.adActive && datos.adBannerUrl && datos.adBannerUrl.startsWith('http')) {
+                // Modificación Senior: Validamos estrictamente si el link del servidor es una imagen real (.png, .jpg, http)
+                if (datos.adActive && datos.adBannerUrl && datos.adBannerUrl.startsWith('http') &&
+                    (datos.adBannerUrl.includes('.png') || datos.adBannerUrl.includes('.jpg') || datos.adBannerUrl.includes('.jpeg') || datos.adBannerUrl.includes('postimg') || datos.adBannerUrl.includes('imgur'))) {
+
                     txtComponente.style.display = 'none';
                     imgComponente.src = datos.adBannerUrl;
                     imgComponente.style.display = 'block';
-                    if (linkComponente) linkComponente.href = datos.adTargetUrl;
+                    if (linkComponente && datos.adTargetUrl) linkComponente.href = datos.adTargetUrl;
+
+                } else if (datos.adActive && datos.adText) {
+                    // Si el cliente compró un anuncio de solo texto sin imagen
+                    imgComponente.style.display = 'none';
+                    txtComponente.innerText = datos.adText;
+                    txtComponente.style.display = 'block';
+                    if (linkComponente && datos.adTargetUrl) linkComponente.href = datos.adTargetUrl;
+
                 } else {
+                    // Fallback Oficial Seguro: Si no hay imagen real válida, se muestra tu cartel de arriendo limpio
                     imgComponente.style.display = 'none';
                     txtComponente.innerText = "📢 Publicita tu Proyecto aquí (Cobro diario) 🚀";
                     txtComponente.style.display = 'block';
                     if (linkComponente) linkComponente.href = "#";
                 }
             }
+
+
             if (relojElemento) relojElemento.innerText = `✅ Bloque verificado a las ${new Date(datos.timestamp).toLocaleTimeString()}`;
         }
     } catch (error) {
