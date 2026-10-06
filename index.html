@@ -5,382 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worldcoin Live Feed Mini-App</title>
-    <style>
-        /* 🎨 VARIABLES SOBERBIAS DE DISEÑO PREMIUM TECH */
-        :root {
-            --bg-main: #06090e;
-            --bg-card: rgba(22, 27, 34, 0.7);
-            --border-color: rgba(48, 54, 61, 0.8);
-            --text-primary: #f0f6fc;
-            --text-secondary: #8b949e;
-            --brand-blue: #58a6ff;
-            --brand-green: #39d353;
-            --brand-red: #f85149;
-            --glow-color: rgba(88, 166, 255, 0.15);
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        /* 📢 CONTENEDOR MULTIMEDIA SUPERIOR OPTIMIZADO */
-        .sponsor-box {
-            width: 100%;
-            max-width: 340px;
-            margin-top: clamp(40px, 8vh, 80px);
-            margin-bottom: clamp(30px, 5vh, 50px);
-            text-align: center;
-        }
-
-        .sponsor-box a {
-            text-decoration: none !important;
-            display: block;
-        }
-
-        .sponsor-btn {
-            background: linear-gradient(135deg, rgba(31, 41, 61, 0.7), rgba(35, 57, 91, 0.5));
-            border: 1px dashed var(--brand-blue);
-            color: var(--brand-blue);
-            border-radius: 12px;
-            padding: 16px 14px;
-            font-weight: 700;
-            font-size: 0.82rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            box-sizing: border-box;
-            cursor: pointer;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            box-shadow: 0 8px 24px rgba(88, 166, 255, 0.1);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            min-height: 52px;
-        }
-
-        /* Renderizado adaptativo para el banner gráfico de la memecoin */
-        .sponsor-btn img {
-            width: 100%;
-            height: auto;
-            max-height: 60px;
-            object-fit: contain;
-            border-radius: 6px;
-            display: none;
-        }
-
-        .sponsor-btn:hover {
-            background: linear-gradient(135deg, rgba(31, 41, 61, 0.9), rgba(35, 57, 91, 0.7));
-            border-style: solid;
-            box-shadow: 0 0 20px rgba(88, 166, 255, 0.25);
-            transform: translateY(-1px);
-        }
-
-        /* 🏢 CONTENEDORES PRINCIPALES ESTILO CRISTAL */
-        .container {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 35px 25px;
-            text-align: center;
-            width: 92%;
-            max-width: 340px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-sizing: border-box;
-            animation: cardGlowPulse 4s infinite ease-in-out;
-            transition: all 0.5s ease;
-            margin-bottom: 16px;
-        }
-
-        .bottom-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            width: 92%;
-            max-width: 340px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-            margin-bottom: 40px;
-        }
-
-        h1 {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin: 0 0 25px 0;
-            font-weight: 500;
-        }
-
-        .price-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            margin: 15px 0 25px 0;
-        }
-
-        .precio {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            font-variant-numeric: tabular-nums;
-            letter-spacing: -1px;
-            text-shadow: 0 0 10px rgba(240, 246, 252, 0.1);
-        }
-
-        .tendencia-flecha {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: var(--text-secondary);
-            display: inline-block;
-        }
-
-        .timestamp {
-            font-size: 0.78rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-            letter-spacing: 0.2px;
-        }
-
-        /* 📊 ESTILOS INDICADORES DE RANGO MÓVIL */
-        .range-wrapper {
-            margin-top: 18px;
-            padding: 12px;
-            background-color: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .range-label {
-            font-size: 0.68rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            font-weight: 600;
-        }
-
-        .range-values {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .range-min {
-            color: var(--brand-red);
-        }
-
-        .range-max {
-            color: var(--brand-green);
-        }
-
-        .range-divider {
-            color: rgba(255, 255, 255, 0.15);
-        }
-
-        .btn-premium-ads {
-            background: linear-gradient(135deg, rgba(88, 166, 255, 0.12), rgba(88, 166, 255, 0.04));
-            border: 1px solid rgba(88, 166, 255, 0.35);
-            color: #79b8ff;
-            border-radius: 12px;
-            padding: 14px 20px;
-            font-size: 0.82rem;
-            font-weight: 700;
-            width: 100%;
-            cursor: pointer;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-            letter-spacing: 0.6px;
-            text-transform: uppercase;
-        }
-
-        .ad-box {
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(48, 54, 61, 0.4);
-            min-height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        @keyframes cardGlowPulse {
-            0% {
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color);
-                border-color: var(--border-color);
-            }
-
-            50% {
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(88, 166, 255, 0.3);
-                border-color: rgba(88, 166, 255, 0.4);
-            }
-
-            100% {
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color);
-                border-color: var(--border-color);
-            }
-        }
-    </style>
-    /* 🛠️ ESTILOS DEL MODAL INTERACTIVO DE AUTOGESTIÓN PUBLICITARIA */
-    .modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    }
-
-    .modal-content {
-    background-color: #161b22;
-    border: 1px solid var(--border-color);
-    border-radius: 28px;
-    padding: 30px 24px;
-    width: 90%;
-    max-width: 350px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-    box-sizing: border-box;
-    transform: scale(0.9);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .modal-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin: 0 0 10px 0;
-    color: var(--text-primary);
-    }
-
-    .modal-desc {
-    font-size: 0.78rem;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-    line-height: 1.4;
-    }
-
-    .form-group {
-    margin-bottom: 16px;
-    text-align: left;
-    }
-
-    .form-label {
-    display: block;
-    font-size: 0.72rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
-    font-weight: 600;
-    }
-
-    .form-input, .form-select {
-    width: 100%;
-    background-color: #0d1117;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 12px;
-    color: var(--text-primary);
-    font-size: 0.85rem;
-    box-sizing: border-box;
-    transition: border-color 0.2s ease;
-    }
-
-    .form-input:focus, .form-select:focus {
-    border-color: var(--brand-blue);
-    outline: none;
-    }
-
-    .price-badge {
-    background-color: rgba(57, 211, 83, 0.1);
-    border: 1px solid rgba(57, 211, 83, 0.3);
-    color: var(--brand-green);
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    }
-
-    .btn-group {
-    display: flex;
-    gap: 10px;
-    }
-
-    .btn-cancel {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    border-radius: 12px;
-    padding: 14px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    flex: 1;
-    cursor: pointer;
-    transition: background 0.2s;
-    }
-
-    .btn-cancel:hover { background: rgba(255, 255, 255, 0.03); color: var(--text-primary); }
-
-    .btn-pay {
-    background: linear-gradient(135deg, #2ea44f, #22863a);
-    border: none;
-    color: #ffffff;
-    border-radius: 12px;
-    padding: 14px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    flex: 1;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(34, 134, 58, 0.3);
-    transition: transform 0.2s;
-    }
-
-    .btn-pay:hover { transform: translateY(-1px); }
-    </style>
+    <!-- Enlace al archivo de diseño centralizado -->
+    <link rel="stylesheet" href="asset/style.css">
 </head>
 
 <body>
 
-    <!-- 📢 CARTEL DE AUSPICIO MULTIMEDIA PREMIUM (FIX DE INTERFERENCIA AZUL APLICADO) -->
+    <!-- 📢 CARTEL DE AUSPICIO MULTIMEDIA PREMIUM (CONEXIÓN CENTRALIZADA) -->
     <div class="sponsor-box">
-        <a id="sponsor-link" href="https://t.me/+K3X3kajhpa04YTAx" target="_blank"
-            style="text-decoration: none !important;">
+        <a id="sponsor-link" href="https://t.me" target="_blank">
             <div id="sponsor-container" class="sponsor-btn">
-                <!-- Capa de Texto por Defecto -->
                 <span id="sponsor-text">📢 Publicita tu Proyecto aquí (Cobro diario) 🚀</span>
-                <!-- Capa Gráfica para las Imágenes Meme (Oculta por defecto) -->
                 <img id="sponsor-image" src="" alt="Banner Publicitario">
             </div>
         </a>
@@ -388,7 +23,7 @@
 
     <!-- 🏢 CONTENEDOR 1: TARJETA EXCLUSIVA DEL ORÁCULO FINANCIERO -->
     <div class="container" id="app-card">
-        <h1 id="app-title">Oráculo Wld On-Chain by Organic Labs</h1>
+        <h1>Oráculo Wld On-Chain by Organic Labs</h1>
 
         <div class="price-wrapper">
             <div id="precio-live" class="precio">--.--</div>
@@ -397,7 +32,7 @@
 
         <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
 
-        <!-- 📊 OBJETO MIN/MAX CENTRALIZADO DESDE EL SERVIDOR -->
+        <!-- 📊 OBJETO MIN/MAX DIARIO GLOBAL -->
         <div class="range-wrapper">
             <div class="range-label">Min / Max 12H (Global)</div>
             <div class="range-values">
@@ -416,17 +51,18 @@
             </div>
         </div>
     </div>
+
     <!-- 🏢 CONTENEDOR 2: PANEL INDEPENDIENTE INFERIOR -->
     <div class="bottom-card">
         <button class="btn-premium-ads" onclick="navegarAAnunciosPagados()">
-            🚀 Area en desarrollo 🚀
+            🚀 Zona en desarrollo 🚀
         </button>
     </div>
 
-    <!-- 🛠️ INTERFAZ DEL MODAL INTEGRADO CON SOPORTE DE IMÁGENES MEME -->
+    <!-- 🛠️ INTERFAZ DEL MODAL DE AUTOGESTIÓN DE ANUNCIOS MULTIMEDIA -->
     <div id="modal-publicidad" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-title">Promociona tu Memecoin</div>
+            <div class="modal-title">Promociona tu proyecto</div>
             <div class="modal-desc">Sube tu banner gráfico o texto de forma automática. Tráfico directo de más de 200
                 humanos verificados.</div>
 
@@ -435,7 +71,6 @@
                 <input type="url" id="ad-url-destino" class="form-input" placeholder="https://t.me" required>
             </div>
 
-            <!-- ✅ CASILLERO MULTIMEDIA: Captura el enlace directo de la imagen meme -->
             <div class="form-group">
                 <label class="form-label">URL de tu Imagen / Banner (Opcional)</label>
                 <input type="url" id="ad-url-banner-img" class="form-input" placeholder="https://postimg.cc">
@@ -467,194 +102,9 @@
             </div>
         </div>
     </div>
-    <!-- 🛠️ PARTE 8: MANEJADORES DE INTERFAZ Y LOGICA DE NAVEGACIÓN -->
-    <script>
-        const precioElemento = document.getElementById('precio-live');
-        const relojElemento = document.getElementById('clock-live');
-        const tituloElemento = document.getElementById('app-title');
-        const tarjetaElemento = document.getElementById('app-card');
 
-        const minimoElemento = document.getElementById('precio-minimo');
-        const maximoElemento = document.getElementById('precio-maximo');
-
-        // Referencias exclusivas de la pasarela interactiva de anuncios
-        const modalAnuncio = document.getElementById('modal-publicidad');
-        const totalPagarElemento = document.getElementById('ad-total-pagar');
-
-        let precioAnteriorBlockchain = null;
-
-        // DICCIONARIO INTERNACIONAL DE TRADUCCIONES (Estándar de Producción)
-        const traducciones = {
-            es: {
-                titulo: "Oráculo Wld On-Chain by Organic Labs",
-                sincronizando: "📡 Sincronizando con el servidor en la nube...",
-                verificado: "✅ Bloque verificado a las ",
-                error: "Falla de enlace con la API REST.",
-                alertaBoton: "🤖 Lógica de navegación de premios detectada. Próximamente activo."
-            },
-            en: {
-                titulo: "Wld On-Chain Oracle by Organic Labs",
-                sincronizando: "📡 Syncing with cloud server...",
-                verificado: "✅ Block verified at ",
-                error: "API REST connection failed.",
-                alertaBoton: "Rewards navigation logic triggered. Coming soon."
-            }
-        };
-
-        const sistemaIdioma = navigator.language || navigator.userLanguage;
-        const idiomaActivo = sistemaIdioma.startsWith('es') ? 'es' : 'en';
-        const lang = traducciones[idiomaActivo];
-
-        tituloElemento.innerText = lang.titulo;
-        relojElemento.innerText = lang.sincronizando;
-
-        // CONTROLADORES INTERACTIVOS VISUALES DEL MODAL
-        const abrirPasarelaPublicitaria = () => {
-            modalAnuncio.style.display = 'flex';
-            setTimeout(() => { modalAnuncio.style.opacity = '1'; }, 10);
-            const contenido = modalAnuncio.querySelector('.modal-content');
-            contenido.style.transform = 'scale(1)';
-        };
-
-        const cerrarPasarelaPublicitaria = () => {
-            modalAnuncio.style.opacity = '0';
-            const contenido = modalAnuncio.querySelector('.modal-content');
-            contenido.style.transform = 'scale(0.9)';
-            setTimeout(() => { modalAnuncio.style.display = 'none'; }, 300);
-        };
-
-        // Escuchamos el clic en el banner superior para abrir el formulario interactivo
-        document.getElementById('sponsor-link').addEventListener('click', (e) => {
-            e.preventDefault(); // Cancela la redirección nativa
-            abrirPasarelaPublicitaria();
-        });
-
-        // CÁLCULO ELÁSTICO AUTOMÁTICO DE TARIFAS
-        const calcularTarifaPublicitaria = () => {
-            const dias = parseInt(document.getElementById('ad-duracion').value);
-            let total = 1.50;
-            if (dias === 7) total = 7.00;
-            if (dias === 14) total = 12.00;
-            totalPagarElemento.innerText = `$${total.toFixed(2)} USDC`;
-        };
-        // =================================================================
-        // 🚀 PASARELA AUTÓNOMA: Enlace profundo (Deep Link) con la World App
-        // =================================================================
-        const procesarPagoAnuncioAutonomo = async () => {
-            const urlDestino = document.getElementById('ad-url-destino').value;
-            const urlBannerImg = document.getElementById('ad-url-banner-img').value;
-            const textoBanner = document.getElementById('ad-texto-banner').value;
-            const dias = document.getElementById('ad-duracion').value;
-
-            // Validación estricta de control de calidad (QA)
-            if (!urlDestino || (!urlBannerImg && !textoBanner)) {
-                alert("❌ Por favor, rellena el enlace del proyecto y al menos un método publicitario (Imagen o Texto).");
-                return;
-            }
-
-            let costoUSDC = 1.50;
-            if (dias === "7") costoUSDC = 7.00;
-            if (dias === "14") costoUSDC = 12.00;
-
-            // ⚠️ MODIFICACIÓN COMPULSORIA: Reemplaza con tu llave pública real (0x...) de World Chain
-            const MI_BILLETERA_RECEPTORA_REAL = "0x526376e1e12a0e46ce021D8069d82DAc14413dB0";
-            const CONTRACT_USDC_WORLD_CHAIN = "0x79A02482A880b0755F0a57d62059345205567346";
-
-            // Gatillo criptográfico nativo para transferir tokens ERC-20 mediante la billetera del celular
-            const deepLinkPagoWorldApp = `ethereum:${CONTRACT_USDC_WORLD_CHAIN}/transfer?address=${MI_BILLETERA_RECEPTORA_REAL}&uint256=${costoUSDC * 1000000}`;
-
-            console.log("📡 Despachando orden de cobro multimedia hacia la World App...");
-            window.open(deepLinkPagoWorldApp, '_blank');
-            cerrarPasarelaPublicitaria();
-        };
-
-        // =================================================================
-        // 📡 CONSUMO DE DATOS CENTRALIZADOS: Renderizado adaptativo de Banners
-        // =================================================================
-        const refrescarPrecioDesdeBackend = async () => {
-            try {
-                const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
-
-                if (!respuesta.ok) {
-                    throw new Error(`HTTP Error ${respuesta.status}`);
-                }
-
-                const datos = await respuesta.json();
-
-                if (datos.success) {
-                    const precioActual = datos.price;
-                    precioElemento.innerText = `$${precioActual.toFixed(6)}`;
-
-                    // Sincronización idéntica de bandas de trading globales
-                    if (datos.priceMin12h !== undefined && datos.priceMax12h !== undefined) {
-                        minimoElemento.innerText = `$${datos.priceMin12h.toFixed(4)}`;
-                        maximoElemento.innerText = `$${datos.priceMax12h.toFixed(4)}`;
-                    }
-
-                    // 🛠️ INTEGRACIÓN MULTIMEDIA ADAPTATIVA (Renderizador de imágenes meme)
-                    const imgComponente = document.getElementById('sponsor-image');
-                    const txtComponente = document.getElementById('sponsor-text');
-                    const linkComponente = document.getElementById('sponsor-link');
-
-                    // Si el servidor despacha un anuncio activo con URL de imagen válida
-                    if (datos.adActive && datos.adBannerUrl && datos.adBannerUrl.startsWith('http')) {
-                        txtComponente.style.display = 'none'; // Apagamos el texto
-                        imgComponente.src = datos.adBannerUrl; // Inyectamos la URL de la foto meme
-                        imgComponente.style.display = 'block'; // Mostramos la imagen de forma limpia
-                        if (datos.adTargetUrl) linkComponente.href = datos.adTargetUrl;
-                    } else if (datos.adActive && datos.adText) {
-                        // Si es un anuncio de solo texto comprado por un cliente
-                        imgComponente.style.display = 'none';
-                        txtComponente.innerText = datos.adText;
-                        txtComponente.style.display = 'block';
-                        if (datos.adTargetUrl) linkComponente.href = datos.adTargetUrl;
-                    } else {
-                        // Fallback por defecto (Tu propio cartel de soporte institucional limpio)
-                        imgComponente.style.display = 'none';
-                        txtComponente.innerText = "📢 Publicita tu Proyecto aquí (Cobro diario) 🚀";
-                        txtComponente.style.display = 'block';
-                        linkComponente.href = "https://t.me";
-                    }
-
-                    const flechaElemento = document.getElementById('tendencia-flecha');
-                    if (precioAnteriorBlockchain !== null) {
-                        if (precioActual > precioAnteriorBlockchain) {
-                            flechaElemento.innerText = "▲";
-                            flechaElemento.style.color = 'var(--brand-green)';
-                            precioElemento.style.color = 'var(--brand-green)';
-                            precioElemento.style.textShadow = '0 0 15px rgba(57, 211, 83, 0.6)';
-                            tarjetaElemento.style.setProperty('--glow-color', 'rgba(57, 211, 83, 0.25)');
-                        } else if (precioActual < precioAnteriorBlockchain) {
-                            flechaElemento.innerText = "▼";
-                            flechaElemento.style.color = 'var(--brand-red)';
-                            precioElemento.style.color = 'var(--brand-red)';
-                            precioElemento.style.textShadow = '0 0 15px rgba(248, 81, 73, 0.6)';
-                            tarjetaElemento.style.setProperty('--glow-color', 'rgba(248, 81, 73, 0.25)');
-                        } else {
-                            precioElemento.style.color = 'var(--text-primary)';
-                            precioElemento.style.textShadow = '0 0 10px rgba(240, 246, 252, 0.1)';
-                        }
-                    }
-
-                    precioAnteriorBlockchain = precioActual;
-
-                    const horaLocal = new Date(datos.timestamp).toLocaleTimeString();
-                    relojElemento.innerText = `${lang.verificado}${horaLocal}`;
-                    relojElemento.style.color = 'var(--text-secondary)';
-                } else {
-                    throw new Error("Estado fallido.");
-                }
-            } catch (error) {
-                precioElemento.innerText = "❌ ERR";
-                precioElemento.style.color = 'var(--brand-red)';
-                relojElemento.innerText = lang.error;
-                relojElemento.style.color = 'var(--brand-red)';
-            }
-        };
-
-        refrescarPrecioDesdeBackend();
-        setInterval(refrescarPrecioDesdeBackend, 5000);
-    </script>
+    <!-- Enlace a la lógica lógica de programación al final del renderizado -->
+    <script src="asset/app.js"></script>
 </body>
 
 </html>
