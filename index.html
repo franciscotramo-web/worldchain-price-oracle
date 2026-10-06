@@ -33,7 +33,6 @@
             box-sizing: border-box;
         }
 
-        /* 📢 CARTEL DE SPONSOR SUPERIOR MODERNO - ESPACIO MAXIMIZADO */
         .sponsor-box {
             width: 100%;
             max-width: 340px;
@@ -72,7 +71,6 @@
             transform: translateY(-1px);
         }
 
-        /* 🏢 CONTENEDOR 1: TARJETA EXCLUSIVA DEL ORÁCULO */
         .container {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -90,7 +88,6 @@
             margin-bottom: 16px;
         }
 
-        /* 🏢 CONTENEDOR 2: PANEL INDEPENDIENTE INFERIOR */
         .bottom-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -173,7 +170,6 @@
             letter-spacing: 0.2px;
         }
 
-        /* 📊 ESTILOS INDICADORES VENTANA DE 12 HORAS (MANTIENE LA SOBRIEDAD SENIOR) */
         .range-wrapper {
             margin-top: 18px;
             padding: 12px;
@@ -268,9 +264,9 @@
 
         <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
 
-        <!-- 📊 INYECCIÓN DE CAPA TRADING: Objeto Min/Max de ventana rodante de 12 horas -->
+        <!-- 📊 OBJETO MIN/MAX CENTRALIZADO: Datos fidedignos y unificados desde el Servidor -->
         <div class="range-wrapper">
-            <div class="range-label">Min / Max 12H (Móvil)</div>
+            <div class="range-label">Min / Max 12H (Global)</div>
             <div class="range-values">
                 <span id="precio-minimo" class="range-min">--.--</span>
                 <span class="range-divider">|</span>
@@ -291,7 +287,7 @@
     <!-- 🏢 CONTENEDOR 2: PANEL INDEPENDIENTE INFERIOR -->
     <div class="bottom-card">
         <button class="btn-premium-ads" onclick="navegarAAnunciosPagados()">
-            🚀 Proximamente novedades 🚀
+            🎁 Ver Oportunidades y Premios 🚀
         </button>
     </div>
 
@@ -313,14 +309,14 @@
                 sincronizando: "📡 Sincronizando con el servidor en la nube...",
                 verificado: "✅ Bloque verificado a las ",
                 error: "Falla de enlace con la API REST.",
-                alertaBoton: "🤖 Lógica de navegación detectada. Próximamente se integrará el segundo tablero."
+                alertaBoton: "🤖 Lógica de navegación detectada. Próximamente se integrará el segundo tablero de monetización premium."
             },
             en: {
                 titulo: "Wld On-Chain Oracle by Organic Labs",
                 sincronizando: "📡 Syncing with cloud server...",
                 verificado: "✅ Block verified at ",
                 error: "API REST connection failed.",
-                alertaBoton: "🤖 Navigation logic triggered. Second board coming soon."
+                alertaBoton: "🤖 Navigation logic triggered. Second premium monetization board coming soon."
             }
         };
 
@@ -331,39 +327,9 @@
         tituloElemento.innerText = lang.titulo;
         relojElemento.innerText = lang.sincronizando;
 
-        // 🛠️ ALGORITMO SENIOR: Gestión analítica de ventana de tiempo rodante de 12 horas
-        const procesarMétricasVentanaRodante = (precioActual) => {
-            const h12EnMilisegundos = 12 * 60 * 60 * 1000; // Constante de tiempo para la depuración
-            const marcaTiempoActual = Date.now();
-
-            // Extraemos el historial persistente guardado en el teléfono celular del usuario
-            let historialPrecios = JSON.parse(localStorage.getItem('wld_price_history')) || [];
-
-            // Añadimos el latido de mercado fresco que acaba de llegar de Vercel
-            historialPrecios.push({ precio: precioActual, time: marcaTiempoActual });
-
-            // FILTRO DE CONTROL DE CALIDAD: Barremos y eliminamos cualquier registro que tenga más de 12 horas de antigüedad
-            historialPrecios = historialPrecios.filter(registro => (marcaTiempoActual - registro.time) < h12EnMilisegundos);
-
-            // Guardamos el árbol de datos limpio de vuelta en la memoria del celular
-            localStorage.setItem('wld_price_history', JSON.stringify(historialPrecios));
-
-            // Calculamos el piso y el techo exactos barriendo el arreglo depurado
-            let minimoCalculado = historialPrecios[0].precio;
-            let maximoCalculado = historialPrecios[0].precio;
-
-            for (let i = 1; i < historialPrecios.length; i++) {
-                if (historialPrecios[i].precio < minimoCalculado) minimoCalculado = historialPrecios[i].precio;
-                if (historialPrecios[i].precio > maximoCalculado) maximoCalculado = historialPrecios[i].precio;
-            }
-
-            // Inyectamos las métricas a 4 decimales de forma elástica en la interfaz
-            minimoElemento.innerText = `$${minimoCalculado.toFixed(4)}`;
-            maximoElemento.innerText = `$${maximoCalculado.toFixed(4)}`;
-        };
-
         const refrescarPrecioDesdeBackend = async () => {
             try {
+                // Solicitud al backend centralizado en Vercel
                 const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
 
                 if (!respuesta.ok) {
@@ -375,10 +341,15 @@
                 if (datos.success) {
                     const precioActual = datos.price;
 
+                    // Pintamos el precio spot en la pantalla principal
                     precioElemento.innerText = `$${precioActual.toFixed(6)}`;
 
-                    // Despachamos el precio para el cálculo de la ventana de 12 horas
-                    procesarMétricasVentanaRodante(precioActual);
+                    // ✅ SOLUCIÓN DE BUG QA: Pintamos el Min/Max centralizado que calculó el Servidor
+                    // Si el servidor envía los datos empaquetados, los fijamos a 4 decimales estables
+                    if (datos.priceMin12h !== undefined && datos.priceMax12h !== undefined) {
+                        minimoElemento.innerText = `$${datos.priceMin12h.toFixed(4)}`;
+                        maximoElemento.innerText = `$${datos.priceMax12h.toFixed(4)}`;
+                    }
 
                     const flechaElemento = document.getElementById('tendencia-flecha');
 
