@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worldcoin Live Feed Mini-App</title>
-    <!-- Enlace explícito a la capa de diseño centralizada -->
     <link rel="stylesheet" href="assets/style.css">
 </head>
 
@@ -42,20 +41,19 @@
             </div>
         </div>
 
-        <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (ORIGEN TÉCNICO A-ADS INTEGRADO) -->
+        <!-- 🎯 ESPACIO DE PUBLICIDAD PAGADA (A-ADS INTEGRADO) -->
         <div class="ad-box">
-            <div id="frame"
-                style="width: 100%; margin: auto; position: relative; z-index: 99998; display: flex; justify-content: center;">
-                <iframe data-aa='2457498' src='https://acceptable.a-ads.com/2457498/?'
-                    style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
+            <div style="width: 100%; margin: auto; display: flex; justify-content: center;">
+                <iframe src="https://acceptable.a-ads.com/2457498/?"
+                    style="border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;"></iframe>
             </div>
         </div>
     </div>
 
-    <!-- 🏢 CONTENEDOR 2: PANEL INDEPENDIENTE INFERIOR -->
+    <!-- 🏢 CONTENEDOR 2: PANEL INFERIOR ADAPTADO -->
     <div class="bottom-card">
-        <button class="btn-premium-ads" onclick="navegarAAnunciosPagados()">
-            🚀 Zona en construcción 🚀
+        <button id="btn-comprar-anuncio" class="btn-premium-ads">
+            🚀 Espacio en construcción 🚀
         </button>
     </div>
 
@@ -77,14 +75,14 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">Texto Alternativo (Si no usas imagen - Máx 45 caract.)</label>
+                <label class="form-label">Texto Alternativo (Si no usas imagen)</label>
                 <input type="text" id="ad-texto-banner" class="form-input" placeholder="🚀 COMPRA $ORGANIC AHORA! 💎"
                     maxlength="45">
             </div>
 
             <div class="form-group">
                 <label class="form-label">Duración de la Campaña</label>
-                <select id="ad-duracion" class="form-select" onchange="calcularTarifaPublicitaria()">
+                <select id="ad-duracion" class="form-select">
                     <option value="1">Plan Básico: 1 Día (24h) — $1.50 USDC</option>
                     <option value="7">Plan Semanario: 7 Días — $7.00 USDC</option>
                     <option value="14">Plan Quincenal: 14 Días — $12.00 USDC</option>
@@ -97,13 +95,12 @@
             </div>
 
             <div class="btn-group">
-                <button class="btn-cancel" onclick="cerrarPasarelaPublicitaria()">Cancelar</button>
-                <button class="btn-pay" onclick="procesarPagoAnuncioAutonomo()">Pagar en Wallet</button>
+                <button class="btn-cancel" id="btn-cerrar-modal">Cancelar</button>
+                <button class="btn-pay" id="btn-pagar-wallet">Pagar en Wallet</button>
             </div>
         </div>
     </div>
 
-    <!-- Enlace explícito a la lógica de programación al final de la carga -->
     <script src="assets/app.js"></script>
 </body>
 
