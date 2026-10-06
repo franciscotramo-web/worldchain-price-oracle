@@ -7,7 +7,6 @@ const relojElemento = document.getElementById('clock-live');
 const minimoElemento = document.getElementById('precio-minimo');
 const maximoElemento = document.getElementById('precio-maximo');
 
-// Referencias exclusivas de la pasarela interactiva de anuncios
 const modalAnuncio = document.getElementById('modal-publicidad');
 const totalPagarElemento = document.getElementById('ad-total-pagar');
 
@@ -28,13 +27,11 @@ const cerrarPasarelaPublicitaria = () => {
     setTimeout(() => { modalAnuncio.style.display = 'none'; }, 300);
 };
 
-// Escuchamos el clic en el banner superior para abrir el formulario interactivo
 document.getElementById('sponsor-link').addEventListener('click', (e) => {
     e.preventDefault();
     abrirPasarelaPublicitaria();
 });
 
-// CÁLCULO ELÁSTICO AUTOMÁTICO DE TARIFAS PUBLICITARIAS
 const calcularTarifaPublicitaria = () => {
     const dias = parseInt(document.getElementById('ad-duracion').value);
     let total = 1.50;
@@ -44,7 +41,7 @@ const calcularTarifaPublicitaria = () => {
 };
 
 // =================================================================
-// 🚀 PASARELA AUTÓNOMA: Enlace profundo (Deep Link) con la World App
+// 🚀 PASARELA AUTÓNOMA: Integración con la Wallet y Envío de Hash al Backend
 // =================================================================
 const procesarPagoAnuncioAutonomo = async () => {
     const urlDestino = document.getElementById('ad-url-destino').value;
@@ -52,7 +49,6 @@ const procesarPagoAnuncioAutonomo = async () => {
     const textoBanner = document.getElementById('ad-texto-banner').value;
     const dias = document.getElementById('ad-duracion').value;
 
-    // Validación estricta de control de calidad (QA)
     if (!urlDestino || (!urlBannerImg && !textoBanner)) {
         alert("❌ Por favor, rellena el enlace del proyecto y al menos un método publicitario (Imagen o Texto).");
         return;
@@ -62,16 +58,58 @@ const procesarPagoAnuncioAutonomo = async () => {
     if (dias === "7") costoUSDC = 7.00;
     if (dias === "14") costoUSDC = 12.00;
 
-    // ⚠️ REQUERIMIENTO COMPULSORIO: Cambia esta wallet por tu dirección pública real (0x...) de World Chain
-    const MI_BILLETERA_RECEPTORA_REAL = "0x526376e1e12a0e46ce021D8069d82DAc14413dB0";
+    // ⚠️ REQUERIMIENTO COMPULSORIO: Pega exactamente la misma wallet de MetaMask que pusiste en el server.js
+    const MI_BILLETERA_METAMASK_REAL = "0x526376e1e12a0e46ce021D8069d82DAc14413dB0";
     const CONTRACT_USDC_WORLD_CHAIN = "0x79A02482A880b0755F0a57d62059345205567346";
 
-    // Gatillo criptográfico nativo para transferir tokens ERC-20 mediante la billetera del celular
-    const deepLinkPagoWorldApp = `ethereum:${CONTRACT_USDC_WORLD_CHAIN}/transfer?address=${MI_BILLETERA_RECEPTORA_REAL}&uint256=${costoUSDC * 1000000}`;
+    // Gatillo criptográfico nativo para abrir la transacción en el teléfono
+    const deepLinkPagoWorldApp = `ethereum:${CONTRACT_USDC_WORLD_CHAIN}/transfer?address=${MI_BILLETERA_METAMASK_REAL}&uint256=${costoUSDC * 1000000}`;
 
     console.log("📡 Despachando orden de cobro multimedia hacia la World App...");
+
+    // Abrimos el túnel seguro de la wallet para que el usuario pague en caliente
     window.open(deepLinkPagoWorldApp, '_blank');
     cerrarPasarelaPublicitaria();
+
+    // 🔬 SIMULADOR DE CAPTURA DE COMPRA EN ENTREGAS DE QA
+    // Como las billeteras móviles ejecutan las transacciones de forma asíncrona de fondo, 
+    // el formulario le pide al cliente ingresar el Hash de confirmación (TX Hash) entregado por la red.
+    setTimeout(async () => {
+        const hashCliente = prompt("💎 ¡Transacción enviada! Para activar tu banner de inmediato en piloto automático, pega aquí el Hash de la transacción arrojado por tu Wallet:");
+
+        if (hashCliente) {
+            relojElemento.innerText = "⏳ Auditando pago on-chain en el servidor...";
+            relojElemento.style.color = "var(--brand-blue)";
+
+            try {
+                // Despachamos el árbol de datos completo a tu endpoint de Vercel
+                const respuestaServidor = await fetch('https://vercel.app', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        txHash: hashCliente.trim(),
+                        urlDestino: urlDestino.trim(),
+                        urlBannerImg: urlBannerImg ? urlBannerImg.trim() : '',
+                        textoBanner: textoBanner ? textoBanner.trim() : '',
+                        dias: dias
+                    })
+                });
+
+                const respuestaJSON = await respuestaServidor.json();
+
+                if (respuestaJSON.success) {
+                    alert("✅ ¡Éxito absoluto! Tu pago fue verificado en los bloques de World Chain. Tu anuncio está activo a nivel global.");
+                    refrescarPrecioDesdeBackend(); // Refrescamos la UI para pintar el nuevo meme al instante
+                } else {
+                    alert(`❌ Validación Rechazada: ${respuestaJSON.details || respuestaJSON.error}`);
+                    refrescarPrecioDesdeBackend();
+                }
+            } catch (err) {
+                alert("❌ Error de comunicación con el escudo de auditoría: " + err.message);
+                refrescarPrecioDesdeBackend();
+            }
+        }
+    }, 1500);
 };
 
 // =================================================================
@@ -79,7 +117,7 @@ const procesarPagoAnuncioAutonomo = async () => {
 // =================================================================
 const refrescarPrecioDesdeBackend = async () => {
     try {
-        const respuesta = await fetch('https://worldchain-price-oracle.vercel.app/api/precio');
+        const respuesta = await fetch('https://vercel.app');
 
         if (!respuesta.ok) {
             throw new Error(`HTTP Error ${respuesta.status}`);
@@ -91,38 +129,32 @@ const refrescarPrecioDesdeBackend = async () => {
             const precioActual = datos.price;
             precioElemento.innerText = `$${precioActual.toFixed(6)}`;
 
-            // Sincronización idéntica de bandas de trading globales
             if (datos.priceMin12h !== undefined && datos.priceMax12h !== undefined) {
                 minimoElemento.innerText = `$${datos.priceMin12h.toFixed(4)}`;
                 maximoElemento.innerText = `$${datos.priceMax12h.toFixed(4)}`;
             }
 
-            // 🛠️ INTEGRACIÓN MULTIMEDIA ADAPTATIVA (Renderizador de imágenes meme)
             const imgComponente = document.getElementById('sponsor-image');
             const txtComponente = document.getElementById('sponsor-text');
             const linkComponente = document.getElementById('sponsor-link');
 
-            // Si el servidor despacha un anuncio activo con URL de imagen válida
             if (datos.adActive && datos.adBannerUrl && datos.adBannerUrl.startsWith('http')) {
                 txtComponente.style.display = 'none';
                 imgComponente.src = datos.adBannerUrl;
                 imgComponente.style.display = 'block';
                 if (datos.adTargetUrl) linkComponente.href = datos.adTargetUrl;
             } else if (datos.adActive && datos.adText) {
-                // Si es un anuncio de solo texto comprado por un cliente
                 imgComponente.style.display = 'none';
                 txtComponente.innerText = datos.adText;
                 txtComponente.style.display = 'block';
                 if (datos.adTargetUrl) linkComponente.href = datos.adTargetUrl;
             } else {
-                // Fallback por defecto (Tu propio cartel de soporte institucional limpio)
                 imgComponente.style.display = 'none';
                 txtComponente.innerText = "📢 Publicita tu Proyecto aquí (Cobro diario) 🚀";
                 txtComponente.style.display = 'block';
                 linkComponente.href = "https://t.me";
             }
 
-            // CONTROL DINÁMICO DE COLORES E INDICADORES DE TENDENCIA
             const flechaElemento = document.getElementById('tendencia-flecha');
             const tarjetaElemento = document.getElementById('app-card');
 
@@ -162,7 +194,6 @@ const refrescarPrecioDesdeBackend = async () => {
 };
 
 const navegarAAnunciosPagados = () => {
-    console.log("🎯 Disparador de eventos de premios activado.");
     alert("🤖 Lógica de navegación de premios detectada. Próximamente activo.");
 };
 
