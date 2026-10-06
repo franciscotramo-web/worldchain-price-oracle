@@ -44,9 +44,8 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.send("🤖 Backend de Organic Labs operativo en tu dominio de Vercel.");
 });
-
 // =================================================================
-// 🛢️ ROUTER 1: Endpoint estándar optimizado para la consistencia global Min/Max
+// 🛢️ ROUTER 1: Endpoint estándar con soporte para anuncios multimedia
 // =================================================================
 app.get('/api/precio', async (req, res) => {
     const rpcUrl = process.env.WORLD_CHAIN_RPC || "https://worldchain.org";
@@ -63,7 +62,6 @@ app.get('/api/precio', async (req, res) => {
             functionName: 'latestRoundData'
         });
 
-        // 🛠️ FIX DE QA: Extraemos estrictamente la respuesta del índice [1] (El parámetro 'answer' de Chainlink)
         let precioCrudoBigInt;
         if (Array.isArray(resultadoData)) {
             precioCrudoBigInt = resultadoData[1];
@@ -79,17 +77,16 @@ app.get('/api/precio', async (req, res) => {
 
         const precioRealUSD = Number(precioCrudoBigInt) / Math.pow(10, 18);
 
-        // 🔍 LEEMOS LA MEMORIA BASE: Extraemos el precio congelado desde Supabase
-        const { data: registroHistorico, error: errorSupabase } = await supabase
+        // 🔍 LEEMOS LA MEMORIA BASE: Extraemos el precio de referencia de Supabase
+        const { data: registroHistorico } = await supabase
             .from('historico_oraculo')
             .select('precio')
             .order('id', { ascending: false })
             .limit(1)
             .single();
 
-        const precioBase12hAtras = (!errorSupabase && registroHistorico) ? Number(registroHistorico.precio) : precioRealUSD;
+        const precioBase12hAtras = registroHistorico ? Number(registroHistorico.precio) : precioRealUSD;
 
-        // 🛠️ ALGORITMO DE BANDAS DEL MERCADO: Consistencia universal para todas las consultas
         let min12h = precioBase12hAtras;
         let max12h = precioBase12hAtras;
 
@@ -99,12 +96,29 @@ app.get('/api/precio', async (req, res) => {
             max12h = precioRealUSD;
         }
 
+        // =================================================================
+        // 📢 ESCÁNER AUTOMÁTICO DE ANUNCIOS MULTIMEDIA (SUPABASE)
+        // =================================================================
+        // Buscamos el último anuncio contratado que aún no haya expirado
+        const { data: anuncioActivo } = await supabase
+            .from('anuncios_premium')
+            .select('*')
+            .gt('expira_en', new Date().toISOString())
+            .order('id', { ascending: false })
+            .limit(1)
+            .single();
+
         return res.status(200).json({
             success: true,
             symbol: "WLD",
             price: precioRealUSD,
             priceMin12h: min12h,
             priceMax12h: max12h,
+            // Empaquetamos la data publicitaria para el frontend elástico
+            adActive: !!anuncioActivo,
+            adTargetUrl: anuncioActivo ? anuncioActivo.url_destino : null,
+            adBannerUrl: anuncioActivo ? anuncioActivo.url_banner : null,
+            adText: (anuncioActivo && !anuncioActivo.url_banner) ? anuncioActivo.url_banner : null,
             timestamp: new Date().toISOString()
         });
 
@@ -119,7 +133,7 @@ app.get('/api/precio', async (req, res) => {
 });
 
 // =================================================================
-// ⏰ ROUTER 2: Ruta gatillada de forma autónoma por el Cron-Job cada 12 horas
+// ⏰ ROUTER 2: Ruta autónoma del Cron-Job para congelar el pivote
 // =================================================================
 app.get('/api/actualizar-12h', async (req, res) => {
     const rpcUrl = process.env.WORLD_CHAIN_RPC || "https://worldchain.org";
@@ -136,7 +150,6 @@ app.get('/api/actualizar-12h', async (req, res) => {
             functionName: 'latestRoundData'
         });
 
-        // 🛠️ FIX DE QA: Mapeo idéntico para la función autónoma
         let precioCrudoBigInt;
         if (Array.isArray(resultadoData)) {
             precioCrudoBigInt = resultadoData[1];
@@ -148,13 +161,8 @@ app.get('/api/actualizar-12h', async (req, res) => {
 
         const precioFrescoWld = Number(precioCrudoBigInt) / Math.pow(10, 18);
 
-        // 🛠️ CONGELAR HISTORIAL: Limpiamos la tabla en Supabase e insertamos el nuevo pivote de 12 horas
         await supabase.from('historico_oraculo').delete().neq('id', 0);
-        const { error: insertError } = await supabase.from('historico_oraculo').insert([{ precio: precioFrescoWld }]);
-
-        if (insertError) {
-            throw new Error(`Error al insertar en Supabase: ${insertError.message}`);
-        }
+        await supabase.from('historico_oraculo').insert([{ precio: precioFrescoWld }]);
 
         return res.status(200).json({
             success: true,
