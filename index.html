@@ -1,4 +1,3 @@
-html
 <!DOCTYPE html>
 <html lang="es">
 
@@ -7,7 +6,7 @@ html
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worldcoin Live Feed Mini-App</title>
     <style>
-        /* 🎨 ESTILO PREMIUM TECH - SOBRIO, INTERACTIVO Y ENFOQUE COMERCIAL */
+        /* 🎨 VARIABLES SOBERBIAS DE DISEÑO PREMIUM TECH */
         :root {
             --bg-main: #06090e;
             --bg-card: rgba(22, 27, 34, 0.7);
@@ -33,339 +32,337 @@ html
             padding: 20px;
             box-sizing: border-box;
         }
-
-        .sponsor-box {
-            width: 100%;
-            max-width: 340px;
-            margin-top: clamp(40px, 8vh, 80px);
-            margin-bottom: clamp(40px, 6vh, 60px);
-            text-align: center;
-        }
-
-        .sponsor-btn {
-            background: linear-gradient(135deg, rgba(31, 41, 61, 0.7), rgba(35, 57, 91, 0.5));
-            border: 1px dashed var(--brand-blue);
-            color: var(--brand-blue);
-            border-radius: 12px;
-            padding: 18px 14px;
-            font-weight: 700;
-            font-size: 0.82rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            box-sizing: border-box;
-            cursor: pointer;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            box-shadow: 0 8px 24px rgba(88, 166, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .sponsor-btn:hover {
-            background: linear-gradient(135deg, rgba(31, 41, 61, 0.9), rgba(35, 57, 91, 0.7));
-            border-style: solid;
-            box-shadow: 0 0 20px rgba(88, 166, 255, 0.25);
-            transform: translateY(-1px);
-        }
-
-        .container {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 35px 25px;
-            text-align: center;
-            width: 92%;
-            max-width: 340px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-sizing: border-box;
-            animation: cardGlowPulse 4s infinite ease-in-out;
-            transition: all 0.5s ease;
-            margin-bottom: 16px;
-        }
-
-        .bottom-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            width: 92%;
-            max-width: 340px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-            margin-bottom: 40px;
-        }
-
-        .btn-premium-ads {
-            background: linear-gradient(135deg, rgba(88, 166, 255, 0.12), rgba(88, 166, 255, 0.04));
-            border: 1px solid rgba(88, 166, 255, 0.35);
-            color: #79b8ff;
-            border-radius: 12px;
-            padding: 14px 20px;
-            font-size: 0.82rem;
-            font-weight: 700;
-            width: 100%;
-            cursor: pointer;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-            letter-spacing: 0.6px;
-            text-transform: uppercase;
-        }
-
-        h1 {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin: 0 0 25px 0;
-            font-weight: 500;
-        }
-
-        .price-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            margin: 15px 0 25px 0;
-        }
-
-        .precio {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            font-variant-numeric: tabular-nums;
-            letter-spacing: -1px;
-            text-shadow: 0 0 10px rgba(240, 246, 252, 0.1);
-        }
-
-        .tendencia-flecha {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: var(--text-secondary);
-            display: inline-block;
-        }
-
-        .timestamp {
-            font-size: 0.78rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-            letter-spacing: 0.2px;
-        }
-
-        .range-wrapper {
-            margin-top: 18px;
-            padding: 12px;
-            background-color: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .range-label {
-            font-size: 0.68rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            font-weight: 600;
-        }
-
-        .range-values {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .range-min {
-            color: var(--brand-red);
-        }
-
-        .range-max {
-            color: var(--brand-green);
-        }
-
-        .range-divider {
-            color: rgba(255, 255, 255, 0.15);
-        }
-
-        .ad-box {
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(48, 54, 61, 0.4);
-            min-height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* 🛠️ ESTILOS SENIOR DEL MODAL INTERACTIVO DE AUTOGESTIÓN */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-content {
-            background-color: #161b22;
-            border: 1px solid var(--border-color);
-            border-radius: 28px;
-            padding: 30px 24px;
-            width: 90%;
-            max-width: 350px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-            box-sizing: border-box;
-            transform: scale(0.9);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .modal-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin: 0 0 10px 0;
-            color: var(--text-primary);
-        }
-
-        .modal-desc {
-            font-size: 0.78rem;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            line-height: 1.4;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-            text-align: left;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 0.72rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .form-input,
-        .form-select {
-            width: 100%;
-            background-color: #0d1117;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px;
-            color: var(--text-primary);
-            font-size: 0.85rem;
-            box-sizing: border-box;
-            transition: border-color 0.2s ease;
-        }
-
-        .form-input:focus,
-        .form-select:focus {
-            border-color: var(--brand-blue);
-            outline: none;
-        }
-
-        .price-badge {
-            background-color: rgba(57, 211, 83, 0.1);
-            border: 1px solid rgba(57, 211, 83, 0.3);
-            color: var(--brand-green);
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-cancel {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            border-radius: 12px;
-            padding: 14px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            flex: 1;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-cancel:hover {
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text-primary);
-        }
-
-        .btn-pay {
-            background: linear-gradient(135deg, #2ea44f, #22863a);
-            border: none;
-            color: #ffffff;
-            border-radius: 12px;
-            padding: 14px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            flex: 1;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(34, 134, 58, 0.3);
-            transition: transform 0.2s;
-        }
-
-        .btn-pay:hover {
-            transform: translateY(-1px);
-        }
-
-        @keyframes cardGlowPulse {
-            0% {
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color);
-                border-color: var(--border-color);
-            }
-
-            50% {
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(88, 166, 255, 0.3);
-                border-color: rgba(88, 166, 255, 0.4);
-            }
-
-            100% {
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color);
-                border-color: var(--border-color);
-            }
-        }
     </style>
+</head>
+/* 📢 CONTENEDOR MULTIMEDIA SUPERIOR OPTIMIZADO */
+.sponsor-box {
+width: 100%;
+max-width: 340px;
+margin-top: clamp(40px, 8vh, 80px);
+margin-bottom: clamp(30px, 5vh, 50px);
+text-align: center;
+}
+
+.sponsor-box a {
+text-decoration: none !important;
+display: block;
+}
+
+.sponsor-btn {
+background: linear-gradient(135deg, rgba(31, 41, 61, 0.7), rgba(35, 57, 91, 0.5));
+border: 1px dashed var(--brand-blue);
+color: var(--brand-blue);
+border-radius: 12px;
+padding: 16px 14px;
+font-weight: 700;
+font-size: 0.82rem;
+letter-spacing: 1px;
+text-transform: uppercase;
+box-sizing: border-box;
+cursor: pointer;
+backdrop-filter: blur(8px);
+-webkit-backdrop-filter: blur(8px);
+box-shadow: 0 8px 24px rgba(88, 166, 255, 0.1);
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+min-height: 52px;
+}
+
+/* Renderizado adaptativo para el banner gráfico de la memecoin */
+.sponsor-btn img {
+width: 100%;
+height: auto;
+max-height: 60px;
+object-fit: contain;
+border-radius: 6px;
+display: none;
+}
+
+.sponsor-btn:hover {
+background: linear-gradient(135deg, rgba(31, 41, 61, 0.9), rgba(35, 57, 91, 0.7));
+border-style: solid;
+box-shadow: 0 0 20px rgba(88, 166, 255, 0.25);
+transform: translateY(-1px);
+}
+/* 🏢 CONTENEDORES PRINCIPALES ESTILO CRISTAL */
+.container {
+background-color: var(--bg-card);
+border: 1px solid var(--border-color);
+border-radius: 24px;
+padding: 35px 25px;
+text-align: center;
+width: 92%;
+max-width: 340px;
+box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+box-sizing: border-box;
+animation: cardGlowPulse 4s infinite ease-in-out;
+transition: all 0.5s ease;
+margin-bottom: 16px;
+}
+
+.bottom-card {
+background-color: var(--bg-card);
+border: 1px solid var(--border-color);
+border-radius: 20px;
+padding: 20px;
+text-align: center;
+width: 92%;
+max-width: 340px;
+box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+box-sizing: border-box;
+transition: all 0.3s ease;
+margin-bottom: 40px;
+}
+
+h1 {
+font-size: 0.95rem;
+color: var(--text-secondary);
+text-transform: uppercase;
+letter-spacing: 1.5px;
+margin: 0 0 25px 0;
+font-weight: 500;
+}
+
+.price-wrapper {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 14px;
+margin: 15px 0 25px 0;
+}
+
+.precio {
+font-size: 2.8rem;
+font-weight: 700;
+color: var(--text-primary);
+font-variant-numeric: tabular-nums;
+letter-spacing: -1px;
+text-shadow: 0 0 10px rgba(240, 246, 252, 0.1);
+}
+
+.tendencia-flecha {
+font-size: 2.2rem;
+font-weight: bold;
+color: var(--text-secondary);
+display: inline-block;
+}
+
+.timestamp {
+font-size: 0.78rem;
+color: var(--text-secondary);
+font-weight: 400;
+letter-spacing: 0.2px;
+}
+/* 📊 ESTILOS INDICADORES DE RANGO MÓVIL */
+.range-wrapper {
+margin-top: 18px;
+padding: 12px;
+background-color: rgba(255, 255, 255, 0.02);
+border-radius: 12px;
+border: 1px solid rgba(255, 255, 255, 0.03);
+display: flex;
+flex-direction: column;
+gap: 6px;
+}
+
+.range-label {
+font-size: 0.68rem;
+color: var(--text-secondary);
+text-transform: uppercase;
+letter-spacing: 1.2px;
+font-weight: 600;
+}
+
+.range-values {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 15px;
+font-size: 0.9rem;
+font-weight: 700;
+font-variant-numeric: tabular-nums;
+}
+
+.range-min { color: var(--brand-red); }
+.range-max { color: var(--brand-green); }
+.range-divider { color: rgba(255, 255, 255, 0.15); }
+
+.btn-premium-ads {
+background: linear-gradient(135deg, rgba(88, 166, 255, 0.12), rgba(88, 166, 255, 0.04));
+border: 1px solid rgba(88, 166, 255, 0.35);
+color: #79b8ff;
+border-radius: 12px;
+padding: 14px 20px;
+font-size: 0.82rem;
+font-weight: 700;
+width: 100%;
+cursor: pointer;
+box-sizing: border-box;
+transition: all 0.2s ease;
+letter-spacing: 0.6px;
+text-transform: uppercase;
+}
+
+.ad-box {
+margin-top: 25px;
+padding-top: 25px;
+border-top: 1px solid rgba(48, 54, 61, 0.4);
+min-height: 50px;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+@keyframes cardGlowPulse {
+0% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color); border-color: var(--border-color); }
+50% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(88, 166, 255, 0.3); border-color: rgba(88, 166, 255,
+0.4); }
+100% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--glow-color); border-color: var(--border-color); }
+}
+</style>
+</head>
+/* 🛠️ ESTILOS DEL MODAL INTERACTIVO DE AUTOGESTIÓN PUBLICITARIA */
+.modal-overlay {
+position: fixed;
+top: 0; left: 0; width: 100%; height: 100%;
+background-color: rgba(0, 0, 0, 0.85);
+backdrop-filter: blur(16px);
+-webkit-backdrop-filter: blur(16px);
+display: none;
+align-items: center;
+justify-content: center;
+z-index: 99999;
+opacity: 0;
+transition: opacity 0.3s ease;
+}
+
+.modal-content {
+background-color: #161b22;
+border: 1px solid var(--border-color);
+border-radius: 28px;
+padding: 30px 24px;
+width: 90%;
+max-width: 350px;
+box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+box-sizing: border-box;
+transform: scale(0.9);
+transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-title {
+font-size: 1.1rem;
+font-weight: 700;
+margin: 0 0 10px 0;
+color: var(--text-primary);
+}
+
+.modal-desc {
+font-size: 0.78rem;
+color: var(--text-secondary);
+margin-bottom: 20px;
+line-height: 1.4;
+}
+
+.form-group {
+margin-bottom: 16px;
+text-align: left;
+}
+
+.form-label {
+display: block;
+font-size: 0.72rem;
+color: var(--text-secondary);
+text-transform: uppercase;
+letter-spacing: 0.5px;
+margin-bottom: 6px;
+font-weight: 600;
+}
+
+.form-input, .form-select {
+width: 100%;
+background-color: #0d1117;
+border: 1px solid var(--border-color);
+border-radius: 10px;
+padding: 12px;
+color: var(--text-primary);
+font-size: 0.85rem;
+box-sizing: border-box;
+transition: border-color 0.2s ease;
+}
+
+.form-input:focus, .form-select:focus {
+border-color: var(--brand-blue);
+outline: none;
+}
+
+.price-badge {
+background-color: rgba(57, 211, 83, 0.1);
+border: 1px solid rgba(57, 211, 83, 0.3);
+color: var(--brand-green);
+padding: 10px;
+border-radius: 10px;
+font-size: 0.85rem;
+font-weight: 700;
+margin-bottom: 20px;
+display: flex;
+justify-content: space-between;
+}
+
+.btn-group {
+display: flex;
+gap: 10px;
+}
+
+.btn-cancel {
+background: transparent;
+border: 1px solid var(--border-color);
+color: var(--text-secondary);
+border-radius: 12px;
+padding: 14px;
+font-size: 0.85rem;
+font-weight: 600;
+flex: 1;
+cursor: pointer;
+transition: background 0.2s;
+}
+
+.btn-cancel:hover { background: rgba(255, 255, 255, 0.03); color: var(--text-primary); }
+
+.btn-pay {
+background: linear-gradient(135deg, #2ea44f, #22863a);
+border: none;
+color: #ffffff;
+border-radius: 12px;
+padding: 14px;
+font-size: 0.85rem;
+font-weight: 700;
+flex: 1;
+cursor: pointer;
+box-shadow: 0 4px 12px rgba(34, 134, 58, 0.3);
+transition: transform 0.2s;
+}
+
+.btn-pay:hover { transform: translateY(-1px); }
+</style>
 </head>
 
 <body>
 
-    <!-- 📢 CARTEL DE AUSPICIO PREMIUM (Se actualizará dinámicamente con la base de datos) -->
+    <!-- 📢 CARTEL DE AUSPICIO MULTIMEDIA PREMIUM (FIX DE INTERFERENCIA AZUL APLICADO) -->
     <div class="sponsor-box">
-        <a id="sponsor-link" href="https://t.me/+K3X3kajhpa04YTAx" target="_blank">
-            <div id="sponsor-text" class="sponsor-btn">
-                📢 Publicita tu Proyecto aquí (Cobro diario) 🚀
+        <a id="sponsor-link" href="https://t.me" target="_blank" style="text-decoration: none !important;">
+            <div id="sponsor-container" class="sponsor-btn">
+                <!-- Capa de Texto por Defecto -->
+                <span id="sponsor-text">📢 Publicita tu Proyecto aquí (Cobro diario) 🚀</span>
+                <!-- Capa Gráfica para las Imágenes Meme (Oculta por defecto) -->
+                <img id="sponsor-image" src="" alt="Banner Publicitario">
             </div>
         </a>
     </div>
@@ -381,7 +378,7 @@ html
 
         <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
 
-        <!-- 📊 OBJETO MIN/MAX CENTRALIZADO -->
+        <!-- 📊 OBJETO MIN/MAX CENTRALIZADO DESDE EL SERVIDOR -->
         <div class="range-wrapper">
             <div class="range-label">Min / Max 12H (Global)</div>
             <div class="range-values">
@@ -400,31 +397,35 @@ html
             </div>
         </div>
     </div>
-
     <!-- 🏢 CONTENEDOR 2: PANEL INDEPENDIENTE INFERIOR -->
     <div class="bottom-card">
         <button class="btn-premium-ads" onclick="navegarAAnunciosPagados()">
             🚀 Proximamente novedades 🚀
         </button>
     </div>
-    <!-- 🛠️ PARTE 2: ESQUELETO HTML DE LA PASARELA DE ANUNCIOS (VENTANA EMERGENTE) -->
+
+    <!-- 🛠️ INTERFAZ DEL MODAL INTEGRADO CON SOPORTE DE IMÁGENES MEME -->
     <div id="modal-publicidad" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-title">Promociona tu Proyecto</div>
-            <div class="modal-desc">Sube tu banner de forma automática. Tráfico directo de más de 200 humanos
-                verificados.</div>
+            <div class="modal-title">Promociona tu proyecto</div>
+            <div class="modal-desc">Sube tu banner gráfico o texto de forma automática. Tráfico directo de más de 200
+                humanos verificados.</div>
 
-            <!-- Formulario de Autogestión -->
             <div class="form-group">
                 <label class="form-label">Enlace de tu Proyecto (Telegram/X)</label>
-                <input type="url" id="ad-url-destino" class="form-input" placeholder="https://"
-                    required>
+                <input type="url" id="ad-url-destino" class="form-input" placeholder="https://t.me" required>
+            </div>
+
+            <!-- ✅ CASILLERO MULTIMEDIA: Captura el enlace directo de la imagen meme -->
+            <div class="form-group">
+                <label class="form-label">URL de tu Imagen / Banner (Opcional)</label>
+                <input type="url" id="ad-url-banner-img" class="form-input" placeholder="https://postimg.cc">
             </div>
 
             <div class="form-group">
-                <label class="form-label">Texto del Cartel Superior (Máx 45 caract.)</label>
-                <input type="text" id="ad-texto-banner" class="form-input"
-                    placeholder="🚀 Escribe aqui 💎" maxlength="45" required>
+                <label class="form-label">Texto Alternativo (Si no usas imagen - Máx 45 caract.)</label>
+                <input type="text" id="ad-texto-banner" class="form-input" placeholder="🚀 COMPRA $ORGANIC AHORA! 💎"
+                    maxlength="45">
             </div>
 
             <div class="form-group">
@@ -436,20 +437,18 @@ html
                 </select>
             </div>
 
-            <!-- Visualizador de Precio Elástico -->
             <div class="price-badge">
                 <span>Total a pagar:</span>
                 <span id="ad-total-pagar">$1.50 USDC</span>
             </div>
 
-            <!-- Botonera de Control -->
             <div class="btn-group">
                 <button class="btn-cancel" onclick="cerrarPasarelaPublicitaria()">Cancelar</button>
                 <button class="btn-pay" onclick="procesarPagoAnuncioAutonomo()">Pagar en Wallet</button>
             </div>
         </div>
     </div>
-    <!-- 🛠️ PARTE 3: LÓGICA JAVASCRIPT Y CONTROLADORES DE EVENTOS DEL MODAL -->
+    <!-- 🛠️ PARTE 8: MANEJADORES DE INTERFAZ Y LOGICA DE NAVEGACIÓN -->
     <script>
         const precioElemento = document.getElementById('precio-live');
         const relojElemento = document.getElementById('clock-live');
@@ -459,7 +458,7 @@ html
         const minimoElemento = document.getElementById('precio-minimo');
         const maximoElemento = document.getElementById('precio-maximo');
 
-        // Referencias exclusivas de la pasarela autónoma de anuncios
+        // Referencias del modal de anuncios autónomos
         const modalAnuncio = document.getElementById('modal-publicidad');
         const totalPagarElemento = document.getElementById('ad-total-pagar');
 
@@ -479,7 +478,7 @@ html
                 sincronizando: "📡 Syncing with cloud server...",
                 verificado: "✅ Block verified at ",
                 error: "API REST connection failed.",
-                alertaBoton: "🤖 Rewards navigation logic triggered. Coming soon."
+                alertaBoton: "Rewards navigation logic triggered. Coming soon."
             }
         };
 
@@ -490,7 +489,7 @@ html
         tituloElemento.innerText = lang.titulo;
         relojElemento.innerText = lang.sincronizando;
 
-        // 🛠️ CONTROLADORES VISUALES DE LA PASARELA INTERACTIVA
+        // CONTROLADORES INTERACTIVOS DE LA VENTANA MODAL
         const abrirPasarelaPublicitaria = () => {
             modalAnuncio.style.display = 'flex';
             setTimeout(() => { modalAnuncio.style.opacity = '1'; }, 10);
@@ -505,14 +504,13 @@ html
             setTimeout(() => { modalAnuncio.style.display = 'none'; }, 300);
         };
 
-        // Escuchamos el clic en el cartel superior para abrir el formulario
-        document.getElementById('sponsor-text').removeAttribute('onclick');
-        document.querySelector('.sponsor-box a').addEventListener('click', (e) => {
-            e.preventDefault(); // Cancelamos la redirección antigua a Telegram
+        // Escuchamos el clic en el banner superior para abrir el formulario
+        document.getElementById('sponsor-link').addEventListener('click', (e) => {
+            e.preventDefault(); // Detiene el comportamiento de enlace nativo
             abrirPasarelaPublicitaria();
         });
 
-        // 📈 CÁLCULO ELÁSTICO DE TARIFAS EN TIEMPO REAL
+        // CÁLCULO ELÁSTICO DE TARIFAS PÚBLICAS
         const calcularTarifaPublicitaria = () => {
             const dias = parseInt(document.getElementById('ad-duracion').value);
             let total = 1.50;
@@ -521,45 +519,38 @@ html
             totalPagarElemento.innerText = `$${total.toFixed(2)} USDC`;
         };
         // =================================================================
-        // 🚀 PASARELA AUTÓNOMA: Integración nativa con la Wallet de World App
+        // 🚀 PASARELA AUTÓNOMA: Enlace profundo (Deep Link) con la World App
         // =================================================================
         const procesarPagoAnuncioAutonomo = async () => {
             const urlDestino = document.getElementById('ad-url-destino').value;
+            const urlBannerImg = document.getElementById('ad-url-banner-img').value;
             const textoBanner = document.getElementById('ad-texto-banner').value;
             const dias = document.getElementById('ad-duracion').value;
 
-            // Validación estricta de control de calidad frontend (QA)
-            if (!urlDestino || !textoBanner) {
-                alert("❌ Por favor, rellena todos los campos obligatorios antes de continuar.");
+            // Validación de control de calidad (QA)
+            if (!urlDestino || (!urlBannerImg && !textoBanner)) {
+                alert("❌ Por favor, rellena el enlace del proyecto y al menos un método publicitario (Imagen o Texto).");
                 return;
             }
 
-            // Calculamos la tarifa elástica para el Deep Link
             let costoUSDC = 1.50;
             if (dias === "7") costoUSDC = 7.00;
             if (dias === "14") costoUSDC = 12.00;
 
-            // ⚠️ MODIFICACIÓN COMPULSORIA: Cambia esta wallet por tu dirección pública real de Ethereum / World Chain (0x...)
-            const MI_BILLETERA_RECEPTORA_REAL = "0x526376e1e12a0e46ce021D8069d82DAc14413dB0";
-
-            // Dirección del contrato inteligente oficial de la Stablecoin USDC en World Chain
+            // ⚠️ MODIFICACIÓN COMPULSORIA: Reemplaza con tu llave pública real (0x...) de World Chain
+            const MI_BILLETERA_RECEPTORA_REAL = "0x0000000000000000000000000000000000000000";
             const CONTRACT_USDC_WORLD_CHAIN = "0x79A02482A880b0755F0a57d62059345205567346";
 
-            // Construcción del Deep Link nativo estricto para transacciones ERC-20 dentro de la World App:
-            // Al procesarse, abrirá el flujo seguro de aprobación de fondos nativo en el celular del cliente.
+            // Gatillo criptográfico nativo para transferir tokens ERC-20 mediante la billetera del celular
             const deepLinkPagoWorldApp = `ethereum:${CONTRACT_USDC_WORLD_CHAIN}/transfer?address=${MI_BILLETERA_RECEPTORA_REAL}&uint256=${costoUSDC * 1000000}`;
 
-            console.log("📡 Despachando orden de cobro autónoma hacia la World App...");
-
-            // Ordenamos al WebView ejecutar la transacción criptográfica de forma segura
+            console.log("📡 Despachando orden de cobro multimedia hacia la World App...");
             window.open(deepLinkPagoWorldApp, '_blank');
-
-            // Cerramos el modal de forma elegante tras gatillar la billetera
             cerrarPasarelaPublicitaria();
         };
 
         // =================================================================
-        // 📡 CONSUMO DE DATOS CENTRALIZADOS (Precio spot + Min/Max global)
+        // 📡 CONSUMO DE DATOS CENTRALIZADOS: Renderizado adaptativo de Banners
         // =================================================================
         const refrescarPrecioDesdeBackend = async () => {
             try {
@@ -573,17 +564,40 @@ html
 
                 if (datos.success) {
                     const precioActual = datos.price;
-
                     precioElemento.innerText = `$${precioActual.toFixed(6)}`;
 
-                    // Cargamos de forma idéntica las bandas calculadas en el servidor de Supabase
+                    // Sincronización idéntica de bandas de trading
                     if (datos.priceMin12h !== undefined && datos.priceMax12h !== undefined) {
                         minimoElemento.innerText = `$${datos.priceMin12h.toFixed(4)}`;
                         maximoElemento.innerText = `$${datos.priceMax12h.toFixed(4)}`;
                     }
 
-                    const flechaElemento = document.getElementById('tendencia-flecha');
+                    // 🛠️ INTEGRACIÓN MULTIMEDIA ADAPTATIVA (Renderizador del proyecto meme)
+                    const imgComponente = document.getElementById('sponsor-image');
+                    const txtComponente = document.getElementById('sponsor-text');
+                    const linkComponente = document.getElementById('sponsor-link');
 
+                    // Si el servidor despacha un anuncio activo con URL de imagen válida
+                    if (datos.adActive && datos.adBannerUrl && datos.adBannerUrl.startsWith('http')) {
+                        txtComponente.style.display = 'none'; // Apagamos el texto
+                        imgComponente.src = datos.adBannerUrl; // Inyectamos la URL de la foto meme
+                        imgComponente.style.display = 'block'; // Mostramos la imagen de forma limpia
+                        if (datos.adTargetUrl) linkComponente.href = datos.adTargetUrl;
+                    } else if (datos.adActive && datos.adText) {
+                        // Si es un anuncio de solo texto comprado por un cliente
+                        imgComponente.style.display = 'none';
+                        txtComponente.innerText = datos.adText;
+                        txtComponente.style.display = 'block';
+                        if (datos.adTargetUrl) linkComponente.href = datos.adTargetUrl;
+                    } else {
+                        // Fallback por defecto (Tu propio cartel de soporte institucional)
+                        imgComponente.style.display = 'none';
+                        txtComponente.innerText = "📢 Publicita tu Proyecto aquí (Cobro diario) 🚀";
+                        txtComponente.style.display = 'block';
+                        linkComponente.href = "https://t.me";
+                    }
+
+                    const flechaElemento = document.getElementById('tendencia-flecha');
                     if (precioAnteriorBlockchain !== null) {
                         if (precioActual > precioAnteriorBlockchain) {
                             flechaElemento.innerText = "▲";
@@ -617,11 +631,6 @@ html
                 relojElemento.innerText = lang.error;
                 relojElemento.style.color = 'var(--brand-red)';
             }
-        };
-
-        const navegarAAnunciosPagados = () => {
-            console.log("🎯 Disparador de eventos de premios activado.");
-            alert(lang.alertaBoton);
         };
 
         refrescarPrecioDesdeBackend();
