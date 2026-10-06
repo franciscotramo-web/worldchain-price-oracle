@@ -31,7 +31,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 📢 CONTENEDOR MULTIMEDIA SUPERIOR ADAPTATIVO */
+/* 📢 CONTENEDOR MULTIMEDIA SUPERIOR ADAPTATIVO - EDICIÓN COMERCIAL AMPLIADA */
 .sponsor-box {
   width: 100%;
   max-width: 340px;
@@ -46,6 +46,7 @@ body {
   outline: none;
 }
 
+/* ✅ MEJORA UI: Ampliamos la altura vertical (min-height: 85px) para dar sensación de lienzo publicitario masivo */
 .sponsor-btn {
   background: linear-gradient(
     135deg,
@@ -54,32 +55,34 @@ body {
   );
   border: 1px dashed var(--brand-blue);
   color: var(--brand-blue);
-  border-radius: 12px;
-  padding: 16px 14px;
+  border-radius: 14px;
+  padding: 12px; /* Reducimos padding para dar el máximo espacio al gráfico interno */
   font-weight: 700;
-  font-size: 0.82rem;
-  letter-spacing: 1px;
+  font-size: 0.85rem;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
   box-sizing: border-box;
   cursor: pointer;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 8px 24px rgba(88, 166, 255, 0.1);
+  box-shadow: 0 10px 28px rgba(88, 166, 255, 0.12);
   transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  min-height: 52px;
+  min-height: 85px; /* Canvas ampliado verticalmente */
 }
 
+/* ✅ REQUERIMIENTO SENIOR: La imagen del cliente ahora se expande de forma balística al 100% de la zona disponible */
 .sponsor-btn img {
   width: 100%;
-  height: auto;
-  max-height: 60px;
-  object-fit: contain;
-  border-radius: 6px;
-  display: none;
+  height: 100%;
+  min-height: 60px;
+  max-height: 80px;
+  object-fit: cover; /* Recorte inteligente para que llene todo el ancho y alto sin deformarse */
+  border-radius: 8px;
+  display: none; /* Se activa dinámicamente mediante app.js */
 }
 
 .sponsor-btn:hover {
@@ -89,7 +92,7 @@ body {
     rgba(35, 57, 91, 0.7)
   );
   border-style: solid;
-  box-shadow: 0 0 20px rgba(88, 166, 255, 0.25);
+  box-shadow: 0 0 24px rgba(88, 166, 255, 0.3);
   transform: translateY(-1px);
 }
 
