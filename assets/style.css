@@ -94,7 +94,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* 🏢 TARJETAS DEL ORÁCULO DE WORLDCOIN */
+/* 🏢 TARJETAS DEL ORÁCULO Y CONTENEDORES */
 .container {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);

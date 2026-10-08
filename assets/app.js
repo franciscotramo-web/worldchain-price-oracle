@@ -27,17 +27,11 @@ const cerrarPasarelaPublicitaria = () => {
     }
 };
 
-// AMARRE SEGURO DE DISPARADORES VISUALES
 const btnComprar = document.getElementById('btn-comprar-anuncio');
 if (btnComprar) btnComprar.addEventListener('click', abrirModal);
 
 const sponsorLink = document.getElementById('sponsor-link');
-if (sponsorLink) {
-    sponsorLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        abrirModal();
-    });
-}
+if (sponsorLink) sponsorLink.addEventListener('click', (e) => { e.preventDefault(); abrirModal(); });
 
 const btnCerrar = document.getElementById('btn-cerrar-modal');
 if (btnCerrar) btnCerrar.addEventListener('click', cerrarPasarelaPublicitaria);
@@ -73,11 +67,10 @@ const procesarPagoAnuncioAutonomo = async () => {
     else if (dias === "7") costoUSDC = 7.00;
     else if (dias === "14") costoUSDC = 12.00;
 
-    // FIRMADO ESTRICTO DE VARIABLES CON TUS DATOS EN DURO
     const MI_BILLETERA_METAMASK_REAL = "0x526376e1e12a0e46ce021D8069d82DAc14413dB0";
     const CONTRACT_USDC_WORLD_CHAIN = "0x79A02482A880b0755F0a57d62059345205567346";
 
-    // Transformación instantánea de UI interna libre de prompts invasivos del sistema
+    // Transformación inmersiva instantánea de interfaz libre de prompts
     const modalContent = document.querySelector('.modal-content');
     modalContent.innerHTML = `
         <div style="font-weight:700; margin-bottom:15px; font-size:1.1rem; color:var(--brand-green);">⚡ Procesando Pago Seguro...</div>
@@ -94,12 +87,10 @@ const procesarPagoAnuncioAutonomo = async () => {
         // Invocación nativa del Deep Link de cobros
         window.open(`ethereum:${CONTRACT_USDC_WORLD_CHAIN}/transfer?address=${MI_BILLETERA_METAMASK_REAL}&uint256=${costoUSDC * 1000000}`, '_blank');
 
-        // Bucle asíncronico ciego en segundo plano: Espera 12 segundos de confirmación del bloque
+        // Bucle asincrónico background de control: Espera 12 segundos el minado del bloque
         setTimeout(async () => {
             try {
-                // Al refrescar el oráculo, el backend ya habrá tomado e insertado el pago de fondo
                 const res = await fetch(`${URL_BASE}/api/precio`);
-                const datos = await res.json();
                 alert("✅ ¡Pago detectado con éxito! Tu anuncio de prueba por 5 minutos ya está activo a nivel global.");
                 window.location.reload();
             } catch (e) {
@@ -108,7 +99,7 @@ const procesarPagoAnuncioAutonomo = async () => {
         }, 12000);
 
     } catch (err) {
-        alert("❌ Error al procesar la firma con la billetera: " + err.message);
+        alert("❌ Error al procesar la firma: " + err.message);
         window.location.reload();
     }
 };
@@ -117,7 +108,7 @@ const btnPagar = document.getElementById('btn-pagar-wallet');
 if (btnPagar) btnPagar.addEventListener('click', procesarPagoAnuncioAutonomo);
 
 // =================================================================
-// 📡 CONSUMO DE DATOS CENTRALIZADOS: Sincronización del Oráculo
+// 📡 CONSUMO DE DATOS CENTRALIZADOS: Sincronización e Impacto Visual UX
 // =================================================================
 const refrescarPrecioDesdeBackend = async () => {
     try {
@@ -145,7 +136,6 @@ const refrescarPrecioDesdeBackend = async () => {
                     imgComponente.style.display = 'block';
                     if (linkComponente && datos.adTargetUrl) linkComponente.href = datos.adTargetUrl.trim();
                 } else {
-                    // Fallback de Soporte Oficial en duro si la base de datos está limpia
                     imgComponente.style.display = 'none';
                     txtComponente.innerText = "📢 Publicita tu Proyecto aquí (Cobro diario) 🚀";
                     txtComponente.style.display = 'block';
@@ -153,7 +143,7 @@ const refrescarPrecioDesdeBackend = async () => {
                 }
             }
 
-            // SECCIÓN UX DE ALTA RETENCIÓN: Destellos Dinámicos de Tendencia
+            // 💎 SECCIÓN MAESTRA DE ALTA RETENCIÓN: Estilos y Destellos Dinámicos de Tendencia (QA CERTIFICADO)
             const flechaElemento = document.getElementById('tendencia-flecha');
             const tarjetaElemento = document.getElementById('app-card');
 
@@ -168,7 +158,10 @@ const refrescarPrecioDesdeBackend = async () => {
                     tarjetaElemento.style.setProperty('--glow-color', 'rgba(248, 81, 73, 0.25)');
                 }
             }
+
+            // ✅ CONEXIÓN DE CONTROL: Congelamos el pivote AL FINAL para que la comparación del siguiente ciclo sea real
             precioAnteriorBlockchain = precioActual;
+
             if (relojElemento) relojElemento.innerText = `✅ Bloque verificado: ${new Date(datos.timestamp).toLocaleTimeString()}`;
         }
     } catch (error) {
