@@ -1,7 +1,3 @@
-/* =================================================================
-   🧠 CAPA LÓGICA DE PROGRAMACIÓN WEB3 - INTERFAZ DE ALTA RETENCIÓN UX
-   ================================================================= */
-
 const precioElemento = document.getElementById('precio-live');
 const relojElemento = document.getElementById('clock-live');
 const minimoElemento = document.getElementById('precio-minimo');
@@ -10,28 +6,18 @@ const modalAnuncio = document.getElementById('modal-publicidad');
 const totalPagarElemento = document.getElementById('ad-total-pagar');
 
 let precioAnteriorBlockchain = null;
-const URL_BASE = 'https://worldchain-price-oracle.vercel.app';
+const URL_BASE = 'https://worldchain-price-oracle.vercel.app/';
 
-// CONTROLADORES INTERACTIVOS VISUALES DEL FORMULARIO
-const abrirModal = () => {
-    if (modalAnuncio) {
-        modalAnuncio.style.display = 'flex';
-        modalAnuncio.style.opacity = '1';
-    }
-};
+// 🛠️ INICIALIZACIÓN OFICIAL DEL MINIKIT DE WORLDCOIN
+if (window.MiniKit) {
+    window.MiniKit.init();
+}
 
-const cerrarPasarelaPublicitaria = () => {
-    if (modalAnuncio) {
-        modalAnuncio.style.opacity = '0';
-        modalAnuncio.style.display = 'none';
-    }
-};
+const abrirModal = () => { if (modalAnuncio) modalAnuncio.style.display = 'flex'; };
+const cerrarPasarelaPublicitaria = () => { if (modalAnuncio) modalAnuncio.style.display = 'none'; };
 
 const btnComprar = document.getElementById('btn-comprar-anuncio');
 if (btnComprar) btnComprar.addEventListener('click', abrirModal);
-
-const sponsorLink = document.getElementById('sponsor-link');
-if (sponsorLink) sponsorLink.addEventListener('click', (e) => { e.preventDefault(); abrirModal(); });
 
 const btnCerrar = document.getElementById('btn-cerrar-modal');
 if (btnCerrar) btnCerrar.addEventListener('click', cerrarPasarelaPublicitaria);
@@ -39,67 +25,62 @@ if (btnCerrar) btnCerrar.addEventListener('click', cerrarPasarelaPublicitaria);
 const selectDuracion = document.getElementById('ad-duracion');
 if (selectDuracion) {
     selectDuracion.addEventListener('change', () => {
-        const valor = selectDuracion.value;
-        let total = 1.50;
-        if (valor === "test") total = 0.015;
-        else if (valor === "7") total = 7.00;
-        else if (valor === "14") total = 12.00;
+        const total = selectDuracion.value === "test" ? 0.015 : 1.50;
         if (totalPagarElemento) totalPagarElemento.innerText = `$${total.toFixed(3)} USDC`;
     });
 }
 
-// =================================================================
-// 🚀 PASARELA DE COBRO AUTOMATIZADA: Experiencia Quirúrgica Elegible
-// =================================================================
+// 🚀 PASARELA DE ALTA INGENIERÍA: Invocación del puente nativo de Worldcoin
 const procesarPagoAnuncioAutonomo = async () => {
     const urlDestino = document.getElementById('ad-url-destino').value;
     const urlBannerImg = document.getElementById('ad-url-banner-img').value;
     const textoBanner = document.getElementById('ad-texto-banner').value;
     const dias = selectDuracion.value;
 
-    if (!urlDestino || (!urlBannerImg && !textoBanner)) {
-        alert("❌ Por favor, rellena los campos obligatorios.");
-        return;
-    }
+    if (!urlDestino) return alert("❌ Introduce la URL de redirección.");
 
-    let costoUSDC = 1.50;
-    if (dias === "test") costoUSDC = 0.015;
-    else if (dias === "7") costoUSDC = 7.00;
-    else if (dias === "14") costoUSDC = 12.00;
-
+    let costoUSDC = dias === "test" ? 0.015 : 1.50;
     const MI_BILLETERA_METAMASK_REAL = "0x526376e1e12a0e46ce021D8069d82DAc14413dB0";
     const CONTRACT_USDC_WORLD_CHAIN = "0x79A02482A880b0755F0a57d62059345205567346";
 
-    // Transformación inmersiva instantánea de interfaz libre de prompts
     const modalContent = document.querySelector('.modal-content');
     modalContent.innerHTML = `
-        <div style="font-weight:700; margin-bottom:15px; font-size:1.1rem; color:var(--brand-green);">⚡ Procesando Pago Seguro...</div>
-        <div style="font-size:0.8rem; color:var(--text-secondary); line-height:1.4; text-align:center; padding:10px 0;">
-            <div style="font-size: 1.5rem; margin-bottom:10px;">📲</div>
-            Autoriza la transferencia por <b>$${costoUSDC} USDC</b> en tu billetera de World App.<br><br>
-            <span style="color:var(--brand-blue);">El oráculo activará tu banner automáticamente en cuanto se confirme el bloque. No cierres la ventana.</span>
+        <div style="font-weight:700; margin-bottom:15px; font-size:1.1rem; color:var(--brand-green);">⚡ Firmando con World App...</div>
+        <div style="font-size:0.8rem; color:var(--text-secondary); line-height:1.4; text-align:center;">
+            Autoriza la orden por <b>$${costoUSDC} USDC</b> en la cortina oficial de tu billetera.
         </div>
     `;
 
     try {
-        console.log("📡 Abriendo túnel de transacciones nativas de World App...");
+        // DETECCIÓN DINÁMICA DEL ENTORNO DE LA TIENDA DE WORLDCOIN
+        if (window.MiniKit && window.MiniKit.isInstalled()) {
+            console.log("💎 Ejecutando transacción integrada mediante MiniKit Bridge.");
 
-        // CORRECCIÓN SENIOR: Forzamos el uso del esquema 'worldapp://' para saltar el secuestro de MetaMask
-        window.open(`worldapp://eth/transfer?address=${MI_BILLETERA_METAMASK_REAL}&contract=${CONTRACT_USDC_WORLD_CHAIN}&uint256=${costoUSDC * 1000000}`, '_blank');
+            // Invocación nativa del bridge del sistema operativo del celular
+            const respuestaPago = await window.MiniKit.commands.sendTransaction({
+                to: MI_BILLETERA_METAMASK_REAL,
+                token: CONTRACT_USDC_WORLD_CHAIN,
+                amount: (costoUSDC * 1000000).toString() // Unidades base
+            });
 
-        // Bucle de fondo asíncronico ciego para refresco automático
-        setTimeout(async () => {
-            try {
-                const res = await fetch(`${URL_BASE}/api/precio`);
-                alert("✅ ¡Pago enviado! Tu banner publicitario se activará automáticamente en piloto automático en cuanto expire el tiempo de bloque.");
-                window.location.reload();
-            } catch (e) {
+            if (respuestaPago && respuestaPago.transactionHash) {
+                // El puente captura el hash en silencio de fondo. Fricción cero para el usuario.
+                await fetch(`${URL_BASE}/api/verificar-pago`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ txHash: respuestaPago.transactionHash, urlDestino, urlBannerImg, textoBanner, dias })
+                });
+                alert("✅ ¡Pago verificado! Banner activo por 5 minutos.");
                 window.location.reload();
             }
-        }, 12000);
+        } else {
+            // Fallback Universal Seguro: Si abres la app fuera de la billetera (ej: navegador web de PC)
+            console.log("⚠️ Fuera de la World App. Despachando Deep Link estándar.");
+            window.open(`ethereum:${CONTRACT_USDC_WORLD_CHAIN}/transfer?address=${MI_BILLETERA_METAMASK_REAL}&uint256=${costoUSDC * 1000000}`, '_blank');
 
+            setTimeout(() => { window.location.reload(); }, 5000);
+        }
     } catch (err) {
-        alert("❌ Error al procesar la firma nativa: " + err.message);
+        alert("❌ Error: " + err.message);
         window.location.reload();
     }
 };
@@ -107,9 +88,6 @@ const procesarPagoAnuncioAutonomo = async () => {
 const btnPagar = document.getElementById('btn-pagar-wallet');
 if (btnPagar) btnPagar.addEventListener('click', procesarPagoAnuncioAutonomo);
 
-// =================================================================
-// 📡 CONSUMO DE DATOS CENTRALIZADOS: Sincronización e Impacto Visual UX
-// =================================================================
 const refrescarPrecioDesdeBackend = async () => {
     try {
         const respuesta = await fetch(`${URL_BASE}/api/precio`);
@@ -119,54 +97,36 @@ const refrescarPrecioDesdeBackend = async () => {
             const precioActual = datos.price;
             if (precioElemento) precioElemento.innerText = `$${precioActual.toFixed(6)}`;
 
-            if (datos.priceMin12h !== undefined && datos.priceMax12h !== undefined) {
-                if (minimoElemento) minimoElemento.innerText = `$${datos.priceMin12h.toFixed(4)}`;
-                if (maximoElemento) maximoElemento.innerText = `$${datos.priceMax12h.toFixed(4)}`;
-            }
+            if (minimoElemento && datos.priceMin12h !== undefined) minimoElemento.innerText = `$${datos.priceMin12h.toFixed(4)}`;
+            if (maximoElemento && datos.priceMax12h !== undefined) maximoElemento.innerText = `$${datos.priceMax12h.toFixed(4)}`;
 
-            // Renderizador publicitario superior multimedia adaptativo
-            const imgComponente = document.getElementById('sponsor-image');
-            const txtComponente = document.getElementById('sponsor-text');
-            const linkComponente = document.getElementById('sponsor-link');
-
-            if (imgComponente && txtComponente) {
+            const img = document.getElementById('sponsor-image'); const txt = document.getElementById('sponsor-text'); const lnk = document.getElementById('sponsor-link');
+            if (img && txt) {
                 if (datos.adActive && datos.adBannerUrl && datos.adBannerUrl.trim().startsWith('http')) {
-                    txtComponente.style.display = 'none';
-                    imgComponente.src = datos.adBannerUrl.trim();
-                    imgComponente.style.display = 'block';
-                    if (linkComponente && datos.adTargetUrl) linkComponente.href = datos.adTargetUrl.trim();
+                    txt.style.display = 'none'; img.src = datos.adBannerUrl.trim(); img.style.display = 'block';
+                    if (lnk && datos.adTargetUrl) lnk.href = datos.adTargetUrl.trim();
                 } else {
-                    imgComponente.style.display = 'none';
-                    txtComponente.innerText = "📢 Publicita tu Proyecto aquí (Cobro diario) 🚀";
-                    txtComponente.style.display = 'block';
-                    if (linkComponente) linkComponente.href = "https://t.me/+K3X3kajhpa04YTAx";
+                    img.style.display = 'none'; txt.innerText = "📢 Publicita tu Proyecto aquí (Cobro diario) 🚀"; txt.style.display = 'block';
+                    if (lnk) lnk.href = "https://t.me";
                 }
             }
 
-            // 💎 SECCIÓN MAESTRA DE ALTA RETENCIÓN: Estilos y Destellos Dinámicos de Tendencia (QA CERTIFICADO)
-            const flechaElemento = document.getElementById('tendencia-flecha');
-            const tarjetaElemento = document.getElementById('app-card');
-
-            if (precioAnteriorBlockchain !== null && flechaElemento && precioElemento && tarjetaElemento) {
+            const flecha = document.getElementById('tendencia-flecha'); const tarjeta = document.getElementById('app-card');
+            if (precioAnteriorBlockchain !== null && flecha && precioElemento && tarjeta) {
                 if (precioActual > precioAnteriorBlockchain) {
-                    flechaElemento.innerText = "▲"; flechaElemento.style.color = '#39d353'; precioElemento.style.color = '#39d353';
+                    flecha.innerText = "▲"; flecha.style.color = '#39d353'; precioElemento.style.color = '#39d353';
                     precioElemento.style.textShadow = '0 0 18px rgba(57, 211, 83, 0.7)';
-                    tarjetaElemento.style.setProperty('--glow-color', 'rgba(57, 211, 83, 0.25)');
+                    tarjeta.style.setProperty('--glow-color', 'rgba(57, 211, 83, 0.25)');
                 } else if (precioActual < precioAnteriorBlockchain) {
-                    flechaElemento.innerText = "▼"; flechaElemento.style.color = '#f85149'; precioElemento.style.color = '#f85149';
+                    flecha.innerText = "▼"; flecha.style.color = '#f85149'; precioElemento.style.color = '#f85149';
                     precioElemento.style.textShadow = '0 0 18px rgba(248, 81, 73, 0.7)';
                     tarjetaElemento.style.setProperty('--glow-color', 'rgba(248, 81, 73, 0.25)');
                 }
             }
-
-            // ✅ CONEXIÓN DE CONTROL: Congelamos el pivote AL FINAL para que la comparación del siguiente ciclo sea real
             precioAnteriorBlockchain = precioActual;
-
             if (relojElemento) relojElemento.innerText = `✅ Bloque verificado: ${new Date(datos.timestamp).toLocaleTimeString()}`;
         }
-    } catch (error) {
-        if (precioElemento) precioElemento.innerText = "❌ ERR";
-    }
+    } catch (error) { if (precioElemento) precioElemento.innerText = "❌ ERR"; }
 };
 
 refrescarPrecioDesdeBackend();

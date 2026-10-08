@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worldcoin Live Feed Mini-App</title>
-    <!-- Capa de diseño modular integrada en la carpeta assets -->
+    <!-- SDK oficial de Worldcoin para habilitar la pasarela nativa dentro de la wallet -->
+    <script src="https://unpkg.com"></script>
     <link rel="stylesheet" href="assets/style.css">
 </head>
-
 <body>
 
-    <!-- 📢 CARTEL DE AUSPICIO MULTIMEDIA PREMIUM (PUNTOS REALES DE CONTROL) -->
     <div class="sponsor-box">
-        <a id="sponsor-link" href="https://t.me/+K3X3kajhpa04YTAx" target="_blank"
-            style="text-decoration: none !important;">
+        <a id="sponsor-link" href="https://t.me/+K3X3kajhpa04YTAx" target="_blank" style="text-decoration: none !important;">
             <div id="sponsor-container" class="sponsor-btn">
                 <span id="sponsor-text">📢 Publicita tu Proyecto aquí (Cobro diario) 🚀</span>
                 <img id="sponsor-image" src="" alt="Banner Publicitario">
@@ -22,18 +19,13 @@
         </a>
     </div>
 
-    <!-- 🏢 CONTENEDOR 1: TARJETA DEL ORÁCULO DE WORLDCOIN -->
     <div class="container" id="app-card">
         <h1 id="app-title">Oráculo Wld On-Chain by Organic Labs</h1>
-
         <div class="price-wrapper">
             <div id="precio-live" class="precio">--.--</div>
             <span id="tendencia-flecha" class="tendencia-flecha">➔</span>
         </div>
-
         <div id="clock-live" class="timestamp">📡 Sincronizando con el oráculo...</div>
-
-        <!-- 📊 MARCAS DE TRADING GLOBAL DE EJERCICIO -->
         <div class="range-wrapper">
             <div class="range-label">Min / Max 12H (Global)</div>
             <div class="range-values">
@@ -42,63 +34,28 @@
                 <span id="precio-maximo" class="range-max">--.--</span>
             </div>
         </div>
-
-        <!-- 🎯 ESPACIO MONETIZABLE: Tu bloque oficial verificado de A-Ads -->
         <div class="ad-box">
-            <div style="width: 100%; margin: auto; display: flex; justify-content: center;">
-                <iframe data-aa='2457498' src='https://acceptable.a-ads.com/2457498/?'
-                    style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
-            </div>
+            <iframe data-aa='2457498' src='https://acceptable.a-ads.com/2457498/?' style='border:0; padding:0; width:320px; height:50px; overflow:hidden; display:block; margin:auto;'></iframe>
         </div>
     </div>
 
-    <!-- 🏢 CONTENEDOR 2: PANEL DE ACCIÓN TÁCTIL INFERIOR -->
     <div class="bottom-card">
-        <button id="btn-comprar-anuncio" class="btn-premium-ads">
-            🚀 Arrendar Espacio Publicitario 🚀
-        </button>
+        <button id="btn-comprar-anuncio" class="btn-premium-ads">🚀 Arrendar Espacio Publicitario 🚀</button>
     </div>
 
-    <!-- 🛠️ INTERFAZ DEL MODAL DE AUTOGESTIÓN DE ANUNCIOS MULTIMEDIA -->
     <div id="modal-publicidad" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-title">Promociona tu Memecoin</div>
-            <div class="modal-desc">Sube tu banner gráfico o texto de forma automática. Tráfico directo de más de 200
-                humanos verificados.</div>
-
+            <div class="modal-title">Promociona tu Proyecto</div>
+            <div class="form-group"><input type="url" id="ad-url-destino" class="form-input" placeholder="https://worldcoin.org..." required></div>
+            <div class="form-group"><input type="url" id="ad-url-banner-img" class="form-input" placeholder="https://postimg.cc"></div>
+            <div class="form-group"><input type="text" id="ad-texto-banner" class="form-input" placeholder="🚀 COMPRA $ORGANIC AHORA! 💎" maxlength="45"></div>
             <div class="form-group">
-                <label class="form-label">Enlace de tu Proyecto (Telegram/X o Mini-App de World)</label>
-                <input type="url" id="ad-url-destino" class="form-input" placeholder="https://worldcoin.org..."
-                    required>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">URL de tu Banner (Sube a postimages.org en formato PNG/JPEG)</label>
-                <input type="url" id="ad-url-banner-img" class="form-input" placeholder="https://postimg.cc">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Texto Alternativo (Si no usas imagen - Máx 45 caract.)</label>
-                <input type="text" id="ad-texto-banner" class="form-input" placeholder="🚀 COMPRA $ORGANIC AHORA! 💎"
-                    maxlength="45">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Duración de la Campaña</label>
                 <select id="ad-duracion" class="form-select">
-                    <!-- ✅ MENÚ COEXISTENTE CON TU NUEVA FILA DE PRUEBAS -->
                     <option value="test">🧪 Modo Test: 5 Minutos (Express) — $0.015 USDC</option>
                     <option value="1">Plan Básico: 1 Día (24h) — $1.50 USDC</option>
-                    <option value="7">Plan Semanario: 7 Días — $7.00 USDC</option>
-                    <option value="14">Plan Quincenal: 14 Días — $12.00 USDC</option>
                 </select>
             </div>
-
-            <div class="price-badge">
-                <span>Total a pagar:</span>
-                <span id="ad-total-pagar">$0.015 USDC</span>
-            </div>
-
+            <div class="price-badge"><span>Total:</span><span id="ad-total-pagar">$0.015 USDC</span></div>
             <div class="btn-group">
                 <button class="btn-cancel" id="btn-cerrar-modal">Cancelar</button>
                 <button class="btn-pay" id="btn-pagar-wallet">Pagar en Wallet</button>
@@ -106,8 +63,6 @@
         </div>
     </div>
 
-    <!-- Enlace explícito al script unificado de control -->
     <script src="assets/app.js"></script>
 </body>
-
 </html>
