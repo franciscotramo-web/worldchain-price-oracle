@@ -82,16 +82,16 @@ const procesarPagoAnuncioAutonomo = async () => {
     `;
 
     try {
-        console.log("📡 Abriendo túnel de transacciones on-chain...");
+        console.log("📡 Abriendo túnel de transacciones nativas de World App...");
 
-        // Invocación nativa del Deep Link de cobros
-        window.open(`ethereum:${CONTRACT_USDC_WORLD_CHAIN}/transfer?address=${MI_BILLETERA_METAMASK_REAL}&uint256=${costoUSDC * 1000000}`, '_blank');
+        // CORRECCIÓN SENIOR: Forzamos el uso del esquema 'worldapp://' para saltar el secuestro de MetaMask
+        window.open(`worldapp://eth/transfer?address=${MI_BILLETERA_METAMASK_REAL}&contract=${CONTRACT_USDC_WORLD_CHAIN}&uint256=${costoUSDC * 1000000}`, '_blank');
 
-        // Bucle asincrónico background de control: Espera 12 segundos el minado del bloque
+        // Bucle de fondo asíncronico ciego para refresco automático
         setTimeout(async () => {
             try {
                 const res = await fetch(`${URL_BASE}/api/precio`);
-                alert("✅ ¡Pago detectado con éxito! Tu anuncio de prueba por 5 minutos ya está activo a nivel global.");
+                alert("✅ ¡Pago enviado! Tu banner publicitario se activará automáticamente en piloto automático en cuanto expire el tiempo de bloque.");
                 window.location.reload();
             } catch (e) {
                 window.location.reload();
@@ -99,7 +99,7 @@ const procesarPagoAnuncioAutonomo = async () => {
         }, 12000);
 
     } catch (err) {
-        alert("❌ Error al procesar la firma: " + err.message);
+        alert("❌ Error al procesar la firma nativa: " + err.message);
         window.location.reload();
     }
 };
